@@ -23,9 +23,8 @@ function App() {
             {t('Learn React')}
           </a>
           <p>
-            <span onClick={()=>i18n.changeLanguage('ru')}>RU</span>
-            {' '}
-            <span onClick={()=>i18n.changeLanguage('en')}>EN</span>
+            <span onClick={() => i18n.changeLanguage('ru')}>RU</span>{' '}
+            <span onClick={() => i18n.changeLanguage('en')}>EN</span>
           </p>
         </header>
       </div>
