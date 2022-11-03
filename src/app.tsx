@@ -2,8 +2,10 @@ import React from 'react';
 import { StoreProvider } from 'store/store';
 import logo from './logo.svg';
 import styles from './app.module.scss';
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t, i18n } = useTranslation();
   return (
     <StoreProvider>
       <div className={styles.app}>
@@ -18,8 +20,13 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            {t('Learn React')}
           </a>
+          <p>
+            <span onClick={()=>i18n.changeLanguage('ru')}>RU</span>
+            {' '}
+            <span onClick={()=>i18n.changeLanguage('en')}>EN</span>
+          </p>
         </header>
       </div>
     </StoreProvider>
