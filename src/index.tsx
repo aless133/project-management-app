@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import './index.scss';
@@ -8,8 +8,10 @@ import './i18n';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <HashRouter>
-      <App />
-    </HashRouter>
+    <Suspense fallback={<h2>Loading...</h2>}>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </Suspense>
   </React.StrictMode>
 );
