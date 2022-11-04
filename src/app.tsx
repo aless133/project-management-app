@@ -3,6 +3,7 @@ import { StoreProvider } from 'store/store';
 import logo from './logo.svg';
 import styles from './app.module.scss';
 import { Trans, useTranslation } from 'react-i18next';
+import AppRouter from 'router/AppRouter';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -46,6 +47,7 @@ function App() {
           <Trans i18nKey={'welcome.description'}></Trans>
         </header>
       </div>
+      <AppRouter />
     </StoreProvider>
   );
 }
