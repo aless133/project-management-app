@@ -1,0 +1,69 @@
+{
+  "lng": "EN",
+  "welcome": {
+    "title": "Task tracker",
+    "sigin": "Sign in",
+    "signup": "Sign up",
+    "preloader": "Loading...",
+    "start": "GET STARTED",
+    "description": "A task tracker is an intelligent version of a to-do list that can help manage tasks and assignments. Team members can use task trackers individually or together as a team. These tools allow team members to list their essential projects, prioritize them, and mark them as done when the tasks are complete.",
+    "team": {
+      "title": "Our Team",
+      "teammate1": {
+        "skill1": "",
+        "skill2": "",
+        "skill3": ""
+      },
+      "teammate2": {
+        "skill1": "",
+        "skill2": "",
+        "skill3": ""
+      },
+      "teammate3": {
+        "skill1": "",
+        "skill2": "",
+        "skill3": ""
+      }
+    }
+  },
+  "main": {
+    "btn": "Boards",
+    "create": {
+      "header": "CREATE BOARD",
+      "title": "Title",
+      "description": "Description",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "profile": {
+      "header": {
+        "name": "Name",
+        "login": "Login"
+      },
+      "title": "EDIT PROFILE",
+      "name": "Name",
+      "login": "Login",
+      "psw": "Password",
+      "save": "save",
+      "delete": "DELETE ACCOUNT"
+    }
+  },
+  "search": {
+    "btn": "Search",
+    "modal": {
+      "header": "Search tasks",
+      "placeholder": "Start typing...",
+      "btn": "SEARCH",
+      "result": "Nothing found"
+    }
+  },
+  "auth": {
+    "title": "Sign in",
+    "login": "Login",
+    "psw": "Password",
+    "profile": "Profile",
+    "exit": "Exit",
+    "btn": "Sign in",
+    "terms": "Do you have an account? Registration"
+  }
+}
