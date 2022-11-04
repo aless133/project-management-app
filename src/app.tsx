@@ -3,12 +3,13 @@ import { StoreProvider } from 'store/store';
 import logo from './logo.svg';
 import styles from './app.module.scss';
 import { useTranslation } from 'react-i18next';
+import AppRouter from 'router/AppRouter';
 
 function App() {
   const { t, i18n } = useTranslation();
   return (
     <StoreProvider>
-      <div className={styles.app}>
+      {/* <div className={styles.app}>
         <header className={styles.header}>
           <img src={logo} className={styles.logo} alt="logo" />
           <p>
@@ -27,7 +28,8 @@ function App() {
             <span onClick={() => i18n.changeLanguage('en')}>EN</span>
           </p>
         </header>
-      </div>
+      </div> */}
+      <AppRouter />
     </StoreProvider>
   );
 }
