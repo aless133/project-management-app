@@ -1,7 +1,5 @@
 {
-  //flag
   "lng": "EN",
-  //welcome route
   "welcome": {
     "title": "Task tracker",
     "sigin": "Sign in",
@@ -28,7 +26,6 @@
       }
     }
   },
-  //main route
   "main": {
     "btn": "Boards",
     "create": {
@@ -51,7 +48,6 @@
       "delete": "DELETE ACCOUNT"
     }
   },
-  //search item
   "search": {
     "btn": "Search",
     "modal": {
@@ -61,7 +57,6 @@
       "result": "Nothing found"
     }
   },
-  //auth view
   "auth": {
     "title": "Sign in",
     "login": "Login",

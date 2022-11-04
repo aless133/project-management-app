@@ -1,7 +1,5 @@
 {
-  //flag
   "lng": "RU",
-  //welcome route
   "welcome": {
     "title": "Менеджер задач",
     "sigin": "Войти",
@@ -28,7 +26,6 @@
       }
     }
   },
-  //main route
   "main": {
     "btn": "Доски",
     "create": {
@@ -51,7 +48,6 @@
       "delete": "УДАЛИТЬ АККАУНТ"
     }
   },
-  //search item
   "search": {
     "btn": "Поиск",
     "modal": {
@@ -61,7 +57,6 @@
       "result": "Ничего не найдено"
     }
   },
-  //auth view
   "auth": {
     "title": "Войти",
     "login": "Логин",
