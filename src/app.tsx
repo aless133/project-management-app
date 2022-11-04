@@ -1,12 +1,12 @@
 import React from 'react';
 import { StoreProvider } from 'store/store';
-import logo from './logo.svg';
-import styles from './app.module.scss';
-import { useTranslation } from 'react-i18next';
+// import logo from './logo.svg';
+// import styles from './app.module.scss';
+// import { useTranslation } from 'react-i18next';
 import AppRouter from 'router/AppRouter';
 
 function App() {
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
   return (
     <StoreProvider>
       {/* <div className={styles.app}>
