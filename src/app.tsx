@@ -2,10 +2,20 @@ import React from 'react';
 import { StoreProvider } from 'store/store';
 import logo from './logo.svg';
 import styles from './app.module.scss';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 function App() {
   const { t, i18n } = useTranslation();
+
+  const toggleLangHandler = () => {
+    if (t('lng') === 'EN') {
+      i18n.changeLanguage('ru');
+      return;
+    }
+
+    i18n.changeLanguage('en');
+  };
+
   return (
     <StoreProvider>
       <div className={styles.app}>
@@ -20,12 +30,20 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t('Learn React')}
+            {/* {t('Learn React')} */}
           </a>
           <p>
             <span onClick={() => i18n.changeLanguage('ru')}>RU</span>{' '}
             <span onClick={() => i18n.changeLanguage('en')}>EN</span>
           </p>
+
+          <button
+            style={{ width: '4rem', padding: '1rem', backgroundColor: 'violet' }}
+            onClick={toggleLangHandler}
+          >
+            <Trans i18nKey="lng"></Trans>
+          </button>
+          <Trans i18nKey={'welcome.description'}></Trans>
         </header>
       </div>
     </StoreProvider>
