@@ -33,7 +33,7 @@ const theme = createTheme({
 export const Header = () => {
   const [lang, setLang] = useState(true);
   const { i18n } = useTranslation();
-  const isAuth = false;
+  const isAuth = true;
 
   useEffect(() => {
     lang ? i18n.changeLanguage('en') : i18n.changeLanguage('ru');
@@ -90,7 +90,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/auth"
+                to="/board"
               >
                 <Trans i18nKey={'main.create.header'}></Trans>
               </Link>
@@ -130,7 +130,7 @@ export const Header = () => {
                       color: 'secondary.contrastText',
                     },
                   }}
-                  to="/auth"
+                  to="/singin"
                 >
                   <Trans i18nKey={'welcome.signin'}></Trans>
                 </Link>
@@ -145,7 +145,7 @@ export const Header = () => {
                       color: 'secondary.contrastText',
                     },
                   }}
-                  to="/reg"
+                  to="/singup"
                 >
                   <Trans i18nKey={'welcome.signup'}></Trans>
                 </Link>
@@ -170,7 +170,7 @@ export const Header = () => {
                       color: 'secondary.contrastText',
                     },
                   }}
-                  to="/"
+                  to="/account"
                 >
                   <AccountCircleRoundedIcon sx={{ mr: 1 }} />
                   <Trans i18nKey={'welcome.account'}></Trans>
@@ -187,7 +187,7 @@ export const Header = () => {
                       color: 'secondary.contrastText',
                     },
                   }}
-                  to="/reg"
+                  to="/singup"
                 >
                   <Trans i18nKey={'welcome.signout'}></Trans>
                 </Link>

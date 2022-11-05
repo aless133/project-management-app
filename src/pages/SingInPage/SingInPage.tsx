@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const AuthorizationPage = () => {
+export const SingInPage = () => {
   return <div>AuthorizationPage</div>;
 };
