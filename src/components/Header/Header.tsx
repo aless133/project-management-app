@@ -8,10 +8,12 @@ import {
   FormControlLabel,
   Switch,
   Box,
+  Link,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { House } from '@mui/icons-material';
 import { Trans, useTranslation } from 'react-i18next';
+import { CustomNavLink } from 'components/CustomNavLink';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
@@ -40,9 +42,11 @@ export const Header = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: { xs: 0, md: 2 } }}
+            sx={{ mr: { xs: 0, md: 1 } }}
           >
-            <House />
+            <Link component={CustomNavLink} to="/">
+              <House sx={{ mt: 1 }} />
+            </Link>
           </IconButton>
           <Typography variant="h6" component="span" sx={{ flexGrow: 1 }}>
             <Trans i18nKey={'welcome.home'}></Trans>
@@ -65,10 +69,14 @@ export const Header = () => {
           </FormGroup>
 
           <Button color="inherit" sx={{ width: 80 }}>
-            <Trans i18nKey={'welcome.signin'}></Trans>
+            <Link component={CustomNavLink} to="/auth">
+              <Trans i18nKey={'welcome.signin'}></Trans>
+            </Link>
           </Button>
           <Button color="inherit" sx={{ width: 100 }}>
-            <Trans i18nKey={'welcome.signup'}></Trans>
+            <Link component={CustomNavLink} to="/auth">
+              <Trans i18nKey={'welcome.signup'}></Trans>
+            </Link>
           </Button>
         </Box>
       </Toolbar>
