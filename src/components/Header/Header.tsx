@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { House } from '@mui/icons-material';
 import { Trans, useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 const theme = createTheme({
   palette: {
@@ -32,6 +33,7 @@ const theme = createTheme({
 export const Header = () => {
   const [lang, setLang] = useState(true);
   const { i18n } = useTranslation();
+  const isAuth = false;
 
   useEffect(() => {
     lang ? i18n.changeLanguage('en') : i18n.changeLanguage('ru');
@@ -51,7 +53,7 @@ export const Header = () => {
             flexDirection: { xs: 'column', md: 'row' },
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: { lg: 320, md: 320 } }}>
             <IconButton
               size="large"
               edge="start"
@@ -77,7 +79,31 @@ export const Header = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: isAuth ? 'block' : 'none' }}>
+            <Button sx={{ width: 150, color: 'secondary.main' }}>
+              <Link
+                component={NavLink}
+                sx={{
+                  color: 'inherit',
+                  textDecoration: 'none',
+                  '&.active': {
+                    color: 'secondary.contrastText',
+                  },
+                }}
+                to="/auth"
+              >
+                <Trans i18nKey={'main.create.header'}></Trans>
+              </Link>
+            </Button>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row', lg: 'row' },
+              alignItems: 'center',
+            }}
+          >
             <FormGroup>
               <FormControlLabel
                 sx={{ mr: 3, color: 'secondary.main' }}
@@ -93,36 +119,80 @@ export const Header = () => {
               />
             </FormGroup>
 
-            <Button sx={{ width: 80, mr: 2, color: 'secondary.main' }}>
-              <Link
-                component={NavLink}
+            <Box sx={{ display: isAuth ? 'none' : 'block' }}>
+              <Button sx={{ width: 80, mr: 1, color: 'secondary.main' }}>
+                <Link
+                  component={NavLink}
+                  sx={{
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to="/auth"
+                >
+                  <Trans i18nKey={'welcome.signin'}></Trans>
+                </Link>
+              </Button>
+              <Button sx={{ width: 105, color: 'secondary.main' }}>
+                <Link
+                  component={NavLink}
+                  sx={{
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to="/reg"
+                >
+                  <Trans i18nKey={'welcome.signup'}></Trans>
+                </Link>
+              </Button>
+            </Box>
+
+            <Box sx={{ display: isAuth ? 'block' : 'none' }}>
+              <Button
                 sx={{
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
+                  mr: { xs: 0, md: 1 },
+                  color: 'secondary.main',
+                  fontSize: 14,
                 }}
-                to="/auth"
               >
-                <Trans i18nKey={'welcome.signin'}></Trans>
-              </Link>
-            </Button>
-            <Button sx={{ width: 105, color: 'secondary.main' }}>
-              <Link
-                component={NavLink}
-                sx={{
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to="/reg"
-              >
-                <Trans i18nKey={'welcome.signup'}></Trans>
-              </Link>
-            </Button>
+                <Link
+                  component={NavLink}
+                  sx={{
+                    color: 'inherit',
+                    display: 'flex',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to="/"
+                >
+                  <AccountCircleRoundedIcon sx={{ mr: 1 }} />
+                  <Trans i18nKey={'welcome.account'}></Trans>
+                </Link>
+              </Button>
+
+              <Button sx={{ width: 105, color: 'secondary.main' }}>
+                <Link
+                  component={NavLink}
+                  sx={{
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to="/reg"
+                >
+                  <Trans i18nKey={'welcome.signout'}></Trans>
+                </Link>
+              </Button>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>

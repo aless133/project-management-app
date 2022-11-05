@@ -3,7 +3,9 @@
   "welcome": {
     "title": "Менеджер задач",
     "signin": "Войти",
+    "signout": "Выйти",
     "signup": "Регистрация",
+    "account": "аккаунт",
     "home": "Домой",
     "preloader": "Загрузка...",
     "start": "НАЧАТЬ",

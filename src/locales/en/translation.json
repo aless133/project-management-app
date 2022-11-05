@@ -3,7 +3,9 @@
   "welcome": {
     "title": "Task tracker",
     "signin": "Sign in",
+    "signout": "Sign out",
     "signup": "Sign up",
+    "account": "account",
     "home": "Home",
     "preloader": "Loading...",
     "start": "GET STARTED",
