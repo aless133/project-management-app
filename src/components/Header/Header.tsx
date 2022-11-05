@@ -75,7 +75,7 @@ export const Header = () => {
                   color: 'secondary.contrastText',
                 },
               }}
-              to="/board"
+              to="/main"
             >
               <Trans i18nKey={'main.create.header'}></Trans>
             </Link>

@@ -1,6 +1,6 @@
 import { Layout } from 'components/Layout';
 import { AccountPage } from 'pages/AccountPage';
-import { BoardPage } from 'pages/BoardPage';
+import { MainPage } from 'pages/MainPage';
 import { SingInPage } from 'pages/SingInPage';
 import { SingUpPage } from 'pages/SingUpPage';
 import { WelcomePage } from 'pages/WelcomePage';
@@ -15,7 +15,7 @@ const AppRouter = () => {
         <Route path="singin" element={<SingInPage />} />
         <Route path="singup" element={<SingUpPage />} />
         <Route path="account" element={<AccountPage />} />
-        <Route path="board" element={<BoardPage />} />
+        <Route path="main" element={<MainPage />} />
       </Route>
     </Routes>
   );
