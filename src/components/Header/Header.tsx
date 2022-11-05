@@ -13,7 +13,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { House } from '@mui/icons-material';
 import { Trans, useTranslation } from 'react-i18next';
-import { CustomNavLink } from 'components/CustomNavLink';
+import { NavLink } from 'react-router-dom';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
@@ -44,7 +44,17 @@ export const Header = () => {
             aria-label="menu"
             sx={{ mr: { xs: 0, md: 1 } }}
           >
-            <Link component={CustomNavLink} to="/">
+            <Link
+              component={NavLink}
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'blue',
+                },
+              }}
+              to="/"
+            >
               <House sx={{ mt: 1 }} />
             </Link>
           </IconButton>
@@ -52,6 +62,7 @@ export const Header = () => {
             <Trans i18nKey={'welcome.home'}></Trans>
           </Typography>
         </Box>
+
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <FormGroup>
             <FormControlLabel
@@ -69,12 +80,32 @@ export const Header = () => {
           </FormGroup>
 
           <Button color="inherit" sx={{ width: 80 }}>
-            <Link component={CustomNavLink} to="/auth">
+            <Link
+              component={NavLink}
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'blue',
+                },
+              }}
+              to="/auth"
+            >
               <Trans i18nKey={'welcome.signin'}></Trans>
             </Link>
           </Button>
           <Button color="inherit" sx={{ width: 100 }}>
-            <Link component={CustomNavLink} to="/auth">
+            <Link
+              component={NavLink}
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'blue',
+                },
+              }}
+              to="/auth"
+            >
               <Trans i18nKey={'welcome.signup'}></Trans>
             </Link>
           </Button>
