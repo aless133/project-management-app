@@ -29,15 +29,27 @@ export const SignInPage = () => {
     }
   };
 
-  const handleSignIn: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const handleSignIn = (): void => {
     // reducer action
     setLogin('');
     setPsw('');
   };
 
+  const handleKeyDown: React.KeyboardEventHandler<HTMLFormElement> = (e) => {
+    if (e.key === 'Enter') {
+      handleSignIn();
+    }
+  };
+
   return (
     <>
-      <Box component="form" className={styles['sign-in']} noValidate autoComplete="off">
+      <Box
+        component="form"
+        className={styles['sign-in']}
+        noValidate
+        autoComplete="off"
+        onKeyDown={handleKeyDown}
+      >
         <Typography className={styles['sign-in__title']} variant="h3" component="h2">
           {t('auth.titleSignIn')}
         </Typography>

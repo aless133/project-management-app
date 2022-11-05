@@ -29,16 +29,35 @@ export const SignUpPage = () => {
     }
   };
 
-  const handleSignUp: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const handleSignUp = () => {
     // reducer action
     setName('');
     setLogin('');
     setPsw('');
   };
 
+  const handleKeyDown: React.KeyboardEventHandler<HTMLFormElement> = (e) => {
+    if (e.key === 'Enter') {
+      handleSignUp();
+    }
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    console.log('erer');
+    console.log(e);
+  };
+
   return (
     <>
-      <Box component="form" className={styles['sign-up']} noValidate autoComplete="off">
+      <Box
+        component="form"
+        className={styles['sign-up']}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
+      >
         <Typography className={styles['sign-up__title']} variant="h3" component="h2">
           {t('auth.titleSignUp')}
         </Typography>
@@ -67,6 +86,7 @@ export const SignUpPage = () => {
           validator={validatePsw}
         />
         <Button
+          type="submit"
           className={styles['sign-up__btn']}
           variant="contained"
           disabled={validateLogin(name) || validateLogin(login) || validatePsw(psw)}
