@@ -3,12 +3,10 @@ import { Box, Button } from '@mui/material';
 import { FormField } from 'components/FormField';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Constants } from 'utils/constants';
-import { SignUpFlags } from 'types';
-import styles from './SignUp.module.scss';
 
-const validateLogin = (login: string): boolean => !!login && login.length < 2;
-const validatePsw = (psw: string): boolean => !!psw && psw.length < 8;
+import { SignUpFlags } from 'types';
+import { Constants, validateLogin, validatePsw } from 'utils';
+import styles from './SignUp.module.scss';
 
 export const SignUpPage = () => {
   const [name, setName] = useState('');
@@ -70,7 +68,6 @@ export const SignUpPage = () => {
 
         <Button
           className={styles['sign-up__btn']}
-          type="submit"
           variant="contained"
           disabled={validateLogin(name) || validateLogin(login) || validatePsw(psw)}
           onClick={handleSignUp}
