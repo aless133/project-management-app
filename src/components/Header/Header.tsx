@@ -104,7 +104,7 @@ export const Header = () => {
                   color: 'blue',
                 },
               }}
-              to="/auth"
+              to="/reg"
             >
               <Trans i18nKey={'welcome.signup'}></Trans>
             </Link>
