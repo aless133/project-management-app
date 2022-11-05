@@ -4,6 +4,8 @@ import { StoreProvider } from 'store/store';
 // import styles from './app.module.scss';
 // import { Trans, useTranslation } from 'react-i18next';
 import AppRouter from 'router/AppRouter';
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
 
 // function App() {
 //   const { t, i18n } = useTranslation();
@@ -52,10 +54,24 @@ import AppRouter from 'router/AppRouter';
 //   );
 // }
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#0288d1',
+    },
+    secondary: {
+      main: '#e3f2fd',
+      contrastText: 'blue',
+    },
+  },
+});
+
 function App() {
   return (
     <StoreProvider>
-      <AppRouter />
+      <ThemeProvider theme={theme}>
+        <AppRouter />
+      </ThemeProvider>
     </StoreProvider>
   );
 }
