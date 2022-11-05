@@ -79,7 +79,7 @@ export const Header = () => {
             />
           </FormGroup>
 
-          <Button color="inherit" sx={{ width: 80 }}>
+          <Button color="inherit" sx={{ width: 80, mr: 2 }}>
             <Link
               component={NavLink}
               sx={{
@@ -94,7 +94,7 @@ export const Header = () => {
               <Trans i18nKey={'welcome.signin'}></Trans>
             </Link>
           </Button>
-          <Button color="inherit" sx={{ width: 100 }}>
+          <Button color="inherit" sx={{ width: 105 }}>
             <Link
               component={NavLink}
               sx={{
