@@ -62,11 +62,18 @@
   },
   "auth": {
     "title": "Sign in",
+    "name": "Name",
     "login": "Login",
     "psw": "Password",
     "profile": "Profile",
     "exit": "Exit",
-    "btn": "Sign in",
-    "terms": "Do you have an account? Registration"
+    "signInBtn": "Sign in",
+    "signUpBtn": "Registration",
+    "terms": "Do you have an account? Sign in",
+    "rules": {
+      "name": "at least 2 characters",
+      "login": "at least 2 characters",
+      "psw": "at least 8 characters"
+    }
   }
 }

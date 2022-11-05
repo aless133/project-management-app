@@ -1,1 +1,0 @@
-export { SingInPage } from './SingInPage';

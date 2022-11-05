@@ -115,7 +115,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/singin"
+                to="/signin"
               >
                 <Trans i18nKey={'welcome.signin'}></Trans>
               </Link>
@@ -130,7 +130,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/singup"
+                to="/signup"
               >
                 <Trans i18nKey={'welcome.signup'}></Trans>
               </Link>
@@ -172,7 +172,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/singup"
+                to="/signup"
               >
                 <Trans i18nKey={'welcome.signout'}></Trans>
               </Link>
