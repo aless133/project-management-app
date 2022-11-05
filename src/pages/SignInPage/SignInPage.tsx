@@ -8,7 +8,7 @@ import { Constants, validateLogin, validatePsw } from 'utils';
 import styles from './SignInPage.module.scss';
 
 export const SignInPage = () => {
-  const token = 'yes'; //useSelector
+  const token = ''; //useSelector
   const [login, setLogin] = useState('');
   const [psw, setPsw] = useState('');
   const [t] = useTranslation();

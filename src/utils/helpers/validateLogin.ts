@@ -1,1 +1,1 @@
-export const validateLogin = (login: string): boolean => !!login && login.length < 2;
+export const validateLogin = (login: string): boolean => login.length < 2;
