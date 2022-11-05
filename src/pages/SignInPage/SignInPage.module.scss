@@ -1,4 +1,4 @@
-.sign-up {
+.sign-in {
   width: 20%;
   margin: 2rem auto;
   padding: 1rem;
@@ -25,13 +25,13 @@
 }
 
 @media screen and (max-width: 1430px) {
-  .sign-up {
+  .sign-in {
     width: 30%;
   }
 }
 
 @media screen and (max-width: 899px) {
-  .sign-up {
+  .sign-in {
     width: 80%;
 
     &__btn {
@@ -45,7 +45,7 @@
 }
 
 @media screen and (max-width: 390px) {
-  .sign-up {
+  .sign-in {
     &__title {
       font-size: 2rem;
     }

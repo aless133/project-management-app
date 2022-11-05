@@ -61,7 +61,8 @@
     }
   },
   "auth": {
-    "title": "Sign in",
+    "titleSignIn": "Sign in",
+    "titleSignUp": "Sign up",
     "name": "Name",
     "login": "Login",
     "psw": "Password",
@@ -69,7 +70,8 @@
     "exit": "Exit",
     "signInBtn": "Sign in",
     "signUpBtn": "Registration",
-    "terms": "Do you have an account? Sign in",
+    "termsSignIn": "Do you have an account? Sign in",
+    "termsSignUp": "Do you have an account? Sign up",
     "rules": {
       "name": "at least 2 characters",
       "login": "at least 2 characters",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { FormField } from 'components/FormField';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -39,6 +39,9 @@ export const SignUpPage = () => {
   return (
     <>
       <Box component="form" className={styles['sign-up']} noValidate autoComplete="off">
+        <Typography className={styles['sign-up__title']} variant="h3" component="h2">
+          {t('auth.titleSignUp')}
+        </Typography>
         <FormField
           value={name}
           label={t('auth.name')}
@@ -47,7 +50,6 @@ export const SignUpPage = () => {
           onChange={handleChange}
           validator={validateLogin}
         />
-
         <FormField
           value={login}
           label={t('auth.login')}
@@ -56,7 +58,6 @@ export const SignUpPage = () => {
           onChange={handleChange}
           validator={validateLogin}
         />
-
         <FormField
           value={psw}
           label={t('auth.psw')}
@@ -65,7 +66,6 @@ export const SignUpPage = () => {
           onChange={handleChange}
           validator={validatePsw}
         />
-
         <Button
           className={styles['sign-up__btn']}
           variant="contained"
@@ -76,7 +76,7 @@ export const SignUpPage = () => {
         </Button>
         <Box className={styles.terms}>
           <Link className={styles['terms__link']} to={Constants.SIGN_IN} replace>
-            {t('auth.terms')}
+            {t('auth.termsSignIn')}
           </Link>
         </Box>
       </Box>
