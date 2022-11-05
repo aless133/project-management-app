@@ -19,7 +19,7 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 export const Header = () => {
   const [lang, setLang] = useState(true);
   const { i18n } = useTranslation();
-  const isAuth = true;
+  const isAuth = false;
 
   useEffect(() => {
     lang ? i18n.changeLanguage('en') : i18n.changeLanguage('ru');
