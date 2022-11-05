@@ -1,0 +1,1 @@
+export { ModalPopUp } from './ModalPopUp';
