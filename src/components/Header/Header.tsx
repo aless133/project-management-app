@@ -12,13 +12,13 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { House } from '@mui/icons-material';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isAuth = false;
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const Header = () => {
             </Link>
           </IconButton>
           <Typography variant="h6" component="span" sx={{ flexGrow: 1, color: 'secondary.main' }}>
-            <Trans i18nKey={'welcome.home'}></Trans>
+            {t('Home')}
           </Typography>
         </Box>
 
@@ -77,7 +77,7 @@ export const Header = () => {
               }}
               to="/main"
             >
-              <Trans i18nKey={'main.create.header'}></Trans>
+              {t('Create Board')}
             </Link>
           </Button>
         </Box>
@@ -117,7 +117,7 @@ export const Header = () => {
                 }}
                 to="/singin"
               >
-                <Trans i18nKey={'welcome.signin'}></Trans>
+                {t('Sign In')}
               </Link>
             </Button>
             <Button sx={{ width: 105, color: 'secondary.main' }}>
@@ -132,7 +132,7 @@ export const Header = () => {
                 }}
                 to="/singup"
               >
-                <Trans i18nKey={'welcome.signup'}></Trans>
+                {t('Sign Up')}
               </Link>
             </Button>
           </Box>
@@ -158,7 +158,7 @@ export const Header = () => {
                 to="/account"
               >
                 <AccountCircleRoundedIcon sx={{ mr: 1 }} />
-                <Trans i18nKey={'welcome.account'}></Trans>
+                {t('Account')}
               </Link>
             </Button>
 
@@ -174,7 +174,7 @@ export const Header = () => {
                 }}
                 to="/singup"
               >
-                <Trans i18nKey={'welcome.signout'}></Trans>
+                {t('Sign Out')}
               </Link>
             </Button>
           </Box>
