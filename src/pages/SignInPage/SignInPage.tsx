@@ -2,15 +2,20 @@ import { Box, Button, Typography } from '@mui/material';
 import { FormField } from 'components/FormField';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { SignUpFlags } from 'types';
 import { Constants, validateLogin, validatePsw } from 'utils';
 import styles from './SignInPage.module.scss';
 
 export const SignInPage = () => {
+  const token = 'yes'; //useSelector
   const [login, setLogin] = useState('');
   const [psw, setPsw] = useState('');
   const [t] = useTranslation();
+
+  if (token) {
+    return <Navigate to={Constants.MAIN} replace={true} />;
+  }
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
