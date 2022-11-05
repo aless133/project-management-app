@@ -3,6 +3,8 @@ import { Box, Button } from '@mui/material';
 import { FormField } from 'components/FormField';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { Constants } from 'utils/constants';
+import { SignUpFlags } from 'types';
 import styles from './SignUp.module.scss';
 
 const validateLogin = (login: string): boolean => !!login && login.length < 2;
@@ -16,15 +18,15 @@ export const SignUpPage = () => {
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: 'name' | 'login' | 'psw'
+    field: SignUpFlags
   ): void => {
-    if (field === 'login') {
+    if (field === Constants.LOGIN) {
       setLogin(event.target.value);
     }
-    if (field === 'name') {
+    if (field === Constants.NAME) {
       setName(event.target.value);
     }
-    if (field === 'psw') {
+    if (field === Constants.PSW) {
       setPsw(event.target.value);
     }
   };
@@ -52,7 +54,7 @@ export const SignUpPage = () => {
           value={login}
           label={t('auth.login')}
           text={t('auth.rules.login')}
-          handlerFlag="login"
+          handlerFlag={Constants.LOGIN}
           onChange={handleChange}
           validator={validateLogin}
         />
@@ -61,7 +63,7 @@ export const SignUpPage = () => {
           value={psw}
           label={t('auth.psw')}
           text={t('auth.rules.psw')}
-          handlerFlag="psw"
+          handlerFlag={Constants.PSW}
           onChange={handleChange}
           validator={validatePsw}
         />
@@ -76,7 +78,7 @@ export const SignUpPage = () => {
           {t('auth.signUpBtn')}
         </Button>
         <Box className={styles.terms}>
-          <Link className={styles['terms__link']} to="signin" replace>
+          <Link className={styles['terms__link']} to={Constants.SIGN_IN} replace>
             {t('auth.terms')}
           </Link>
         </Box>
