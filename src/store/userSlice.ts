@@ -10,9 +10,13 @@ const userSlice = createSlice({
     update: (state, action) => {
       return { ...state, ...action.payload };
     },
+    set: (state, action) => {
+      return { ...action.payload };
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { update } = userSlice.actions;
+export const { update, set } = userSlice.actions;
 export const selectUser = (state: TStoreState) => state.user;
+export const selectIsLogged = (state: TStoreState) => !!state.user.token;
