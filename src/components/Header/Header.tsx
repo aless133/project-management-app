@@ -10,6 +10,7 @@ import {
   Link,
   Menu,
   MenuItem,
+  useScrollTrigger,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +31,7 @@ export const Header = () => {
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const trigger = useScrollTrigger({ disableHysteresis: true });
 
   // temporary variable for authorization user
   const isAuth = false;
@@ -79,13 +81,14 @@ export const Header = () => {
   };
 
   return isAuth ? (
-    <AppBar position="sticky" sx={{ color: 'primary.main' }}>
+    <AppBar position="sticky" sx={{ backgroundColor: 'primary.main' }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters={true}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            pt: trigger ? 2 : 0,
           }}
         >
           <Box>
@@ -283,13 +286,14 @@ export const Header = () => {
       </Container>
     </AppBar>
   ) : (
-    <AppBar position="sticky" sx={{ color: 'primary.main' }}>
+    <AppBar position="sticky" sx={{ backgroundColor: 'primary.main' }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters={true}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            pt: trigger ? 2 : 0,
           }}
         >
           <Box>
