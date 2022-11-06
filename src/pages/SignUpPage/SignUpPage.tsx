@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const SingUpPage = () => {
+export const SignUpPage = () => {
   return <div>RegistrationPage</div>;
 };
