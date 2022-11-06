@@ -1,5 +1,6 @@
+import { FormSign } from 'components/FormSign';
 import React from 'react';
 
 export const SignUpPage = () => {
-  return <div>RegistrationPage</div>;
+  return <FormSign />;
 };
