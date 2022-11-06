@@ -9,4 +9,12 @@ export interface TStoreState {
   user: IUser;
 }
 
-export type SignUpFlags = 'name' | 'login' | 'psw';
+export type TErr = {
+  [k: string]: string;
+};
+
+export type TFields = TErr;
+
+export type TValidator = {
+  [k: string]: Array<(value: string) => string>;
+};

@@ -1,3 +1,5 @@
 export { Constants } from './constants';
-export { validateLogin } from './helpers/validateLogin';
-export { validatePsw } from './helpers/validatePsw';
+export { validateMinLength } from './helpers/FormSign/validateMinLength';
+export { validateMaxLength } from './helpers/FormSign/validateMaxLength';
+export { validatePassword } from './helpers/FormSign/validatePassword';
+export { isErrCheck } from './helpers/FormSign/isErrCheck';

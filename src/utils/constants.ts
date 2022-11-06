@@ -2,7 +2,7 @@ export enum Constants {
   //fields
   NAME = 'name',
   LOGIN = 'login',
-  PSW = 'psw',
+  PASSWORD = 'password',
   //routs
   SIGN_IN = '/signin',
   SIGN_UP = '/signup',
