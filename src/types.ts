@@ -9,12 +9,8 @@ export interface TStoreState {
   user: IUser;
 }
 
-export type TErr = {
-  [k: string]: string;
-};
+export type TErr = Record<string, string>;
 
 export type TFields = TErr;
 
-export type TValidator = {
-  [k: string]: Array<(value: string) => string>;
-};
+export type TValidator = Record<string, Array<(value: string) => string>>;
