@@ -59,23 +59,5 @@
       "btn": "SEARCH",
       "result": "Nothing found"
     }
-  },
-  "auth": {
-    "titleSignIn": "Sign in",
-    "titleSignUp": "Sign up",
-    "name": "Name",
-    "login": "Login",
-    "psw": "Password",
-    "profile": "Profile",
-    "exit": "Exit",
-    "signInBtn": "Sign in",
-    "signUpBtn": "Registration",
-    "termsSignIn": "Do you have an account? Sign in",
-    "termsSignUp": "Do you have an account? Sign up",
-    "rules": {
-      "name": "at least 2 characters",
-      "login": "at least 2 characters",
-      "psw": "at least 8 characters"
-    }
   }
 }
