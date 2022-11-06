@@ -82,6 +82,7 @@ export const Header = () => {
     <AppBar position="sticky" sx={{ color: 'primary.main' }}>
       <Container maxWidth="xl">
         <Toolbar
+          disableGutters={true}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -285,6 +286,7 @@ export const Header = () => {
     <AppBar position="sticky" sx={{ color: 'primary.main' }}>
       <Container maxWidth="xl">
         <Toolbar
+          disableGutters={true}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
