@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const SingInPage = () => {
+export const SignInPage = () => {
   return <div>AuthorizationPage</div>;
 };
