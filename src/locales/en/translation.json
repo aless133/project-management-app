@@ -59,14 +59,5 @@
       "btn": "SEARCH",
       "result": "Nothing found"
     }
-  },
-  "auth": {
-    "title": "Sign in",
-    "login": "Login",
-    "psw": "Password",
-    "profile": "Profile",
-    "exit": "Exit",
-    "btn": "Sign in",
-    "terms": "Do you have an account? Registration"
   }
 }

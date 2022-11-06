@@ -12,7 +12,7 @@ i18n
       },
     },
     supportedLngs: ['en', 'ru'],
-    fallbackLng: 'en',
+    // fallbackLng: 'en',
     // debug: true,
     detection: {
       order: ['cookie'],

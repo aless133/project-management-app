@@ -5,5 +5,11 @@
   "Sign Up": "Регистрация",
   "Account": "Аккаунт",
   "Sign Out": "Выход",
-  "Main": "Главная"
+  "Name": "Имя",
+  "Login": "Логин",
+  "Password": "Пароль",
+  "can not be less than 2": "не может быть меньше 2",
+  "can not be less than 8": "не может быть меньше 8",
+  "Do you have an account? Sign in": "У вас есть аккаунт? Войти",
+  "Do you have an account? Sign up": "У вас есть аккаунт? Регистрация"
 }

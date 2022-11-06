@@ -1,5 +1,6 @@
+import { FormSign } from 'components/FormSign';
 import React from 'react';
 
 export const SignInPage = () => {
-  return <div>AuthorizationPage</div>;
+  return <FormSign isName={false} />;
 };
