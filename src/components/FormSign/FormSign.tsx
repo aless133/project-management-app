@@ -1,67 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, TextField, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
-import { TErr, TValidator } from 'types';
-import {
-  validateMaxLength,
-  validateMinLength,
-  validatePassword,
-  Constants,
-  isErrCheck,
-} from 'utils';
 import { Link } from 'react-router-dom';
-
-const validator: TValidator = {
-  [Constants.NAME]: [validateMinLength, validateMaxLength],
-  [Constants.LOGIN]: [validateMinLength, validateMaxLength],
-  [Constants.PASSWORD]: [validatePassword],
-};
-
-const err: TErr = {
-  [Constants.NAME]: '',
-  [Constants.LOGIN]: '',
-  [Constants.PASSWORD]: '',
-};
+import { useFormSign } from 'hooks/formSign.hook';
+import { Constants } from 'utils';
 
 export const FormSign = ({ isName = true }) => {
-  const [t] = useTranslation();
-  const [inValid, setInValid] = useState(false);
-  const [errStack, setErrStack] = useState<TErr>(err);
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-
-    for (const [name, value] of formData.entries()) {
-      if (typeof value === 'string') {
-        err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-      }
-    }
-
-    setErrStack({ ...err });
-
-    if (!isErrCheck(err)) {
-      setInValid(false);
-    } else {
-      setInValid(true);
-    }
-  };
-
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { name, value } = e.target;
-
-    if (typeof value === 'string') {
-      err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-      setErrStack({ ...err });
-
-      if (!isErrCheck(err)) {
-        setInValid(false);
-      } else {
-        setInValid(true);
-      }
-    }
-  };
+  const { t, errStack, inValid, handleSubmit, handleChange } = useFormSign();
 
   return (
     <form onSubmit={handleSubmit}>

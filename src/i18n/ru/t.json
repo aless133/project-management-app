@@ -10,6 +10,7 @@
   "Password": "Пароль",
   "can not be less than 2": "не может быть меньше 2",
   "can not be less than 8": "не может быть меньше 8",
+  "can not be larger than 10":"не может быть больше 10",
   "Do you have an account? Sign in": "У вас есть аккаунт? Войти",
   "Do you have an account? Sign up": "У вас есть аккаунт? Регистрация"
 }
