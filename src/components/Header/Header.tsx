@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
@@ -24,7 +24,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { useCustomNavigate } from 'hooks/navigate.hook';
 import { Constants } from 'utils';
 
 export const Header = () => {
@@ -32,16 +31,16 @@ export const Header = () => {
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const trigger = useScrollTrigger({ disableHysteresis: true });
-  const navigate = useCustomNavigate();
+  const navigate = useNavigate();
 
   // temporary variable for authorization user
   const isAuth = false;
 
-  const onClickBoard = () => {
+  const handleBoard = () => {
     // TO DO add function for open modal window
   };
 
-  const onExit = () => {
+  const handleExit = () => {
     // TO DO add function for open modal window
   };
 
@@ -99,7 +98,7 @@ export const Header = () => {
           </Box>
 
           <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
-            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={onClickBoard}>
+            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={handleBoard}>
               <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
               {t('Create Board')}
             </Button>
@@ -171,7 +170,7 @@ export const Header = () => {
               </Link>
             </Button>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={onExit}>
+            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={handleExit}>
               <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
               {t('Sign Out')}
             </Button>
@@ -218,7 +217,7 @@ export const Header = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>
-                <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={onClickBoard}>
+                <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={handleBoard}>
                   <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                   {t('Create Board')}
                 </Button>
@@ -270,7 +269,7 @@ export const Header = () => {
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={onExit}>
+                <Button sx={{ mr: 1, color: 'secondary' }} onClick={handleExit}>
                   <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
                   {t('Sign Out')}
                 </Button>
