@@ -36,11 +36,11 @@ export const Header = () => {
   // temporary variable for authorization user
   const isAuth = false;
 
-  const handleBoard = () => {
+  const openBoardModal = () => {
     // TO DO add function for open modal window
   };
 
-  const handleExit = () => {
+  const openExitModal = () => {
     // TO DO add function for open modal window
   };
 
@@ -98,7 +98,7 @@ export const Header = () => {
           </Box>
 
           <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
-            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={handleBoard}>
+            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={openBoardModal}>
               <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
               {t('Create Board')}
             </Button>
@@ -170,7 +170,7 @@ export const Header = () => {
               </Link>
             </Button>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={handleExit}>
+            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>
               <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
               {t('Sign Out')}
             </Button>
@@ -217,7 +217,7 @@ export const Header = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>
-                <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={handleBoard}>
+                <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={openBoardModal}>
                   <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                   {t('Create Board')}
                 </Button>
@@ -269,7 +269,7 @@ export const Header = () => {
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={handleExit}>
+                <Button sx={{ mr: 1, color: 'secondary' }} onClick={openExitModal}>
                   <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
                   {t('Sign Out')}
                 </Button>
