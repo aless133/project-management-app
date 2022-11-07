@@ -61,5 +61,7 @@ export const useFormSign = () => {
     }
   };
 
+  console.log(err);
+
   return { t, errStack, inValid, handleSubmit, handleChange };
 };
