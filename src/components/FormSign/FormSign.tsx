@@ -28,6 +28,7 @@ export const FormSign = ({ isName = true }) => {
             <TextField
               error={!!errStack.name}
               name={Constants.NAME}
+              autoComplete="off"
               fullWidth
               id="signUpLogin"
               label={t('Name')}
@@ -41,6 +42,7 @@ export const FormSign = ({ isName = true }) => {
           <TextField
             error={!!errStack.login}
             name={Constants.LOGIN}
+            autoComplete="off"
             fullWidth
             id="signUpLogin"
             label={t('Login')}
@@ -53,6 +55,7 @@ export const FormSign = ({ isName = true }) => {
           <TextField
             error={!!errStack.password}
             name={Constants.PASSWORD}
+            autoComplete="off"
             fullWidth
             id="signUpLogin"
             label={t('Password')}
@@ -62,7 +65,7 @@ export const FormSign = ({ isName = true }) => {
           />
         </Grid2>
         <Grid2 xl={3}>
-          <Button type="submit" disabled={inValid}>
+          <Button type="submit" variant="contained" disabled={inValid}>
             {isName ? t('Sign Up') : t('Sign In')}
           </Button>
         </Grid2>
