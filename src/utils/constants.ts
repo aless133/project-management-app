@@ -8,4 +8,5 @@ export enum Constants {
   SIGN_UP = '/signup',
   ACCOUNT = '/account',
   MAIN = '/main',
+  HOME = '/',
 }

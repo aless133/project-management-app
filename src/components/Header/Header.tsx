@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import { Container } from '@mui/system';
 import DnsIcon from '@mui/icons-material/Dns';
@@ -25,36 +24,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { useCustomNavigate } from 'hooks/navigate.hook';
+import { Constants } from 'utils';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
   const trigger = useScrollTrigger({ disableHysteresis: true });
+  const navigate = useCustomNavigate();
 
   // temporary variable for authorization user
   const isAuth = false;
-
-  const goHome = () => {
-    navigate('/');
-  };
-
-  const goSignUp = () => {
-    navigate('/signup');
-  };
-
-  const goSignIn = () => {
-    navigate('/signin');
-  };
-
-  const goMain = () => {
-    navigate('/main');
-  };
-
-  const goAccount = () => {
-    navigate('/account');
-  };
 
   const onClickBoard = () => {
     // TO DO add function for open modal window
@@ -88,11 +69,16 @@ export const Header = () => {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            pt: trigger ? 2 : 0,
+            alignItems: 'center',
+            pt: trigger ? 1 : 0,
+            pb: trigger ? 1 : 0,
           }}
         >
           <Box>
-            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={goHome}>
+            <Button
+              sx={{ color: 'secondary.main', fontSize: 14 }}
+              onClick={() => navigate(Constants.HOME)}
+            >
               <Link
                 component={NavLink}
                 sx={{
@@ -104,7 +90,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/"
+                to={Constants.HOME}
               >
                 <HomeIcon sx={{ mb: 0.5 }} />
                 {t('Home')}
@@ -141,7 +127,10 @@ export const Header = () => {
               />
             </FormGroup>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={goMain}>
+            <Button
+              sx={{ mr: 1, color: 'secondary.main' }}
+              onClick={() => navigate(Constants.MAIN)}
+            >
               <Link
                 component={NavLink}
                 sx={{
@@ -153,14 +142,17 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/main"
+                to={Constants.MAIN}
               >
                 <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
                 {t('Main')}
               </Link>
             </Button>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={goAccount}>
+            <Button
+              sx={{ mr: 1, color: 'secondary.main' }}
+              onClick={() => navigate(Constants.ACCOUNT)}
+            >
               <Link
                 component={NavLink}
                 sx={{
@@ -172,7 +164,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/account"
+                to={Constants.ACCOUNT}
               >
                 <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
                 {t('Account')}
@@ -233,7 +225,7 @@ export const Header = () => {
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={goMain}>
+                <Button sx={{ mr: 1, color: 'secondary' }} onClick={() => navigate(Constants.HOME)}>
                   <Link
                     component={NavLink}
                     sx={{
@@ -245,7 +237,7 @@ export const Header = () => {
                         color: 'secondary.contrastText',
                       },
                     }}
-                    to="/main"
+                    to={Constants.MAIN}
                   >
                     <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
                     {t('Main')}
@@ -254,7 +246,10 @@ export const Header = () => {
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={goAccount}>
+                <Button
+                  sx={{ mr: 1, color: 'secondary' }}
+                  onClick={() => navigate(Constants.ACCOUNT)}
+                >
                   <Link
                     component={NavLink}
                     sx={{
@@ -266,7 +261,7 @@ export const Header = () => {
                         color: 'secondary.contrastText',
                       },
                     }}
-                    to="/account"
+                    to={Constants.ACCOUNT}
                   >
                     <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
                     {t('Account')}
@@ -293,11 +288,15 @@ export const Header = () => {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            pt: trigger ? 2 : 0,
+            pt: trigger ? 1 : 0,
+            pb: trigger ? 1 : 0,
           }}
         >
           <Box>
-            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={goHome}>
+            <Button
+              sx={{ color: 'secondary.main', fontSize: 14 }}
+              onClick={() => navigate(Constants.HOME)}
+            >
               <Link
                 component={NavLink}
                 sx={{
@@ -309,7 +308,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/"
+                to={Constants.HOME}
               >
                 <HomeIcon sx={{ mb: 0.5 }} />
                 {t('Home')}
@@ -339,7 +338,10 @@ export const Header = () => {
               />
             </FormGroup>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={goSignIn}>
+            <Button
+              sx={{ mr: 1, color: 'secondary.main' }}
+              onClick={() => navigate(Constants.SIGN_IN)}
+            >
               <Link
                 component={NavLink}
                 sx={{
@@ -351,14 +353,14 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/signin"
+                to={Constants.SIGN_IN}
               >
                 <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
                 {t('Sign In')}
               </Link>
             </Button>
 
-            <Button sx={{ color: 'secondary.main' }} onClick={goSignUp}>
+            <Button sx={{ color: 'secondary.main' }} onClick={() => navigate(Constants.SIGN_UP)}>
               <Link
                 component={NavLink}
                 sx={{
@@ -370,7 +372,7 @@ export const Header = () => {
                     color: 'secondary.contrastText',
                   },
                 }}
-                to="/signup"
+                to={Constants.SIGN_UP}
               >
                 <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
                 {t('Sign Up')}
@@ -419,7 +421,10 @@ export const Header = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={goSignIn}>
+                <Button
+                  sx={{ mr: 1, color: 'secondary' }}
+                  onClick={() => navigate(Constants.SIGN_IN)}
+                >
                   <Link
                     component={NavLink}
                     sx={{
@@ -431,7 +436,7 @@ export const Header = () => {
                         color: 'secondary.contrastText',
                       },
                     }}
-                    to="/signin"
+                    to={Constants.SIGN_IN}
                   >
                     <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
                     {t('Sign In')}
@@ -440,7 +445,7 @@ export const Header = () => {
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ color: 'secondary' }} onClick={goSignUp}>
+                <Button sx={{ color: 'secondary' }} onClick={() => navigate(Constants.SIGN_UP)}>
                   <Link
                     component={NavLink}
                     sx={{
@@ -452,7 +457,7 @@ export const Header = () => {
                         color: 'secondary.contrastText',
                       },
                     }}
-                    to="/signup"
+                    to={Constants.SIGN_UP}
                   >
                     <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
                     {t('Sign Up')}
