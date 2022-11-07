@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import Grid from '@mui/material/Grid';
 import styles from './formsign.module.scss';
-import { TErr, TValidator } from 'types';
+import { TErr, TValidator, IApiError } from 'types';
 import {
   validateMaxLength,
   validateMinLength,
@@ -15,6 +15,10 @@ import {
   isErrCheck,
 } from 'utils';
 import { Link } from 'react-router-dom';
+
+import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
+import { set } from 'store/userSlice';
+import { useStoreDispatch } from 'hooks/store.hooks';
 
 const validator: TValidator = {
   [Constants.NAME]: [validateMinLength, validateMaxLength],
@@ -32,21 +36,37 @@ export const FormSign = ({ isSignUp = true }) => {
   const [t] = useTranslation();
   const [inValid, setInValid] = useState(false);
   const [errStack, setErrStack] = useState<TErr>(err);
+  const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
+  const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
+  const dispatch = useStoreDispatch();
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-
     for (const [name, value] of formData.entries()) {
       if (typeof value === 'string') {
         err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
       }
     }
-
     setErrStack({ ...err });
 
     if (!isErrCheck(err)) {
       setInValid(false);
+
+      const data = Object.fromEntries(formData.entries());
+
+      if (isSignUp) {
+        alert('later');
+      } else {
+        try {
+          const user = await signin(data).unwrap();
+          console.log(user);
+          dispatch(set(user));
+        } catch (err) {
+          setErrStack({ submit: (err as IApiError).data.message });
+          // console.log('eeeee', err);
+        }
+      }
     } else {
       setInValid(true);
     }
@@ -111,9 +131,14 @@ export const FormSign = ({ isSignUp = true }) => {
                 onChange={handleChange}
                 margin="normal"
               />
+              {errStack.submit ? (
+                <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
+                  {errStack.submit}
+                </Typography>
+              ) : null}
               <Button
                 type="submit"
-                disabled={inValid}
+                disabled={inValid || isSigninLoading || isSignupLoading}
                 variant="contained"
                 fullWidth
                 size="large"
