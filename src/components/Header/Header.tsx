@@ -7,14 +7,13 @@ import {
   FormControlLabel,
   Switch,
   Box,
-  Link,
   Menu,
   MenuItem,
   useScrollTrigger,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
@@ -31,7 +30,6 @@ export const Header = () => {
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const trigger = useScrollTrigger({ disableHysteresis: true });
-  const navigate = useNavigate();
 
   // temporary variable for authorization user
   const isAuth = false;
@@ -75,25 +73,21 @@ export const Header = () => {
         >
           <Box>
             <Button
-              sx={{ color: 'secondary.main', fontSize: 14 }}
-              onClick={() => navigate(Constants.HOME)}
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'secondary.main',
+                fontSize: 14,
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.HOME}
             >
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to={Constants.HOME}
-              >
-                <HomeIcon sx={{ mb: 0.5 }} />
-                {t('Home')}
-              </Link>
+              <HomeIcon sx={{ mb: 0.5 }} />
+              {t('Home')}
             </Button>
           </Box>
 
@@ -127,47 +121,39 @@ export const Header = () => {
             </FormGroup>
 
             <Button
-              sx={{ mr: 1, color: 'secondary.main' }}
-              onClick={() => navigate(Constants.MAIN)}
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                mr: 1,
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.MAIN}
             >
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to={Constants.MAIN}
-              >
-                <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                {t('Main')}
-              </Link>
+              <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
+              {t('Main')}
             </Button>
 
             <Button
-              sx={{ mr: 1, color: 'secondary.main' }}
-              onClick={() => navigate(Constants.ACCOUNT)}
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                mr: 1,
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.ACCOUNT}
             >
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to={Constants.ACCOUNT}
-              >
-                <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                {t('Account')}
-              </Link>
+              <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
+              {t('Account')}
             </Button>
 
             <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>
@@ -224,47 +210,42 @@ export const Header = () => {
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={() => navigate(Constants.HOME)}>
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to={Constants.MAIN}
-                  >
-                    <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    {t('Main')}
-                  </Link>
+                <Button
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mr: 1,
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.MAIN}
+                >
+                  <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
+                  {t('Main')}
                 </Button>
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
                 <Button
-                  sx={{ mr: 1, color: 'secondary' }}
-                  onClick={() => navigate(Constants.ACCOUNT)}
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mr: 1,
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.ACCOUNT}
                 >
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to={Constants.ACCOUNT}
-                  >
-                    <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    {t('Account')}
-                  </Link>
+                  <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
+                  {t('Account')}
                 </Button>
               </MenuItem>
 
@@ -293,25 +274,21 @@ export const Header = () => {
         >
           <Box>
             <Button
-              sx={{ color: 'secondary.main', fontSize: 14 }}
-              onClick={() => navigate(Constants.HOME)}
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'secondary.main',
+                fontSize: 14,
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.HOME}
             >
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to={Constants.HOME}
-              >
-                <HomeIcon sx={{ mb: 0.5 }} />
-                {t('Home')}
-              </Link>
+              <HomeIcon sx={{ mb: 0.5 }} />
+              {t('Home')}
             </Button>
           </Box>
 
@@ -338,44 +315,38 @@ export const Header = () => {
             </FormGroup>
 
             <Button
-              sx={{ mr: 1, color: 'secondary.main' }}
-              onClick={() => navigate(Constants.SIGN_IN)}
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                mr: 1,
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.SIGN_IN}
             >
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to={Constants.SIGN_IN}
-              >
-                <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                {t('Sign In')}
-              </Link>
+              <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
+              {t('Sign In')}
             </Button>
 
-            <Button sx={{ color: 'secondary.main' }} onClick={() => navigate(Constants.SIGN_UP)}>
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to={Constants.SIGN_UP}
-              >
-                <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                {t('Sign Up')}
-              </Link>
+            <Button
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.SIGN_UP}
+            >
+              <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
+              {t('Sign Up')}
             </Button>
           </Box>
 
@@ -421,46 +392,40 @@ export const Header = () => {
             >
               <MenuItem onClick={handleClose}>
                 <Button
-                  sx={{ mr: 1, color: 'secondary' }}
-                  onClick={() => navigate(Constants.SIGN_IN)}
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mr: 1,
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.SIGN_IN}
                 >
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to={Constants.SIGN_IN}
-                  >
-                    <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                    {t('Sign In')}
-                  </Link>
+                  <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
+                  {t('Sign In')}
                 </Button>
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ color: 'secondary' }} onClick={() => navigate(Constants.SIGN_UP)}>
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to={Constants.SIGN_UP}
-                  >
-                    <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                    {t('Sign Up')}
-                  </Link>
+                <Button
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.SIGN_UP}
+                >
+                  <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
+                  {t('Sign Up')}
                 </Button>
               </MenuItem>
             </Menu>
