@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useSignInMutation } from 'api/authApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { set } from 'store/userSlice';
+import { setMinMaxLengthError } from 'utils/helpers';
 
 const validator: TValidator = {
   [Constants.NAME]: [
@@ -86,6 +87,8 @@ export const FormSign = ({ isSignUp = true }) => {
     }
   };
 
+  console.log(errStack);
+
   return (
     <main className={styles.form_sign}>
       <Container maxWidth="xl" sx={{ height: '100%' }}>
@@ -102,7 +105,7 @@ export const FormSign = ({ isSignUp = true }) => {
                   fullWidth
                   label={t('Name')}
                   defaultValue=""
-                  helperText={t(errStack.name)}
+                  helperText={setMinMaxLengthError(errStack.name)}
                   onChange={handleChange}
                   margin="normal"
                 />
@@ -113,17 +116,18 @@ export const FormSign = ({ isSignUp = true }) => {
                 fullWidth
                 label={t('Login')}
                 defaultValue=""
-                helperText={t(errStack.login)}
+                helperText={setMinMaxLengthError(errStack.login)}
                 onChange={handleChange}
                 margin="normal"
               />
+              {setMinMaxLengthError(errStack.login)}
               <TextField
                 error={!!errStack.password}
                 name={Constants.PASSWORD}
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={t(errStack.password)}
+                helperText={setMinMaxLengthError(errStack.password)}
                 onChange={handleChange}
                 margin="normal"
                 type="password"
