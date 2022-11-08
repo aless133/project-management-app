@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   Switch,
   Box,
-  Link,
   Menu,
   MenuItem,
   useScrollTrigger,
@@ -26,41 +25,21 @@ import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { /*selectUser, */ selectIsLogged } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
+import { Constants } from 'utils';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
   const trigger = useScrollTrigger({ disableHysteresis: true });
 
   const isAuth = useStoreSelector(selectIsLogged);
 
-  const goHome = () => {
-    navigate('/');
-  };
-
-  const goSignUp = () => {
-    navigate('/signup');
-  };
-
-  const goSignIn = () => {
-    navigate('/signin');
-  };
-
-  const goMain = () => {
-    navigate('/main');
-  };
-
-  const goAccount = () => {
-    navigate('/account');
-  };
-
-  const onClickBoard = () => {
+  const openBoardModal = () => {
     // TO DO add function for open modal window
   };
 
-  const onExit = () => {
+  const openExitModal = () => {
     // TO DO add function for open modal window
   };
 
@@ -88,32 +67,33 @@ export const Header = () => {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            pt: trigger ? 2 : 0,
+            alignItems: 'center',
+            pt: trigger ? 1 : 0,
+            pb: trigger ? 1 : 0,
           }}
         >
           <Box>
-            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={goHome}>
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to="/"
-              >
-                <HomeIcon sx={{ mb: 0.5 }} />
-                {t('Home')}
-              </Link>
+            <Button
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'secondary.main',
+                fontSize: 14,
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.HOME}
+            >
+              <HomeIcon sx={{ mb: 0.5 }} />
+              {t('Home')}
             </Button>
           </Box>
 
           <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
-            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={onClickBoard}>
+            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={openBoardModal}>
               <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
               {t('Create Board')}
             </Button>
@@ -141,45 +121,43 @@ export const Header = () => {
               />
             </FormGroup>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={goMain}>
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to="/main"
-              >
-                <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                {t('Main')}
-              </Link>
+            <Button
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                mr: 1,
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.MAIN}
+            >
+              <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
+              {t('Main')}
             </Button>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={goAccount}>
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to="/account"
-              >
-                <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                {t('Account')}
-              </Link>
+            <Button
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                mr: 1,
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.ACCOUNT}
+            >
+              <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
+              {t('Account')}
             </Button>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={onExit}>
+            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>
               <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
               {t('Sign Out')}
             </Button>
@@ -226,56 +204,54 @@ export const Header = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>
-                <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={onClickBoard}>
+                <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={openBoardModal}>
                   <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                   {t('Create Board')}
                 </Button>
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={goMain}>
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to="/main"
-                  >
-                    <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    {t('Main')}
-                  </Link>
+                <Button
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mr: 1,
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.MAIN}
+                >
+                  <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
+                  {t('Main')}
                 </Button>
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={goAccount}>
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to="/account"
-                  >
-                    <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    {t('Account')}
-                  </Link>
+                <Button
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mr: 1,
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.ACCOUNT}
+                >
+                  <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
+                  {t('Account')}
                 </Button>
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={onExit}>
+                <Button sx={{ mr: 1, color: 'secondary' }} onClick={openExitModal}>
                   <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
                   {t('Sign Out')}
                 </Button>
@@ -293,27 +269,27 @@ export const Header = () => {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            pt: trigger ? 2 : 0,
+            pt: trigger ? 1 : 0,
+            pb: trigger ? 1 : 0,
           }}
         >
           <Box>
-            <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={goHome}>
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to="/"
-              >
-                <HomeIcon sx={{ mb: 0.5 }} />
-                {t('Home')}
-              </Link>
+            <Button
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'secondary.main',
+                fontSize: 14,
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.HOME}
+            >
+              <HomeIcon sx={{ mb: 0.5 }} />
+              {t('Home')}
             </Button>
           </Box>
 
@@ -339,42 +315,39 @@ export const Header = () => {
               />
             </FormGroup>
 
-            <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={goSignIn}>
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to="/signin"
-              >
-                <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                {t('Sign In')}
-              </Link>
+            <Button
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                mr: 1,
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.SIGN_IN}
+            >
+              <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
+              {t('Sign In')}
             </Button>
 
-            <Button sx={{ color: 'secondary.main' }} onClick={goSignUp}>
-              <Link
-                component={NavLink}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  '&.active': {
-                    color: 'secondary.contrastText',
-                  },
-                }}
-                to="/signup"
-              >
-                <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                {t('Sign Up')}
-              </Link>
+            <Button
+              component={NavLink}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'secondary.main',
+                textDecoration: 'none',
+                '&.active': {
+                  color: 'secondary.contrastText',
+                },
+              }}
+              to={Constants.SIGN_UP}
+            >
+              <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
+              {t('Sign Up')}
             </Button>
           </Box>
 
@@ -419,44 +392,41 @@ export const Header = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>
-                <Button sx={{ mr: 1, color: 'secondary' }} onClick={goSignIn}>
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to="/signin"
-                  >
-                    <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                    {t('Sign In')}
-                  </Link>
+                <Button
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mr: 1,
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.SIGN_IN}
+                >
+                  <LoginIcon sx={{ mr: 0.3, mb: 0.3 }} />
+                  {t('Sign In')}
                 </Button>
               </MenuItem>
 
               <MenuItem onClick={handleClose}>
-                <Button sx={{ color: 'secondary' }} onClick={goSignUp}>
-                  <Link
-                    component={NavLink}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                      '&.active': {
-                        color: 'secondary.contrastText',
-                      },
-                    }}
-                    to="/signup"
-                  >
-                    <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
-                    {t('Sign Up')}
-                  </Link>
+                <Button
+                  component={NavLink}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: 'secondary',
+                    textDecoration: 'none',
+                    '&.active': {
+                      color: 'secondary.contrastText',
+                    },
+                  }}
+                  to={Constants.SIGN_UP}
+                >
+                  <HowToRegIcon sx={{ mr: 0.3, mb: 0.3 }} />
+                  {t('Sign Up')}
                 </Button>
               </MenuItem>
             </Menu>
