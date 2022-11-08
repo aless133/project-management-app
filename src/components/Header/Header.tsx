@@ -24,7 +24,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { selectUser, selectIsLogged } from 'store/userSlice';
+import { /*selectUser, */ selectIsLogged } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 
 export const Header = () => {

@@ -16,7 +16,7 @@ import {
 } from 'utils';
 import { Link } from 'react-router-dom';
 
-import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
+import { useSignInMutation /*, useSignUpMutation */ } from 'api/authApiSlice';
 import { set } from 'store/userSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 
@@ -37,7 +37,7 @@ export const FormSign = ({ isSignUp = true }) => {
   const [inValid, setInValid] = useState(false);
   const [errStack, setErrStack] = useState<TErr>(err);
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
-  const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
+  // const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const dispatch = useStoreDispatch();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -136,7 +136,7 @@ export const FormSign = ({ isSignUp = true }) => {
               ) : null}
               <Button
                 type="submit"
-                disabled={inValid || isSigninLoading || isSignupLoading}
+                disabled={inValid || isSigninLoading /*|| isSignupLoading*/}
                 variant="contained"
                 fullWidth
                 size="large"
