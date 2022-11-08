@@ -59,9 +59,9 @@ export const FormSign = ({ isSignUp = true }) => {
         alert('later');
       } else {
         try {
-          const user = await signin(data).unwrap();
-          console.log(user);
-          dispatch(set(user));
+          const signinData = await signin(data).unwrap();
+          const parseData = parseJwt(signinData.token);
+          dispatch(set({ token: signinData.token, id: parseData.userId, login: parseData.login }));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });
           // console.log('eeeee', err);
@@ -101,7 +101,6 @@ export const FormSign = ({ isSignUp = true }) => {
                   error={!!errStack.name}
                   name={Constants.NAME}
                   fullWidth
-                  id="signUpLogin"
                   label={t('Name')}
                   defaultValue=""
                   helperText={t(errStack.name)}
@@ -113,7 +112,6 @@ export const FormSign = ({ isSignUp = true }) => {
                 error={!!errStack.login}
                 name={Constants.LOGIN}
                 fullWidth
-                id="signUpLogin"
                 label={t('Login')}
                 defaultValue=""
                 helperText={t(errStack.login)}
@@ -124,12 +122,12 @@ export const FormSign = ({ isSignUp = true }) => {
                 error={!!errStack.password}
                 name={Constants.PASSWORD}
                 fullWidth
-                id="signUpLogin"
                 label={t('Password')}
                 defaultValue=""
                 helperText={t(errStack.password)}
                 onChange={handleChange}
                 margin="normal"
+                type="password"
               />
               {errStack.submit ? (
                 <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
@@ -166,3 +164,19 @@ export const FormSign = ({ isSignUp = true }) => {
     </main>
   );
 };
+
+function parseJwt(token: string) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join('')
+  );
+
+  return JSON.parse(jsonPayload);
+}
