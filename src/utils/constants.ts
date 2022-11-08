@@ -4,7 +4,7 @@ export enum Constants {
   LOGIN = 'login',
   PASSWORD = 'password',
   MIN_LENGTH = '2',
-  MAX_LENGTH = '10',
+  MAX_LENGTH = '30',
   PASSWORD_LENGTH = '8',
   //routs
   SIGN_IN = '/signin',
