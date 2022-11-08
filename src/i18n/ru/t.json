@@ -11,5 +11,12 @@
   "can not be less than 2": "не может быть меньше 2",
   "can not be less than 8": "не может быть меньше 8",
   "Do you have an account? Sign in": "У вас есть аккаунт? Войти",
-  "Do you have an account? Sign up": "У вас есть аккаунт? Регистрация"
+  "Do you have an account? Sign up": "У вас есть аккаунт? Регистрация",
+  "Do you have an account?": "У вас есть учетная запись?",
+  "Sign in": "Вход",
+  "Don't have an account?": "У вас нет учетной записи?",
+  "Sign up": "Зарегистрироваться",
+  "Main": "Главная",
+  "Project Management": "Управление проектом",
+  "It is a project management tool that helps to visualize tasks, limit the amount of work in progress and achieve maximum efficiency.": "Это инструмент управления проектами, который помогает визуализировать задачи, ограничить объем выполняемой работы и достичь максимальной эффективности."
 }
