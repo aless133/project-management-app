@@ -3,13 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSignInMutation } from 'api/authApiSlice';
 import { useState } from 'react';
 import { IApiError, TErr, TValidator } from 'types';
-import {
-  isErrCheck,
-  validatePassword,
-  Constants,
-  validateMinLength,
-  validateMaxLength,
-} from 'utils';
+import { isErrCheck, Constants, validateMinLength, validateMaxLength } from 'utils';
 import { useStoreDispatch } from './store.hooks';
 
 const validator: TValidator = {
@@ -21,7 +15,7 @@ const validator: TValidator = {
     validateMinLength(Constants.MIN_LENGTH),
     validateMaxLength(Constants.MAX_LENGTH),
   ],
-  [Constants.PASSWORD]: [validatePassword(Constants.PASSWORD_LENGTH)],
+  [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
 };
 
 const err: TErr = {

@@ -11,6 +11,8 @@
   "Password": "Пароль",
   "can not be less than {{len}} characters": "не может быть меньше {{len}} символов",
   "can not be larger than {{len}} characters": "не может быть больше {{len}} символов",
-  "Do you have an account? Sign in": "У вас есть аккаунт? Войти",
-  "Do you have an account? Sign up": "У вас есть аккаунт? Регистрация"
+  "Sign in": "Войти",
+  "Sign up": "Зарегистрироваться",
+  "Do you have an account?": "У вас есть аккаунт?",
+  "Don't have an account?": "У вас нет аккаунта?"
 }

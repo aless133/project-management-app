@@ -1,2 +1,2 @@
 export { Constants } from './constants';
-export { validateMinLength, validateMaxLength, validatePassword, isErrCheck } from './helpers';
+export { validateMinLength, validateMaxLength, isErrCheck } from './helpers';
