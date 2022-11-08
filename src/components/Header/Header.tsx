@@ -17,12 +17,14 @@ import { NavLink } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import { Container } from '@mui/system';
+import Container from '@mui/system/Container';
 import DnsIcon from '@mui/icons-material/Dns';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { /*selectUser, */ selectIsLogged } from 'store/userSlice';
+import { useStoreSelector } from 'hooks/store.hooks';
 import { Constants } from 'utils';
 
 export const Header = () => {
@@ -31,8 +33,7 @@ export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const trigger = useScrollTrigger({ disableHysteresis: true });
 
-  // temporary variable for authorization user
-  const isAuth = false;
+  const isAuth = useStoreSelector(selectIsLogged);
 
   const openBoardModal = () => {
     // TO DO add function for open modal window
