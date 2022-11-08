@@ -17,6 +17,6 @@ export type TValidator = Record<string, Array<(value: string) => string>>;
 
 export interface IApiError {
   data: {
-    message:string;
-  }
-};
+    message: string;
+  };
+}
