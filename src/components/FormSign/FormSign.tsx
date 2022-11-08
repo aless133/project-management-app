@@ -14,28 +14,10 @@ import { useStoreDispatch } from 'hooks/store.hooks';
 import { set } from 'store/userSlice';
 import { setMinMaxLengthError } from 'utils/helpers';
 
-const validator: TValidator = {
-  [Constants.NAME]: [
-    validateMinLength(Constants.MIN_LENGTH),
-    validateMaxLength(Constants.MAX_LENGTH),
-  ],
-  [Constants.LOGIN]: [
-    validateMinLength(Constants.MIN_LENGTH),
-    validateMaxLength(Constants.MAX_LENGTH),
-  ],
-  [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
-};
-
-const err: TErr = {
-  [Constants.NAME]: '',
-  [Constants.LOGIN]: '',
-  [Constants.PASSWORD]: '',
-};
-
 export const FormSign = ({ isSignUp = true }) => {
   const [t] = useTranslation();
   const [inValid, setInValid] = useState(false);
-  const [errStack, setErrStack] = useState<TErr>(err);
+  const [errStack, setErrStack] = useState<TErr | null>(null);
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   // const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const dispatch = useStoreDispatch();
@@ -44,13 +26,10 @@ export const FormSign = ({ isSignUp = true }) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     for (const [name, value] of formData.entries()) {
-      if (typeof value === 'string') {
-        err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-      }
+      setErrStack(validateErrors(name, value));
     }
-    setErrStack({ ...err });
 
-    if (!isErrCheck(err)) {
+    if (errStack && !isErrCheck(errStack)) {
       setInValid(false);
 
       const data = Object.fromEntries(formData.entries());
@@ -75,19 +54,14 @@ export const FormSign = ({ isSignUp = true }) => {
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
 
-    if (typeof value === 'string') {
-      err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-      setErrStack({ ...err });
+    setErrStack(validateErrors(name, value));
 
-      if (!isErrCheck(err)) {
-        setInValid(false);
-      } else {
-        setInValid(true);
-      }
+    if (errStack && !isErrCheck(errStack)) {
+      setInValid(false);
+    } else {
+      setInValid(true);
     }
   };
-
-  console.log(errStack);
 
   return (
     <main className={styles.form_sign}>
@@ -100,39 +74,38 @@ export const FormSign = ({ isSignUp = true }) => {
               </Typography>
               {isSignUp && (
                 <TextField
-                  error={!!errStack.name}
+                  error={errStack !== null && !!errStack.name}
                   name={Constants.NAME}
                   fullWidth
                   label={t('Name')}
                   defaultValue=""
-                  helperText={setMinMaxLengthError(errStack.name)}
+                  helperText={errStack && setMinMaxLengthError(errStack.name)}
                   onChange={handleChange}
                   margin="normal"
                 />
               )}
               <TextField
-                error={!!errStack.login}
+                error={errStack !== null && !!errStack.login}
                 name={Constants.LOGIN}
                 fullWidth
                 label={t('Login')}
                 defaultValue=""
-                helperText={setMinMaxLengthError(errStack.login)}
+                helperText={errStack && setMinMaxLengthError(errStack.login)}
                 onChange={handleChange}
                 margin="normal"
               />
-              {setMinMaxLengthError(errStack.login)}
               <TextField
-                error={!!errStack.password}
+                error={errStack !== null && !!errStack.password}
                 name={Constants.PASSWORD}
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={setMinMaxLengthError(errStack.password)}
+                helperText={errStack && setMinMaxLengthError(errStack.password)}
                 onChange={handleChange}
                 margin="normal"
                 type="password"
               />
-              {errStack.submit ? (
+              {errStack && errStack.submit ? (
                 <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
                   {errStack.submit}
                 </Typography>
@@ -182,4 +155,30 @@ function parseJwt(token: string) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+function validateErrors(name: string, value: FormDataEntryValue): TErr {
+  const validator: TValidator = {
+    [Constants.NAME]: [
+      validateMinLength(Constants.MIN_LENGTH),
+      validateMaxLength(Constants.MAX_LENGTH),
+    ],
+    [Constants.LOGIN]: [
+      validateMinLength(Constants.MIN_LENGTH),
+      validateMaxLength(Constants.MAX_LENGTH),
+    ],
+    [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
+  };
+
+  const err: TErr = {
+    [Constants.NAME]: '',
+    [Constants.LOGIN]: '',
+    [Constants.PASSWORD]: '',
+  };
+
+  if (typeof value === 'string') {
+    err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
+  }
+
+  return err;
 }
