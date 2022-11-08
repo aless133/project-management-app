@@ -21,9 +21,15 @@ import { set } from 'store/userSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 
 const validator: TValidator = {
-  [Constants.NAME]: [validateMinLength, validateMaxLength],
-  [Constants.LOGIN]: [validateMinLength, validateMaxLength],
-  [Constants.PASSWORD]: [validatePassword],
+  [Constants.NAME]: [
+    validateMinLength(Constants.MIN_LENGTH),
+    validateMaxLength(Constants.MAX_LENGTH),
+  ],
+  [Constants.LOGIN]: [
+    validateMinLength(Constants.MIN_LENGTH),
+    validateMaxLength(Constants.MAX_LENGTH),
+  ],
+  [Constants.PASSWORD]: [validatePassword(Constants.PASSWORD_LENGTH)],
 };
 
 const err: TErr = {
@@ -106,6 +112,7 @@ export const FormSign = ({ isSignUp = true }) => {
                   helperText={t(errStack.name)}
                   onChange={handleChange}
                   margin="normal"
+                  autoComplete="off"
                 />
               )}
               <TextField
@@ -117,6 +124,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 helperText={t(errStack.login)}
                 onChange={handleChange}
                 margin="normal"
+                autoComplete="off"
               />
               <TextField
                 error={!!errStack.password}
@@ -128,6 +136,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 onChange={handleChange}
                 margin="normal"
                 type="password"
+                autoComplete="off"
               />
               {errStack.submit ? (
                 <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
