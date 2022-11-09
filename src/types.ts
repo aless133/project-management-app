@@ -3,9 +3,10 @@ export interface IUser {
   name?: string;
   login?: string;
   token?: string;
+  isLogged?: boolean;
 }
 
-export interface TStoreState {
+export interface IStoreState {
   user: IUser;
 }
 
