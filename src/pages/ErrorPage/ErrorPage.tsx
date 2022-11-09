@@ -1,6 +1,5 @@
 import { Button, Grid, Typography } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
-import { Box } from '@mui/system';
 import Container from '@mui/system/Container';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
