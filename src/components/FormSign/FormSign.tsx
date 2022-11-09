@@ -11,7 +11,7 @@ import { IApiError, TErr, TValidator } from 'types';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation } from 'api/authApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
-import { set } from 'store/userSlice';
+import { set, setToken } from 'store/userSlice';
 import { setMinMaxLengthError } from 'utils/helpers';
 
 export const FormSign = ({ isSignUp = true }) => {
@@ -39,8 +39,7 @@ export const FormSign = ({ isSignUp = true }) => {
       } else {
         try {
           const signinData = await signin(data).unwrap();
-          const parseData = parseJwt(signinData.token);
-          dispatch(set({ token: signinData.token, id: parseData.userId, login: parseData.login }));
+          dispatch(setToken(signinData.token));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });
           // console.log('eeeee', err);
@@ -140,22 +139,6 @@ export const FormSign = ({ isSignUp = true }) => {
     </main>
   );
 };
-
-function parseJwt(token: string) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join('')
-  );
-
-  return JSON.parse(jsonPayload);
-}
 
 function validateErrors(name: string, value: FormDataEntryValue): TErr {
   const validator: TValidator = {

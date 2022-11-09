@@ -23,7 +23,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { /*selectUser, */ selectIsLogged } from 'store/userSlice';
+import { selectUser, selectIsLogged } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { Constants } from 'utils';
 
@@ -34,6 +34,7 @@ export const Header = () => {
   const trigger = useScrollTrigger({ disableHysteresis: true });
 
   const isAuth = useStoreSelector(selectIsLogged);
+  const user = useStoreSelector(selectUser);
 
   const openBoardModal = () => {
     // TO DO add function for open modal window
@@ -154,7 +155,7 @@ export const Header = () => {
               to={Constants.ACCOUNT}
             >
               <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-              {t('Account')}
+              {t('Account')} {user.name}
             </Button>
 
             <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>

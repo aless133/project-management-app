@@ -7,7 +7,7 @@ export const apiSlice = createApi({
     baseUrl: 'https://rs-pma-back.herokuapp.com',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as IStoreState).user.token;
-      if (token) headers.set('Authorization', `Bearer ${token}111`);
+      if (token) headers.set('Authorization', `Bearer ${token}`);
       return headers;
     },
     // credentials: 'include', // This allows server to set cookies
