@@ -2,14 +2,17 @@
   "Home": "Домой",
   "Create Board": "Создать проект",
   "Sign In": "Вход",
+  "Main": "Главная",
   "Sign Up": "Регистрация",
   "Account": "Аккаунт",
   "Sign Out": "Выход",
   "Name": "Имя",
   "Login": "Логин",
   "Password": "Пароль",
-  "can not be less than 2": "не может быть меньше 2",
-  "can not be less than 8": "не может быть меньше 8",
-  "Do you have an account? Sign in": "У вас есть аккаунт? Войти",
-  "Do you have an account? Sign up": "У вас есть аккаунт? Регистрация"
+  "can not be less than {{len}} characters": "не может быть меньше {{len}} символов",
+  "can not be larger than {{len}} characters": "не может быть больше {{len}} символов",
+  "Sign in": "Войти",
+  "Sign up": "Зарегистрироваться",
+  "Do you have an account?": "У вас есть аккаунт?",
+  "Don't have an account?": "У вас нет аккаунта?"
 }
