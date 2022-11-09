@@ -3,39 +3,21 @@ import Container from '@mui/system/Container';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
 import Grid from '@mui/material/Grid';
 import styles from './formsign.module.scss';
-import { TErr, TValidator, IApiError } from 'types';
-import {
-  validateMaxLength,
-  validateMinLength,
-  validatePassword,
-  Constants,
-  isErrCheck,
-} from 'utils';
 import { Link } from 'react-router-dom';
-
-import { useSignInMutation /*, useSignUpMutation */ } from 'api/authApiSlice';
-import { set } from 'store/userSlice';
+import { Constants, isErrCheck, validateMaxLength, validateMinLength } from 'utils';
+import { IApiError, TErr, TValidator } from 'types';
+import { useTranslation } from 'react-i18next';
+import { useSignInMutation } from 'api/authApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
-
-const validator: TValidator = {
-  [Constants.NAME]: [validateMinLength, validateMaxLength],
-  [Constants.LOGIN]: [validateMinLength, validateMaxLength],
-  [Constants.PASSWORD]: [validatePassword],
-};
-
-const err: TErr = {
-  [Constants.NAME]: '',
-  [Constants.LOGIN]: '',
-  [Constants.PASSWORD]: '',
-};
+import { set } from 'store/userSlice';
+import { setMinMaxLengthError } from 'utils/helpers';
 
 export const FormSign = ({ isSignUp = true }) => {
   const [t] = useTranslation();
   const [inValid, setInValid] = useState(false);
-  const [errStack, setErrStack] = useState<TErr>(err);
+  const [errStack, setErrStack] = useState<TErr | null>(null);
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   // const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const dispatch = useStoreDispatch();
@@ -44,13 +26,10 @@ export const FormSign = ({ isSignUp = true }) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     for (const [name, value] of formData.entries()) {
-      if (typeof value === 'string') {
-        err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-      }
+      setErrStack(validateErrors(name, value));
     }
-    setErrStack({ ...err });
 
-    if (!isErrCheck(err)) {
+    if (errStack && !isErrCheck(errStack)) {
       setInValid(false);
 
       const data = Object.fromEntries(formData.entries());
@@ -75,15 +54,12 @@ export const FormSign = ({ isSignUp = true }) => {
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
 
-    if (typeof value === 'string') {
-      err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-      setErrStack({ ...err });
+    setErrStack(validateErrors(name, value));
 
-      if (!isErrCheck(err)) {
-        setInValid(false);
-      } else {
-        setInValid(true);
-      }
+    if (errStack && !isErrCheck(errStack)) {
+      setInValid(false);
+    } else {
+      setInValid(true);
     }
   };
 
@@ -98,38 +74,38 @@ export const FormSign = ({ isSignUp = true }) => {
               </Typography>
               {isSignUp && (
                 <TextField
-                  error={!!errStack.name}
+                  error={errStack !== null && !!errStack.name}
                   name={Constants.NAME}
                   fullWidth
                   label={t('Name')}
                   defaultValue=""
-                  helperText={t(errStack.name)}
+                  helperText={errStack && setMinMaxLengthError(errStack.name)}
                   onChange={handleChange}
                   margin="normal"
                 />
               )}
               <TextField
-                error={!!errStack.login}
+                error={errStack !== null && !!errStack.login}
                 name={Constants.LOGIN}
                 fullWidth
                 label={t('Login')}
                 defaultValue=""
-                helperText={t(errStack.login)}
+                helperText={errStack && setMinMaxLengthError(errStack.login)}
                 onChange={handleChange}
                 margin="normal"
               />
               <TextField
-                error={!!errStack.password}
+                error={errStack !== null && !!errStack.password}
                 name={Constants.PASSWORD}
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={t(errStack.password)}
+                helperText={errStack && setMinMaxLengthError(errStack.password)}
                 onChange={handleChange}
                 margin="normal"
                 type="password"
               />
-              {errStack.submit ? (
+              {errStack && errStack.submit ? (
                 <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
                   {errStack.submit}
                 </Typography>
@@ -179,4 +155,30 @@ function parseJwt(token: string) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+function validateErrors(name: string, value: FormDataEntryValue): TErr {
+  const validator: TValidator = {
+    [Constants.NAME]: [
+      validateMinLength(Constants.MIN_LENGTH),
+      validateMaxLength(Constants.MAX_LENGTH),
+    ],
+    [Constants.LOGIN]: [
+      validateMinLength(Constants.MIN_LENGTH),
+      validateMaxLength(Constants.MAX_LENGTH),
+    ],
+    [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
+  };
+
+  const err: TErr = {
+    [Constants.NAME]: '',
+    [Constants.LOGIN]: '',
+    [Constants.PASSWORD]: '',
+  };
+
+  if (typeof value === 'string') {
+    err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
+  }
+
+  return err;
 }

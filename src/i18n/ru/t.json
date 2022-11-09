@@ -1,6 +1,7 @@
 {
   "Create Board": "Создать проект",
   "Sign In": "Вход",
+  "Main": "Главная",
   "Sign Up": "Регистрация",
   "Account": "Аккаунт",
   "Sign Out": "Выход",
@@ -15,7 +16,6 @@
   "Sign in": "Вход",
   "Don't have an account?": "У вас нет учетной записи?",
   "Sign up": "Зарегистрироваться",
-  "Main": "Главная",
   "Project Management": "Управление проектом",
   "It is a project management tool that helps to visualize tasks, limit the amount of work in progress and achieve maximum efficiency.": "Это инструмент управления проектами, который помогает визуализировать задачи, ограничить объем выполняемой работы и достичь максимальной эффективности.",
   "Our Team": "Наша команда",
