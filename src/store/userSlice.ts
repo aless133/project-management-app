@@ -27,8 +27,10 @@ const userSlice = createSlice({
   },
 });
 
+// eslint-disable-next-line
 export const userMiddleware: Middleware = (store) => (next) => (action) => {
   if (action.type == 'user/setToken') localStorage.setItem('userToken', action.payload);
+  else if (action.type == 'user/setTokenLogged') localStorage.setItem('userToken', action.payload);
   else if (action.type == 'user/clearUser') localStorage.removeItem('userToken');
   return next(action);
 };

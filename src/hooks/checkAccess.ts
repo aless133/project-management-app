@@ -18,6 +18,6 @@ export const useCheckAccess = (access: string) => {
       // navigated = true;
       navigate(Constants.SIGN_IN, { replace: true });
     }
-  }, [isLogged]);
+  }, [navigate, isLogged, access]);
   // return { navigated };
 };
