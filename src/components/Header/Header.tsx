@@ -10,11 +10,11 @@ import {
   Menu,
   MenuItem,
   useScrollTrigger,
+  SvgIcon,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import Container from '@mui/system/Container';
@@ -23,7 +23,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { /*selectUser, */ selectIsLogged } from 'store/userSlice';
+import { selectIsLogged } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { Constants } from 'utils';
 
@@ -32,7 +32,6 @@ export const Header = () => {
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const trigger = useScrollTrigger({ disableHysteresis: true });
-
   const isAuth = useStoreSelector(selectIsLogged);
 
   const openBoardModal = () => {
@@ -87,8 +86,10 @@ export const Header = () => {
               }}
               to={Constants.HOME}
             >
-              <HomeIcon sx={{ mb: 0.5 }} />
-              {t('Home')}
+              <SvgIcon viewBox="0 0 123 110" sx={{ mr: 1 }}>
+                <path d="M0 52.88L22.68 52.58C31.6035 57.7167 39.5079 64.4483 46 72.44C62.129 45.4464 82.2196 21.0275 105.6 0L122.88 0C92.9226 33.1829 67.344 70.0704 46.77 109.76C36 86.69 21 67.27 0 52.88Z" />
+              </SvgIcon>
+              P.Management
             </Button>
           </Box>
 
@@ -166,7 +167,7 @@ export const Header = () => {
           <Box sx={{ display: { xs: 'flex', md: 'none', lb: 'none' }, alignItems: 'center' }}>
             <FormGroup>
               <FormControlLabel
-                sx={{ mr: 3, color: 'secondary.main' }}
+                sx={{ mr: 1, color: 'secondary.main' }}
                 control={
                   <Switch
                     checked={lang}
@@ -288,8 +289,10 @@ export const Header = () => {
               }}
               to={Constants.HOME}
             >
-              <HomeIcon sx={{ mb: 0.5 }} />
-              {t('Home')}
+              <SvgIcon viewBox="0 0 123 110" sx={{ mr: 1 }}>
+                <path d="M0 52.88L22.68 52.58C31.6035 57.7167 39.5079 64.4483 46 72.44C62.129 45.4464 82.2196 21.0275 105.6 0L122.88 0C92.9226 33.1829 67.344 70.0704 46.77 109.76C36 86.69 21 67.27 0 52.88Z" />
+              </SvgIcon>
+              P.Management
             </Button>
           </Box>
 
@@ -302,7 +305,7 @@ export const Header = () => {
           >
             <FormGroup>
               <FormControlLabel
-                sx={{ mr: 1, color: 'secondary.main' }}
+                sx={{ color: 'secondary.main' }}
                 control={
                   <Switch
                     checked={lang}
@@ -354,7 +357,7 @@ export const Header = () => {
           <Box sx={{ display: { xs: 'flex', md: 'none', lb: 'none' }, alignItems: 'center' }}>
             <FormGroup>
               <FormControlLabel
-                sx={{ mr: 3, color: 'secondary.main' }}
+                sx={{ mr: 1, color: 'secondary.main' }}
                 control={
                   <Switch
                     checked={lang}

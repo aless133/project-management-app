@@ -5,7 +5,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 export const Footer = () => {
   return (
-    <Paper component="footer" sx={{ backgroundColor: 'primary.main', mt: 5 }}>
+    <Paper component="footer" sx={{ backgroundColor: 'primary.main', mt: 5, borderRadius: 0 }}>
       <Container maxWidth={'xl'}>
         <Box
           sx={{
@@ -14,8 +14,8 @@ export const Footer = () => {
             justifyContent: { xs: 'center', md: 'space-between', lb: 'space-between' },
             alignItems: { xs: 'center', md: 'space-between', lb: 'space-between' },
             rowGap: 2,
-            pt: 2,
-            pb: 2,
+            pt: 1,
+            pb: 1,
           }}
         >
           <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
@@ -49,7 +49,7 @@ export const Footer = () => {
               }}
             >
               <GitHubIcon color="secondary" sx={{ mr: 1 }} />
-              <Typography variant="h6" component="span">
+              <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
                 aless133
               </Typography>
             </Link>
@@ -65,7 +65,7 @@ export const Footer = () => {
               }}
             >
               <GitHubIcon color="secondary" sx={{ mr: 1 }} />
-              <Typography variant="h6" component="span">
+              <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
                 PartyZzzan77
               </Typography>
             </Link>
@@ -81,15 +81,15 @@ export const Footer = () => {
               }}
             >
               <GitHubIcon color="secondary" sx={{ mr: 1 }} />
-              <Typography variant="h6" component="span">
+              <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
                 DimaTeniuta
               </Typography>
             </Link>
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 4 }}>
-            <Typography variant="h6" component="span" sx={{ fontSize: 18 }}>
-              2022
+            <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
+              &copy;2022
             </Typography>
 
             <Box sx={{ display: { xs: 'block', md: 'none', lb: 'none' } }}>

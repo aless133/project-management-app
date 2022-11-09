@@ -10,7 +10,13 @@ export const WelcomePage = () => {
     <main>
       <Box sx={{ pt: 5, pb: 5 }}>
         <Container maxWidth={'xl'}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 5 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              rowGap: { xs: 5, sm: 8, md: 8, lg: 10 },
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -30,22 +36,38 @@ export const WelcomePage = () => {
                   maxWidth: { xs: '100%', sm: '100%', md: '50%', lg: '50%' },
                 }}
               >
-                <Typography
-                  variant="h2"
-                  component="h2"
-                  sx={{
-                    textAlign: { xs: 'center', sm: 'center', md: 'start', lg: 'start' },
-                    fontWeight: 800,
-                    fontSize: { xs: 30, sm: 40, md: 40, lg: 60 },
-                  }}
-                >
-                  {t('Project Management')}
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box
+                    sx={{
+                      width: { xs: 35, sm: 40, md: 40, lg: 60 },
+                      height: { xs: 35, sm: 40, md: 40, lg: 60 },
+                      mr: 1,
+                      backgroundImage: 'url(./logo.svg)',
+                      backgroundSize: 'contain',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                    }}
+                  />
+                  <Typography
+                    variant="h2"
+                    component="h2"
+                    color="primary.main"
+                    sx={{
+                      textAlign: { xs: 'center', sm: 'center', md: 'start', lg: 'start' },
+                      fontWeight: 800,
+                      fontSize: { xs: 26, sm: 40, md: 40, lg: 52 },
+                    }}
+                  >
+                    {t('Project Management')}
+                  </Typography>
+                </Box>
+
                 <Box>
                   <Typography
                     variant="h5"
                     component="p"
                     sx={{
+                      color: 'gray',
                       textAlign: { xs: 'center', sm: 'center', md: 'start', lg: 'start' },
                       fontWeight: 400,
                       fontSize: { xs: 20, sm: 20, md: 26, lg: 30 },
@@ -83,9 +105,10 @@ export const WelcomePage = () => {
                 <Typography
                   variant="h2"
                   component="h2"
+                  color="primary.main"
                   sx={{ fontWeight: 800, fontSize: { xs: 30, sm: 40, md: 40, lg: 50 } }}
                 >
-                  Our Team
+                  {t('Our Team')}
                 </Typography>
               </Box>
 
@@ -118,15 +141,12 @@ export const WelcomePage = () => {
                         backgroundRepeat: 'no-repeat',
                       }}
                     />
-                    <Typography
-                      variant="h6"
-                      component="span"
-                      sx={{ color: '#000000', fontSize: 22 }}
-                    >
+                    <Typography variant="h6" component="span" sx={{ color: 'gray', fontSize: 22 }}>
                       aless133
                     </Typography>
                   </Link>
                 </Box>
+
                 <Box sx={{ width: '100%' }}>
                   <Link
                     href="https://github.com/PartyZzzan77"
@@ -148,15 +168,12 @@ export const WelcomePage = () => {
                         backgroundRepeat: 'no-repeat',
                       }}
                     />
-                    <Typography
-                      variant="h6"
-                      component="span"
-                      sx={{ color: '#000000', fontSize: 22 }}
-                    >
+                    <Typography variant="h6" component="span" sx={{ color: 'gray', fontSize: 22 }}>
                       PartyZzzan77
                     </Typography>
                   </Link>
                 </Box>
+
                 <Box sx={{ width: '100%' }}>
                   <Link
                     href="https://github.com/DimaTeniuta"
@@ -178,15 +195,84 @@ export const WelcomePage = () => {
                         backgroundRepeat: 'no-repeat',
                       }}
                     />
-                    <Typography
-                      variant="h6"
-                      component="span"
-                      sx={{ color: '#000000', fontSize: 22 }}
-                    >
+                    <Typography variant="h6" component="span" sx={{ color: 'gray', fontSize: 22 }}>
                       DimaTeniuta
                     </Typography>
                   </Link>
                 </Box>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: { xs: 'column', sm: 'row', md: 'row', lg: 'row' },
+                justifyContent: 'space-between',
+                gap: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  maxWidth: { xs: '100%', sm: '33%', md: '33%', lg: '33%' },
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="span"
+                  sx={{
+                    color: 'gray',
+                    fontSize: { xs: 16, sm: 16, md: 20, lg: 22 },
+                    textAlign: 'center',
+                  }}
+                >
+                  {t(
+                    'The RS School is working by the principle of Pay it forward. Members of our community share their knowledge and check students tasks for free. And we hope our students will continue this work as our mentors in the future.'
+                  )}
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  order: { xs: -1, sm: 0, md: 0, lg: 0 },
+                  width: { xs: '100%', sm: '33%', md: '33%', lg: '33%' },
+                  mr: { xs: 2, sm: 2, md: 2, lg: 3 },
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: { xs: 120, sm: 200, md: 250, lg: 300 },
+                    backgroundImage: 'url(./logo-rs.svg)',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  maxWidth: { xs: '100%', sm: '33%', md: '33%', lg: '33%' },
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="span"
+                  sx={{
+                    color: 'gray',
+                    fontSize: { xs: 16, sm: 16, md: 20, lg: 22 },
+                    textAlign: 'center',
+                  }}
+                >
+                  {t(
+                    'RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013.'
+                  )}
+                </Typography>
               </Box>
             </Box>
           </Box>
