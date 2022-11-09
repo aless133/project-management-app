@@ -1,10 +1,20 @@
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Button, Link, Typography } from '@mui/material';
 import React from 'react';
 import Container from '@mui/system/Container';
 import { useTranslation } from 'react-i18next';
+import { useStoreSelector } from 'hooks/store.hooks';
+import { selectIsLogged } from 'store/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { Constants } from 'utils';
 
 export const WelcomePage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const isAuth = useStoreSelector(selectIsLogged);
+
+  const handleClick = () => {
+    isAuth ? navigate(Constants.MAIN) : navigate(Constants.SIGN_IN);
+  };
 
   return (
     <main>
@@ -55,7 +65,7 @@ export const WelcomePage = () => {
                     sx={{
                       textAlign: { xs: 'center', sm: 'center', md: 'start', lg: 'start' },
                       fontWeight: 800,
-                      fontSize: { xs: 26, sm: 40, md: 40, lg: 52 },
+                      fontSize: { xs: 22, sm: 40, md: 40, lg: 52 },
                     }}
                   >
                     {t('Project Management')}
@@ -77,6 +87,31 @@ export const WelcomePage = () => {
                       'It is a project management tool that helps to visualize tasks, limit the amount of work in progress and achieve maximum efficiency.'
                     )}
                   </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: { xs: 'center', sm: 'center', md: 'end', lg: 'end' },
+                    width: '100%',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: { xs: 200, sm: 200, md: 260, lg: 300 },
+                      height: { xs: 50, sm: 50, md: 56, lg: 60 },
+                      borderRadius: 22,
+                      backgroundColor: '#ff7961',
+                      fontSize: { xs: 18, sm: 18, md: 20, lg: 22 },
+                      ':hover': {
+                        backgroundColor: '#f44336',
+                      },
+                    }}
+                    onClick={handleClick}
+                  >
+                    {t('Get started')}
+                  </Button>
                 </Box>
               </Box>
 
