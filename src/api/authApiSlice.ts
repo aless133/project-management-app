@@ -4,14 +4,14 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signUp: builder.mutation({
       query: (data) => ({
-        url: '/signup',
+        url: '/auth/signup',
         method: 'POST',
         body: data,
       }),
     }),
     signIn: builder.mutation({
       query: (data) => ({
-        url: '/signin',
+        url: '/auth/signin',
         method: 'POST',
         body: data,
       }),

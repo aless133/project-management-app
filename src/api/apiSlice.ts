@@ -4,7 +4,7 @@ import { IStoreState } from 'types';
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://rs-pma-back.herokuapp.com',
+    baseUrl: 'https://pma-back.onrender.com',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as IStoreState).user.token;
       if (token) headers.set('Authorization', `Bearer ${token}`);

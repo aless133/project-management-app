@@ -6,10 +6,10 @@ import { SignUpPage } from 'pages/SignUpPage';
 import { WelcomePage } from 'pages/WelcomePage';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useCheckLocalUser } from 'hooks/checkLocalUser';
+import { useCheckToken } from 'hooks/checkToken';
 
 const AppRouter = () => {
-  useCheckLocalUser();
+  useCheckToken();
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

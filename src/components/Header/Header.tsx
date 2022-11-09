@@ -26,6 +26,8 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { selectUser, selectIsLogged } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { Constants } from 'utils';
+import { useStoreDispatch } from 'hooks/store.hooks';
+import { clearUser } from 'store/userSlice';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
@@ -35,13 +37,14 @@ export const Header = () => {
 
   const isAuth = useStoreSelector(selectIsLogged);
   const user = useStoreSelector(selectUser);
+  const dispatch = useStoreDispatch();
 
   const openBoardModal = () => {
     // TO DO add function for open modal window
   };
 
   const openExitModal = () => {
-    // TO DO add function for open modal window
+    dispatch(clearUser());
   };
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -155,7 +158,7 @@ export const Header = () => {
               to={Constants.ACCOUNT}
             >
               <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-              {t('Account')} {user.name}
+              {user.name}
             </Button>
 
             <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>

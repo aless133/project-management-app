@@ -4,6 +4,7 @@ export interface IUser {
   login?: string;
   token?: string;
   isLogged?: boolean;
+  exp: number;
 }
 
 export interface IStoreState {
