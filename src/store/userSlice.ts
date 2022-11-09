@@ -1,4 +1,4 @@
-import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, Middleware } from '@reduxjs/toolkit';
 import { IStoreState } from 'types';
 
 const userSlice = createSlice({
@@ -21,7 +21,7 @@ const userSlice = createSlice({
     setTokenLogged: (state, action) => {
       return { ...parseToken(action.payload), isLogged: true };
     },
-    clearUser: (state, action: PayloadAction<void>) => {
+    clearUser: () => {
       return {};
     },
   },
