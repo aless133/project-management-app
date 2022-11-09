@@ -11,7 +11,7 @@ import { IApiError, TErr, TValidator } from 'types';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
-import { setToken } from 'store/userSlice';
+import { setToken, setTokenLogged } from 'store/userSlice';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useCheckAccess } from 'hooks/checkAccess';
 
@@ -37,10 +37,14 @@ export const FormSign = ({ isSignUp = true }) => {
       setInValid(false);
 
       const data = Object.fromEntries(formData.entries());
-      if (isSignUp) {      
+      if (isSignUp) {
         try {
           const signupData = await signup(data).unwrap();
-          const signinData = await signin({login:signupData.login, password:signupData.password}).unwrap();
+          console.log(signupData);
+          const signinData = await signin({
+            login: data.login,
+            password: data.password,
+          }).unwrap();
           dispatch(setTokenLogged(signinData.token));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });

@@ -16,11 +16,11 @@ const userSlice = createSlice({
       return { ...action.payload };
     },
     setToken: (state, action) => {
-      return parseToken(action.payload);
+      return { ...parseToken(action.payload) };
     },
     setTokenLogged: (state, action) => {
-      return { ...parseToken(action.payload), isLogged: true};
-    },    
+      return { ...parseToken(action.payload), isLogged: true };
+    },
     clearUser: (state, action: PayloadAction<void>) => {
       return {};
     },
@@ -34,7 +34,7 @@ export const userMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 export default userSlice.reducer;
-export const { updateUser, setUser, setToken, clearUser } = userSlice.actions;
+export const { updateUser, setUser, setToken, setTokenLogged, clearUser } = userSlice.actions;
 export const selectUser = (state: IStoreState) => state.user;
 export const selectIsLogged = (state: IStoreState) => !!state.user.isLogged;
 
