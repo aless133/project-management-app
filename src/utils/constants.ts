@@ -1,8 +1,5 @@
 export enum Constants {
-  //fields
-  NAME = 'name',
-  LOGIN = 'login',
-  PASSWORD = 'password',
+  //validate
   MIN_LENGTH = '2',
   MAX_LENGTH = '30',
   PASSWORD_LENGTH = '8',

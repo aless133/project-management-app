@@ -2,7 +2,7 @@ import { Constants } from 'utils';
 import { TErr } from 'types';
 import i18next from 'i18next';
 
-export const isErrCheck = (err: TErr) => Object.values(err).some((err) => err);
+export const isErrCheck = (err: TErr) => Object.values(err).some((err) => err.length > 0);
 
 export const validateMaxLength =
   (len: string) =>
