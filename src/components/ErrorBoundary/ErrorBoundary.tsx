@@ -1,6 +1,5 @@
 import { ErrorPage } from 'pages/ErrorPage';
 import React, { Component, ReactNode } from 'react';
-import { Constants } from 'utils';
 
 interface Props {
   children?: ReactNode;
