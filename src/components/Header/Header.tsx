@@ -31,8 +31,17 @@ export const Header = () => {
   const [lang, setLang] = useState(true);
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const trigger = useScrollTrigger({ disableHysteresis: true });
+
+  const trigger0 = useScrollTrigger({ disableHysteresis: true, threshold: 100 });
+  const trigger1 = useScrollTrigger({ disableHysteresis: true, threshold: 120 });
+  const [headerMinHeight, setHMH] = useState(64);
+
   const isAuth = useStoreSelector(selectIsLogged);
+
+  useEffect(() => {
+    if (trigger1) setHMH(50);
+    else if (!trigger0) setHMH(64);
+  }, [trigger0, trigger1]);
 
   const openBoardModal = () => {
     // TO DO add function for open modal window
@@ -67,7 +76,7 @@ export const Header = () => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            minHeight: { sm: trigger ? 50 : 64 },
+            minHeight: { sm: headerMinHeight },
             transition: '0.5s',
           }}
         >
