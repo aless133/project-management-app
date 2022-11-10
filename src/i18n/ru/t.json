@@ -1,5 +1,4 @@
 {
-  "Home": "Домой",
   "Create Board": "Создать проект",
   "Sign In": "Вход",
   "Main": "Главная",
@@ -11,8 +10,16 @@
   "Password": "Пароль",
   "can not be less than {{len}} characters": "не может быть меньше {{len}} символов",
   "can not be larger than {{len}} characters": "не может быть больше {{len}} символов",
-  "Sign in": "Войти",
-  "Sign up": "Зарегистрироваться",
+  "Do you have an account? Sign in": "У вас есть аккаунт? Войти",
+  "Do you have an account? Sign up": "У вас есть аккаунт? Регистрация",
+  "Sign in": "Вход",
   "Do you have an account?": "У вас есть аккаунт?",
-  "Don't have an account?": "У вас нет аккаунта?"
+  "Don't have an account?": "У вас нет аккаунта?",
+  "Sign up": "Зарегистрироваться",
+  "Project Management": "Управление проектом",
+  "It is a project management tool that helps to visualize tasks, limit the amount of work in progress and achieve maximum efficiency.": "Это инструмент управления проектами, который помогает визуализировать задачи, ограничить объем выполняемой работы и достичь максимальной эффективности.",
+  "Our Team": "Наша команда",
+  "The RS School is working by the principle of Pay it forward. Members of our community share their knowledge and check students tasks for free. And we hope our students will continue this work as our mentors in the future.": "Школа RS работает по принципу 'Плати вперед'. Члены нашего сообщества делятся своими знаниями и проверяют задания студентов бесплатно. И мы надеемся, что наши студенты продолжат эту работу в качестве наших наставников в будущем.",
+  "RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013.": "RS School - это бесплатная образовательная программа на базе сообщества, проводимая сообществом разработчиков Rolling Scopes с 2013 года.",
+  "Get started": "Начать"
 }

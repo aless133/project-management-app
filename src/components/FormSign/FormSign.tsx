@@ -15,11 +15,29 @@ import { setToken, setTokenLogged } from 'store/userSlice';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useCheckAccess } from 'hooks/checkAccess';
 
+const validator: TValidator = {
+  [Constants.NAME]: [
+    validateMinLength(Constants.MIN_LENGTH),
+    validateMaxLength(Constants.MAX_LENGTH),
+  ],
+  [Constants.LOGIN]: [
+    validateMinLength(Constants.MIN_LENGTH),
+    validateMaxLength(Constants.MAX_LENGTH),
+  ],
+  [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
+};
+
+const err: TErr = {
+  [Constants.NAME]: '',
+  [Constants.LOGIN]: '',
+  [Constants.PASSWORD]: '',
+};
+
 export const FormSign = ({ isSignUp = true }) => {
   useCheckAccess('guest');
   const [t] = useTranslation();
   const [inValid, setInValid] = useState(false);
-  const [errStack, setErrStack] = useState<TErr | null>(null);
+  const [errStack, setErrStack] = useState<TErr>(err);
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const dispatch = useStoreDispatch();
@@ -30,10 +48,14 @@ export const FormSign = ({ isSignUp = true }) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     for (const [name, value] of formData.entries()) {
-      setErrStack(validateErrors(name, value));
+      if (typeof value === 'string') {
+        err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
+      }
+
+      setErrStack(err);
     }
 
-    if (errStack && !isErrCheck(errStack)) {
+    if (!isErrCheck(errStack)) {
       setInValid(false);
 
       const data = Object.fromEntries(formData.entries());
@@ -65,9 +87,13 @@ export const FormSign = ({ isSignUp = true }) => {
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
 
-    setErrStack(validateErrors(name, value));
+    if (typeof value === 'string') {
+      err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
+    }
 
-    if (errStack && !isErrCheck(errStack)) {
+    setErrStack(err);
+
+    if (!isErrCheck(errStack)) {
       setInValid(false);
     } else {
       setInValid(true);
@@ -85,33 +111,33 @@ export const FormSign = ({ isSignUp = true }) => {
               </Typography>
               {isSignUp && (
                 <TextField
-                  error={errStack !== null && !!errStack.name}
+                  error={!!errStack.name}
                   name={Constants.NAME}
                   fullWidth
                   label={t('Name')}
                   defaultValue=""
-                  helperText={errStack && setMinMaxLengthError(errStack.name)}
+                  helperText={setMinMaxLengthError(errStack.name)}
                   onChange={handleChange}
                   margin="normal"
                 />
               )}
               <TextField
-                error={errStack !== null && !!errStack.login}
+                error={!!errStack.login}
                 name={Constants.LOGIN}
                 fullWidth
                 label={t('Login')}
                 defaultValue=""
-                helperText={errStack && setMinMaxLengthError(errStack.login)}
+                helperText={setMinMaxLengthError(errStack.login)}
                 onChange={handleChange}
                 margin="normal"
               />
               <TextField
-                error={errStack !== null && !!errStack.password}
+                error={!!errStack.password}
                 name={Constants.PASSWORD}
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={errStack && setMinMaxLengthError(errStack.password)}
+                helperText={setMinMaxLengthError(errStack.password)}
                 onChange={handleChange}
                 margin="normal"
                 type="password"
@@ -152,28 +178,3 @@ export const FormSign = ({ isSignUp = true }) => {
   );
 };
 
-function validateErrors(name: string, value: FormDataEntryValue): TErr {
-  const validator: TValidator = {
-    [Constants.NAME]: [
-      validateMinLength(Constants.MIN_LENGTH),
-      validateMaxLength(Constants.MAX_LENGTH),
-    ],
-    [Constants.LOGIN]: [
-      validateMinLength(Constants.MIN_LENGTH),
-      validateMaxLength(Constants.MAX_LENGTH),
-    ],
-    [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
-  };
-
-  const err: TErr = {
-    [Constants.NAME]: '',
-    [Constants.LOGIN]: '',
-    [Constants.PASSWORD]: '',
-  };
-
-  if (typeof value === 'string') {
-    err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-  }
-
-  return err;
-}
