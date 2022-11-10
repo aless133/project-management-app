@@ -23,9 +23,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { selectIsLogged } from 'store/userSlice';
+import { selectUser, selectIsLogged } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { Constants } from 'utils';
+import { useStoreDispatch } from 'hooks/store.hooks';
+import { clearUser } from 'store/userSlice';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
@@ -37,6 +39,8 @@ export const Header = () => {
   const [headerMinHeight, setHMH] = useState(64);
 
   const isAuth = useStoreSelector(selectIsLogged);
+  const user = useStoreSelector(selectUser);
+  const dispatch = useStoreDispatch();
 
   useEffect(() => {
     if (trigger1) setHMH(50);
@@ -48,7 +52,7 @@ export const Header = () => {
   };
 
   const openExitModal = () => {
-    // TO DO add function for open modal window
+    dispatch(clearUser());
   };
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -103,7 +107,6 @@ export const Header = () => {
                   P.Management
                 </Button>
               </Box>
-
               <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
                 <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={openBoardModal}>
                   <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
@@ -166,7 +169,7 @@ export const Header = () => {
                   to={Constants.ACCOUNT}
                 >
                   <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                  {t('Account')}
+                  {user.name}
                 </Button>
 
                 <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>

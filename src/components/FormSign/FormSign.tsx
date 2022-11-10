@@ -9,10 +9,11 @@ import { Link } from 'react-router-dom';
 import { Constants, isErrCheck, validateMaxLength, validateMinLength } from 'utils';
 import { IApiError, TErr, TValidator } from 'types';
 import { useTranslation } from 'react-i18next';
-import { useSignInMutation } from 'api/authApiSlice';
+import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
-import { set } from 'store/userSlice';
+import { setToken, setTokenLogged } from 'store/userSlice';
 import { setMinMaxLengthError } from 'utils/helpers';
+import { useCheckAccess } from 'hooks/checkAccess';
 
 const validator: TValidator = {
   [Constants.NAME]: [
@@ -33,12 +34,15 @@ const err: TErr = {
 };
 
 export const FormSign = ({ isSignUp = true }) => {
+  useCheckAccess('guest');
   const [t] = useTranslation();
   const [inValid, setInValid] = useState(false);
   const [errStack, setErrStack] = useState<TErr>(err);
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
-  // const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
+  const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const dispatch = useStoreDispatch();
+
+  // if (navigated) return null;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -55,17 +59,24 @@ export const FormSign = ({ isSignUp = true }) => {
       setInValid(false);
 
       const data = Object.fromEntries(formData.entries());
-
       if (isSignUp) {
-        alert('later');
+        try {
+          const signupData = await signup(data).unwrap();
+          console.log(signupData);
+          const signinData = await signin({
+            login: data.login,
+            password: data.password,
+          }).unwrap();
+          dispatch(setTokenLogged(signinData.token));
+        } catch (err) {
+          setErrStack({ submit: (err as IApiError).data.message });
+        }
       } else {
         try {
           const signinData = await signin(data).unwrap();
-          const parseData = parseJwt(signinData.token);
-          dispatch(set({ token: signinData.token, id: parseData.userId, login: parseData.login }));
+          dispatch(setToken(signinData.token));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });
-          // console.log('eeeee', err);
         }
       }
     } else {
@@ -138,7 +149,7 @@ export const FormSign = ({ isSignUp = true }) => {
               ) : null}
               <Button
                 type="submit"
-                disabled={inValid || isSigninLoading /*|| isSignupLoading*/}
+                disabled={inValid || isSigninLoading || isSignupLoading}
                 variant="contained"
                 fullWidth
                 size="large"
@@ -166,19 +177,3 @@ export const FormSign = ({ isSignUp = true }) => {
     </main>
   );
 };
-
-function parseJwt(token: string) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join('')
-  );
-
-  return JSON.parse(jsonPayload);
-}

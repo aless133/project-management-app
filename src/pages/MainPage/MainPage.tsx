@@ -1,5 +1,7 @@
 import React from 'react';
+import { useCheckAccess } from 'hooks/checkAccess';
 
 export const MainPage = () => {
-  return <div>MainPage</div>;
+  useCheckAccess('user');
+  return <main>MainPage</main>;
 };
