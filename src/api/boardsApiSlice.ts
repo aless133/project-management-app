@@ -1,4 +1,5 @@
 import { apiSlice } from './apiSlice';
+import { IBoard } from 'types';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,7 +17,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getUserBoards: builder.query({
+    getUserBoards: builder.query<IBoard[], string>({
       query: (id) => `/boardsSet/${id}`,
     }),
   }),
