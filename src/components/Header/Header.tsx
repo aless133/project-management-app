@@ -11,7 +11,6 @@ import {
   MenuItem,
   useScrollTrigger,
   SvgIcon,
-  TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,46 +25,10 @@ import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { selectUser } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
-import { Constants, validateMaxLength, validateMinLength } from 'utils';
+import { Constants } from 'utils';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { clearUser } from 'store/userSlice';
-import { ModalWindow } from '../UI/ModalWindow';
-import { TErr, TValidator } from 'types';
-import { setCreateBoardError, setMinMaxLengthError } from 'utils/helpers';
-
-// const validator: TValidator = {
-//   [Constants.BOARD_TITLE]: [
-//     validateMinLength(Constants.MIN_LENGTH),
-//     validateMaxLength(Constants.MAX_LENGTH),
-//   ],
-//   [Constants.BOARD_DESCRIPTION]: [
-//     validateMinLength(Constants.MIN_LENGTH),
-//     validateMaxLength(Constants.MAX_LENGTH),
-//   ],
-// };
-
-// const err: TErr = {
-//   [Constants.BOARD_TITLE]: '',
-//   [Constants.BOARD_DESCRIPTION]: '',
-// };
-
-const validator: TValidator = {
-  [Constants.NAME]: [
-    validateMinLength(Constants.MIN_LENGTH),
-    validateMaxLength(Constants.MAX_LENGTH),
-  ],
-  [Constants.LOGIN]: [
-    validateMinLength(Constants.MIN_LENGTH),
-    validateMaxLength(Constants.MAX_LENGTH),
-  ],
-  [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
-};
-
-const err: TErr = {
-  [Constants.NAME]: '',
-  [Constants.LOGIN]: '',
-  [Constants.PASSWORD]: '',
-};
+import { BoardModal } from 'components/BoardModal';
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
@@ -80,41 +43,19 @@ export const Header = () => {
   const isAuth = true;
   const user = useStoreSelector(selectUser);
   const dispatch = useStoreDispatch();
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (trigger1) setHMH(50);
     else if (!trigger0) setHMH(64);
   }, [trigger0, trigger1]);
 
-  // const openBoardModal = () => {
-  //   // TO DO add function for open modal window
-  // };
-
-  const [open, setOpen] = useState(false);
   const handleClickOpenModal = () => {
-    setOpen(true);
+    setOpenModal(true);
   };
 
-  const handleCloseModal = () => {
-    setOpen(false);
-  };
-
-  const [errStack, setErrStack] = useState<TErr>(err);
-
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { name, value } = e.target;
-    if (typeof value === 'string') {
-      err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
-      setErrStack(err);
-    }
-  };
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    for (const [name, value] of formData.entries()) {
-      console.log(name, value);
-    }
+  const closeModal = () => {
+    setOpenModal(false);
   };
 
   const openExitModal = () => {
@@ -152,6 +93,7 @@ export const Header = () => {
         >
           {isAuth ? (
             <>
+              <BoardModal openModal={openModal} closeModal={closeModal} />
               <Box>
                 <Button
                   component={NavLink}
@@ -347,44 +289,41 @@ export const Header = () => {
                 </Menu>
               </Box>
 
-              <ModalWindow onClose={handleCloseModal} open={open} title="Create Board">
+              {/* <ModalWindow onClose={handleCloseModal} open={open} title="Create Board">
                 <form onSubmit={handleSubmit}>
                   <TextField
-                    error={!!errStack.name}
-                    name={Constants.NAME}
-                    fullWidth
-                    label={t('Name')}
-                    defaultValue=""
-                    helperText={setMinMaxLengthError(errStack.name)}
-                    onChange={handleInputChange}
-                    margin="normal"
-                  />
-                  {/* <TextField
                     name={Constants.BOARD_TITLE}
                     fullWidth
                     label={t('Title')}
                     error={!!errStack.boardTitle}
-                    helperText={setMinMaxLengthError(errStack.boardTitle)}
+                    helperText={setCreateTitleError(errStack.boardTitle)}
                     defaultValue=""
                     onChange={handleInputChange}
                     margin="normal"
-                  />
+                  /> */}
 
-                  <TextField
+              {/* <TextField
                     name={Constants.BOARD_DESCRIPTION}
                     fullWidth
                     label={t('Description')}
                     error={!!errStack.boardDescription}
                     defaultValue=""
                     onChange={handleInputChange}
-                    helperText={setMinMaxLengthError(errStack.boardDescription)}
+                    helperText={setCreateRequiredError(errStack.boardDescription)}
                     margin="normal"
-                  /> */}
-                  <Button type="submit" variant="contained" fullWidth size="large" sx={{ mt: 2 }}>
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    size="large"
+                    disabled={isDisabledSubmitBtn}
+                    sx={{ mt: 2 }}
+                  >
                     {t('Create Board')}
                   </Button>
                 </form>
-              </ModalWindow>
+              </ModalWindow> */}
             </>
           ) : (
             <>

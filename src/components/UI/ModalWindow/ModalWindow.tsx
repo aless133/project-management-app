@@ -17,17 +17,14 @@ const WrapperTheme = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(3),
   },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
 }));
 
 export function ModalWindow(props: ModalWindowProps) {
   const { children, onClose, open, title, ...other } = props;
 
   return (
-    <WrapperTheme open={open}>
-      <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <WrapperTheme open={open} onClick={onClose}>
+      <DialogTitle sx={{ m: 0, p: 2 }} {...other} onClick={(e) => e.stopPropagation()}>
         {title}
         {onClose ? (
           <IconButton
