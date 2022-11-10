@@ -10,6 +10,7 @@ import { useCheckToken } from 'hooks/checkToken';
 
 const AppRouter = () => {
   useCheckToken();
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
