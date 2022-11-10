@@ -22,6 +22,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreateBoardMutation, useDeleteBoardMutation, useGetUserBoardsQuery } = extendedApiSlice;
+export const { useCreateBoardMutation, useDeleteBoardMutation, useGetUserBoardsQuery } =
+  extendedApiSlice;
 
 // export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()
