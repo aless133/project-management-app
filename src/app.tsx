@@ -17,6 +17,12 @@ const theme = createTheme({
 });
 
 function App() {
+  const test = 'err';
+
+  if (test) {
+    throw new Error('boom');
+  }
+
   return (
     <StoreProvider>
       <ThemeProvider theme={theme}>

@@ -13,7 +13,13 @@ export const ErrorPage = () => {
     <Container maxWidth="xl" sx={{ height: '100%' }}>
       <Grid2 container rowGap={4} justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
         <Grid item xl={8} sx={{ textAlign: 'center' }}>
-          <Typography variant="h3" component="h3">
+          <Typography
+            variant="h3"
+            component="h3"
+            sx={{
+              fontSize: { xs: 22, sm: 34, md: 34, lg: 50 },
+            }}
+          >
             {t('Something went wrong')}...
           </Typography>
         </Grid>
