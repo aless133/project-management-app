@@ -11,6 +11,7 @@ import {
   MenuItem,
   useScrollTrigger,
   SvgIcon,
+  TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,11 +24,48 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { selectUser, selectIsLogged } from 'store/userSlice';
+import { selectUser } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
-import { Constants } from 'utils';
+import { Constants, validateMaxLength, validateMinLength } from 'utils';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { clearUser } from 'store/userSlice';
+import { ModalWindow } from '../UI/ModalWindow';
+import { TErr, TValidator } from 'types';
+import { setCreateBoardError, setMinMaxLengthError } from 'utils/helpers';
+
+// const validator: TValidator = {
+//   [Constants.BOARD_TITLE]: [
+//     validateMinLength(Constants.MIN_LENGTH),
+//     validateMaxLength(Constants.MAX_LENGTH),
+//   ],
+//   [Constants.BOARD_DESCRIPTION]: [
+//     validateMinLength(Constants.MIN_LENGTH),
+//     validateMaxLength(Constants.MAX_LENGTH),
+//   ],
+// };
+
+// const err: TErr = {
+//   [Constants.BOARD_TITLE]: '',
+//   [Constants.BOARD_DESCRIPTION]: '',
+// };
+
+const validator: TValidator = {
+  [Constants.NAME]: [
+    validateMinLength(Constants.MIN_LENGTH),
+    validateMaxLength(Constants.MAX_LENGTH),
+  ],
+  [Constants.LOGIN]: [
+    validateMinLength(Constants.MIN_LENGTH),
+    validateMaxLength(Constants.MAX_LENGTH),
+  ],
+  [Constants.PASSWORD]: [validateMinLength(Constants.PASSWORD_LENGTH)],
+};
+
+const err: TErr = {
+  [Constants.NAME]: '',
+  [Constants.LOGIN]: '',
+  [Constants.PASSWORD]: '',
+};
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
@@ -38,7 +76,8 @@ export const Header = () => {
   const trigger1 = useScrollTrigger({ disableHysteresis: true, threshold: 120 });
   const [headerMinHeight, setHMH] = useState(64);
 
-  const isAuth = useStoreSelector(selectIsLogged);
+  // const isAuth = useStoreSelector(selectIsLogged);
+  const isAuth = true;
   const user = useStoreSelector(selectUser);
   const dispatch = useStoreDispatch();
 
@@ -47,8 +86,35 @@ export const Header = () => {
     else if (!trigger0) setHMH(64);
   }, [trigger0, trigger1]);
 
-  const openBoardModal = () => {
-    // TO DO add function for open modal window
+  // const openBoardModal = () => {
+  //   // TO DO add function for open modal window
+  // };
+
+  const [open, setOpen] = useState(false);
+  const handleClickOpenModal = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+
+  const [errStack, setErrStack] = useState<TErr>(err);
+
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { name, value } = e.target;
+    if (typeof value === 'string') {
+      err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
+      setErrStack(err);
+    }
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    for (const [name, value] of formData.entries()) {
+      console.log(name, value);
+    }
   };
 
   const openExitModal = () => {
@@ -108,7 +174,10 @@ export const Header = () => {
                 </Button>
               </Box>
               <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
-                <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={openBoardModal}>
+                <Button
+                  sx={{ color: 'secondary.main', fontSize: 14 }}
+                  onClick={handleClickOpenModal}
+                >
                   <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                   {t('Create Board')}
                 </Button>
@@ -220,7 +289,10 @@ export const Header = () => {
                   disableScrollLock={true}
                 >
                   <MenuItem onClick={handleClose}>
-                    <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={openBoardModal}>
+                    <Button
+                      sx={{ color: 'secondary', fontSize: 14 }}
+                      onClick={handleClickOpenModal}
+                    >
                       <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                       {t('Create Board')}
                     </Button>
@@ -274,6 +346,45 @@ export const Header = () => {
                   </MenuItem>
                 </Menu>
               </Box>
+
+              <ModalWindow onClose={handleCloseModal} open={open} title="Create Board">
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    error={!!errStack.name}
+                    name={Constants.NAME}
+                    fullWidth
+                    label={t('Name')}
+                    defaultValue=""
+                    helperText={setMinMaxLengthError(errStack.name)}
+                    onChange={handleInputChange}
+                    margin="normal"
+                  />
+                  {/* <TextField
+                    name={Constants.BOARD_TITLE}
+                    fullWidth
+                    label={t('Title')}
+                    error={!!errStack.boardTitle}
+                    helperText={setMinMaxLengthError(errStack.boardTitle)}
+                    defaultValue=""
+                    onChange={handleInputChange}
+                    margin="normal"
+                  />
+
+                  <TextField
+                    name={Constants.BOARD_DESCRIPTION}
+                    fullWidth
+                    label={t('Description')}
+                    error={!!errStack.boardDescription}
+                    defaultValue=""
+                    onChange={handleInputChange}
+                    helperText={setMinMaxLengthError(errStack.boardDescription)}
+                    margin="normal"
+                  /> */}
+                  <Button type="submit" variant="contained" fullWidth size="large" sx={{ mt: 2 }}>
+                    {t('Create Board')}
+                  </Button>
+                </form>
+              </ModalWindow>
             </>
           ) : (
             <>
