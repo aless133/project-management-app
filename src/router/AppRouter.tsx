@@ -8,7 +8,6 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useCheckToken } from 'hooks/checkToken';
 import { ErrorPage } from 'pages/ErrorPage';
-import { Constants } from 'utils';
 
 const AppRouter = () => {
   useCheckToken();
