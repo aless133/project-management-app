@@ -12,4 +12,7 @@ export enum Constants {
   ACCOUNT = '/account',
   MAIN = '/main',
   HOME = '/',
+  //errors text
+  ERROR_TEXT = 'Something went wrong',
+  NOT_FOUND_TEXT = 'Sorry, page not found',
 }

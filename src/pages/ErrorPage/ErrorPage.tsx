@@ -6,12 +6,18 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Constants } from 'utils';
 
-export const ErrorPage = () => {
+export const ErrorPage = ({ text = Constants.NOT_FOUND_TEXT }) => {
   const { t } = useTranslation();
 
   return (
     <Container maxWidth="xl" sx={{ height: '100%' }}>
-      <Grid2 container rowGap={4} justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
+      <Grid2
+        container
+        rowGap={4}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ mt: 15, flexGrow: 1 }}
+      >
         <Grid item xl={8} sx={{ textAlign: 'center' }}>
           <Typography
             variant="h3"
@@ -20,7 +26,7 @@ export const ErrorPage = () => {
               fontSize: { xs: 22, sm: 34, md: 34, lg: 50 },
             }}
           >
-            {t('Something went wrong')}...
+            {t(text)}...
           </Typography>
         </Grid>
         <Grid item xl={4}>

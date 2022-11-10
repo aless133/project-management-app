@@ -1,5 +1,6 @@
 import { ErrorPage } from 'pages/ErrorPage';
 import React, { Component, ReactNode } from 'react';
+import { Constants } from 'utils';
 
 interface Props {
   children?: ReactNode;
@@ -18,7 +19,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <ErrorPage />;
+      return <ErrorPage text={Constants.ERROR_TEXT} />;
     }
 
     return this.props.children;
