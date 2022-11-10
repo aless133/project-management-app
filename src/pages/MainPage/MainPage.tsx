@@ -10,12 +10,12 @@ import { useCheckAccess } from 'hooks/checkAccess';
 import { useGetUserBoardsQuery } from 'api/boardsApiSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
-import { Constants } from 'utils';
+// import { Constants } from 'utils';
 
 export const MainPage = () => {
   const user = useStoreSelector(selectUser);
   useCheckAccess('user');
-  const { data: boards, error, isLoading } = useGetUserBoardsQuery(user.id as string);
+  const { data: boards /*, error, isLoading*/ } = useGetUserBoardsQuery(user.id as string);
   return (
     <main>
       <Container maxWidth="xl">
