@@ -10,7 +10,7 @@ export const ErrorPage = ({ text = 'Sorry, page not found' }) => {
   const { t } = useTranslation();
 
   return (
-    <Container maxWidth="xl" sx={{ height: '100%', flexGrow: 1 }}>
+    <main>
       <Grid2 container rowGap={4} justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
         <Grid item xl={8} sx={{ textAlign: 'center' }}>
           <Typography
@@ -41,6 +41,6 @@ export const ErrorPage = ({ text = 'Sorry, page not found' }) => {
           </Button>
         </Grid>
       </Grid2>
-    </Container>
+    </main>
   );
 };
