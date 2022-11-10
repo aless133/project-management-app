@@ -7,9 +7,11 @@ import { WelcomePage } from 'pages/WelcomePage';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useCheckToken } from 'hooks/checkToken';
+import { ErrorPage } from 'pages/ErrorPage';
 
 const AppRouter = () => {
   useCheckToken();
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -18,6 +20,7 @@ const AppRouter = () => {
         <Route path="signup" element={<SignUpPage />} />
         <Route path="account" element={<AccountPage />} />
         <Route path="main" element={<MainPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>
   );
