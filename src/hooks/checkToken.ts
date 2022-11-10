@@ -10,6 +10,7 @@ export const useCheckToken = () => {
   const dispatch = useStoreDispatch();
   useEffect(() => {
     if (!user.isChecked && user.token) {
+      setChecking(true);
       trigger(user.id)
         .then((d) => {
           dispatch(updateUser({ name: d.data.name, isLogged: true, isChecked: true }));
