@@ -3,8 +3,16 @@ export interface IUser {
   name?: string;
   login?: string;
   token?: string;
-  isLogged?: boolean;
   exp: number;
+  isLogged?: boolean;
+  isChecked: true;
+}
+
+export interface IBoard {
+  _id: string;
+  title: string;
+  owner: string;
+  users: string[];
 }
 
 export interface IStoreState {

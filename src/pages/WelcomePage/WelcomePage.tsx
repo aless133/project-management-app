@@ -65,7 +65,7 @@ export const WelcomePage = () => {
                     sx={{
                       textAlign: { xs: 'center', sm: 'center', md: 'start', lg: 'start' },
                       fontWeight: 800,
-                      fontSize: { xs: 22, sm: 40, md: 40, lg: 52 },
+                      fontSize: { xs: 22, sm: 34, md: 34, lg: 50 },
                     }}
                   >
                     {t('Project Management')}
@@ -80,7 +80,7 @@ export const WelcomePage = () => {
                       color: 'gray',
                       textAlign: { xs: 'center', sm: 'center', md: 'start', lg: 'start' },
                       fontWeight: 400,
-                      fontSize: { xs: 20, sm: 20, md: 26, lg: 30 },
+                      fontSize: { xs: 16, sm: 18, md: 22, lg: 30 },
                     }}
                   >
                     {t(
@@ -99,8 +99,8 @@ export const WelcomePage = () => {
                   <Button
                     variant="contained"
                     sx={{
-                      width: { xs: 200, sm: 200, md: 260, lg: 300 },
-                      height: { xs: 50, sm: 50, md: 56, lg: 60 },
+                      width: { xs: 200, sm: 200, md: 200, lg: 300 },
+                      height: { xs: 50, sm: 50, md: 50, lg: 60 },
                       borderRadius: 22,
                       backgroundColor: '#ff7961',
                       fontSize: { xs: 18, sm: 18, md: 20, lg: 22 },
@@ -120,7 +120,7 @@ export const WelcomePage = () => {
                   sx={{
                     width: '100%',
                     minHeight: { xs: 200, sm: 300, md: 400, lg: 400 },
-                    backgroundImage: 'url(./board-1.svg)',
+                    backgroundImage: 'url(./board-1.png)',
                     backgroundSize: 'contain',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
@@ -141,7 +141,7 @@ export const WelcomePage = () => {
                   variant="h2"
                   component="h2"
                   color="primary.main"
-                  sx={{ fontWeight: 800, fontSize: { xs: 30, sm: 40, md: 40, lg: 50 } }}
+                  sx={{ fontWeight: 800, fontSize: { xs: 22, sm: 34, md: 34, lg: 50 } }}
                 >
                   {t('Our Team')}
                 </Typography>
