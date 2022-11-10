@@ -1,5 +1,5 @@
 import React from 'react';
 
 export const AccountPage = () => {
-  return <div>AccountPage</div>;
+  return <main>AccountPage</main>;
 };
