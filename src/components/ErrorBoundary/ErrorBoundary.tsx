@@ -19,7 +19,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <ErrorPage text={Constants.ERROR_TEXT} />;
+      return <ErrorPage text="Something went wrong" />;
     }
 
     return this.props.children;
