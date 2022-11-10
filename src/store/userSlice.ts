@@ -1,12 +1,13 @@
 import { createSlice, Middleware } from '@reduxjs/toolkit';
 import { IStoreState } from 'types';
 
+const defaultUser = { isChecked: true };
 const userSlice = createSlice({
   name: 'user',
   initialState: () => {
     const ld = localStorage.getItem('userToken');
-    if (ld) return parseToken(ld);
-    return {};
+    if (ld) return { ...parseToken(ld), isLogged: false, isChecked: false };
+    return defaultUser;
   },
   reducers: {
     updateUser: (state, action) => {
@@ -16,13 +17,13 @@ const userSlice = createSlice({
       return { ...action.payload };
     },
     setToken: (state, action) => {
-      return { ...parseToken(action.payload) };
+      return { ...parseToken(action.payload), isLogged: false, isChecked: false };
     },
     setTokenLogged: (state, action) => {
-      return { ...parseToken(action.payload), isLogged: true };
+      return { ...parseToken(action.payload), isLogged: true, isChecked: true };
     },
     clearUser: () => {
-      return {};
+      return defaultUser;
     },
   },
 });

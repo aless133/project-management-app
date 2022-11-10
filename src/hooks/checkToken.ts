@@ -1,22 +1,29 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLazyGetUserQuery } from 'api/usersApiSlice';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
-import { clearUser, updateUser, selectIsLogged, selectUser } from 'store/userSlice';
+import { clearUser, updateUser, selectUser } from 'store/userSlice';
 
 export const useCheckToken = () => {
-  const isLogged = useStoreSelector(selectIsLogged);
+  const [isChecking, setChecking] = useState(true);
   const user = useStoreSelector(selectUser);
   const [trigger] = useLazyGetUserQuery();
   const dispatch = useStoreDispatch();
   useEffect(() => {
-    if (!isLogged && user.token) {
+    if (!user.isChecked && user.token) {
+      setChecking(true);
       trigger(user.id)
         .then((d) => {
-          dispatch(updateUser({ isLogged: true, name: d.data.name }));
+          dispatch(updateUser({ name: d.data.name, isLogged: true, isChecked: true }));
         })
         .catch(() => {
           dispatch(clearUser());
+        })
+        .finally(() => {
+          setChecking(false);
         });
+    } else {
+      setChecking(false);
     }
-  }, [trigger, dispatch, isLogged, user]);
+  }, [user, trigger, dispatch]);
+  return { isChecking };
 };
