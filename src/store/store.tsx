@@ -10,7 +10,8 @@ const store = configureStore({
     user: userReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userMiddleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userMiddleware).concat(apiSlice.middleware),
 });
 
 // export interface IStoreState = ReturnType<typeof store.getState>;
