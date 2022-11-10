@@ -177,4 +177,3 @@ export const FormSign = ({ isSignUp = true }) => {
     </main>
   );
 };
-
