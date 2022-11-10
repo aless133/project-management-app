@@ -20,7 +20,7 @@ const validator: TValidator = {
 };
 
 export const useFormSign = (isSignUp: boolean) => {
-  const [errStack, setErrStack] = useState<TErr | null>(null);
+  const [errStack, setErrStack] = useState<TErr | Record<string, string>>({});
   useCheckAccess('guest');
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
@@ -42,7 +42,7 @@ export const useFormSign = (isSignUp: boolean) => {
       }
     }
 
-    if (errStack !== null && !isErrCheck(errStack)) {
+    if (!isErrCheck(errStack)) {
       const data = Object.fromEntries(formData.entries());
       if (isSignUp) {
         try {

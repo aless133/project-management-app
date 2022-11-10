@@ -18,7 +18,7 @@ export const FormSign = ({ isSignUp = true }) => {
   // if (navigated) return null;
 
   useEffect(() => {
-    if (inValid === null || errStack === null || !isErrCheck(errStack)) {
+    if (inValid === null || !isErrCheck(errStack)) {
       setInValid(false);
     } else {
       setInValid(true);
@@ -36,31 +36,31 @@ export const FormSign = ({ isSignUp = true }) => {
               </Typography>
               {isSignUp && (
                 <TextField
-                  error={errStack !== null && !!errStack.name}
+                  error={!!errStack.name}
                   name="name"
                   fullWidth
                   label={t('Name')}
                   defaultValue=""
-                  helperText={errStack !== null && setMinMaxLengthError(errStack.name)}
+                  helperText={setMinMaxLengthError(errStack.name)}
                   margin="normal"
                 />
               )}
               <TextField
-                error={errStack !== null && !!errStack.login}
+                error={!!errStack.login}
                 name="login"
                 fullWidth
                 label={t('Login')}
                 defaultValue=""
-                helperText={errStack !== null && setMinMaxLengthError(errStack.login)}
+                helperText={setMinMaxLengthError(errStack.login)}
                 margin="normal"
               />
               <TextField
-                error={errStack !== null && !!errStack.password}
+                error={!!errStack.password}
                 name="password"
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={errStack !== null && setMinMaxLengthError(errStack.password)}
+                helperText={setMinMaxLengthError(errStack.password)}
                 margin="normal"
                 type="password"
               />
