@@ -24,10 +24,13 @@ export const useFormSign = (isSignUp: boolean) => {
   const [errStack, setErrStack] = useState<TErr | Record<string, string>>({});
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
-  const [updateUserDB] = useUpdateUserMutation();
+  const [updateUserDB, { isLoading: isUpdateLoading }] = useUpdateUserMutation();
   const dispatch = useStoreDispatch();
 
   //TODO
+  const isSignInLoad = isSigninLoading;
+  const isSignUpLoad = isSignupLoading;
+  const isUpdateLoad = isUpdateLoading;
   const { id } = useStoreSelector(selectUser);
 
   const validateStack = (name: string, value: string) => {
@@ -100,5 +103,8 @@ export const useFormSign = (isSignUp: boolean) => {
     handleSubmitProfile,
     handleChange,
     t,
+    isSignInLoad,
+    isSignUpLoad,
+    isUpdateLoad,
   };
 };

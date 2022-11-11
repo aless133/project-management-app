@@ -4,19 +4,19 @@ import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
 import Container from '@mui/system/Container';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { clearUser, selectUser } from 'store/userSlice';
 import { useDeleteUserMutation } from 'api/usersApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { Constants } from 'utils';
+import { LoadingButton } from '@mui/lab';
 
 export const AccountPage = () => {
-  const { errStack, t, handleChange, handleSubmitProfile } = useFormSign(false);
+  const { errStack, t, handleChange, handleSubmitProfile, isUpdateLoad } = useFormSign(false);
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
   const dispatch = useStoreDispatch();
-  const [deleteUser] = useDeleteUserMutation();
+  const [deleteUser, { isLoading: isDeleteLoad }] = useDeleteUserMutation();
   const navigate = useNavigate();
 
   //TODO Confirmation Modal
@@ -83,7 +83,8 @@ export const AccountPage = () => {
                 margin="normal"
                 type="password"
               />
-              <Button
+              <LoadingButton
+                loading={isUpdateLoad}
                 type="submit"
                 disabled={inValid}
                 variant="contained"
@@ -92,9 +93,10 @@ export const AccountPage = () => {
                 sx={{ mt: 2 }}
               >
                 {t('Save')}
-              </Button>
+              </LoadingButton>
             </form>
-            <Button
+            <LoadingButton
+              loading={isDeleteLoad}
               type="submit"
               color="error"
               disabled={inValid}
@@ -105,7 +107,7 @@ export const AccountPage = () => {
               onClick={() => id && handleDelete(id)}
             >
               {t('Delete account')}
-            </Button>
+            </LoadingButton>
           </Grid>
         </Grid>
       </Container>
