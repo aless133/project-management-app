@@ -60,7 +60,7 @@ export const AccountPage = () => {
                 fullWidth
                 label={t('Name')}
                 defaultValue={name || ''}
-                helperText={setMinMaxLengthError(errStack.name) || ' '}
+                helperText={setMinMaxLengthError(errStack.name)}
                 margin="normal"
               />
 
@@ -70,7 +70,7 @@ export const AccountPage = () => {
                 fullWidth
                 label={t('Login')}
                 defaultValue={login || ''}
-                helperText={setMinMaxLengthError(errStack.login) || ' '}
+                helperText={setMinMaxLengthError(errStack.login)}
                 margin="normal"
               />
               <TextField
@@ -79,7 +79,7 @@ export const AccountPage = () => {
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={setMinMaxLengthError(errStack.password) || ' '}
+                helperText={setMinMaxLengthError(errStack.password)}
                 margin="normal"
                 type="password"
               />

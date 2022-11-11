@@ -51,7 +51,7 @@ export const FormSign = ({ isSignUp = true }) => {
                   fullWidth
                   label={t('Name')}
                   defaultValue=""
-                  helperText={setMinMaxLengthError(errStack.name) || ' '}
+                  helperText={setMinMaxLengthError(errStack.name)}
                   margin="normal"
                 />
               )}
@@ -61,7 +61,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 fullWidth
                 label={t('Login')}
                 defaultValue=""
-                helperText={setMinMaxLengthError(errStack.login) || ' '}
+                helperText={setMinMaxLengthError(errStack.login)}
                 margin="normal"
               />
               <TextField
@@ -70,7 +70,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={setMinMaxLengthError(errStack.password) || ' '}
+                helperText={setMinMaxLengthError(errStack.password)}
                 margin="normal"
                 type="password"
               />

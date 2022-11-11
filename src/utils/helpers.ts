@@ -25,7 +25,7 @@ export const setMinMaxLengthError = (len: string): string => {
   } else if (len === Constants.MAX_LENGTH) {
     return i18next.t('can not be larger than {{len}} characters', { len });
   }
-  return '';
+  return ' ';
 };
 
 export const setCreateTitleError = (len: string): string => {
