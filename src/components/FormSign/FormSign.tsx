@@ -8,12 +8,14 @@ import { Link } from 'react-router-dom';
 import { Constants, isErrCheck } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
-import styles from './formsign.module.scss';
+import { useCheckAccess } from 'hooks/checkAccess';
 
 export const FormSign = ({ isSignUp = true }) => {
   const { errStack, isSigninLoading, isSignupLoading, handleSubmit, handleChange, t } =
     useFormSign(isSignUp);
   const [inValid, setInValid] = useState<boolean | null>(null);
+
+  useCheckAccess('guest');
 
   // if (navigated) return null;
 
@@ -26,7 +28,7 @@ export const FormSign = ({ isSignUp = true }) => {
   }, [errStack, inValid]);
 
   return (
-    <main className={styles.form_sign}>
+    <main style={{ display: 'flex', alignItems: 'center' }}>
       <Container maxWidth="xl" sx={{ height: '100%' }}>
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
@@ -41,7 +43,7 @@ export const FormSign = ({ isSignUp = true }) => {
                   fullWidth
                   label={t('Name')}
                   defaultValue=""
-                  helperText={setMinMaxLengthError(errStack.name)}
+                  helperText={setMinMaxLengthError(errStack.name) || ' '}
                   margin="normal"
                 />
               )}
@@ -51,7 +53,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 fullWidth
                 label={t('Login')}
                 defaultValue=""
-                helperText={setMinMaxLengthError(errStack.login)}
+                helperText={setMinMaxLengthError(errStack.login) || ' '}
                 margin="normal"
               />
               <TextField
@@ -60,7 +62,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 fullWidth
                 label={t('Password')}
                 defaultValue=""
-                helperText={setMinMaxLengthError(errStack.password)}
+                helperText={setMinMaxLengthError(errStack.password) || ' '}
                 margin="normal"
                 type="password"
               />

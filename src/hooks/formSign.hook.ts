@@ -1,9 +1,8 @@
-import { setToken, setTokenLogged } from 'store/userSlice';
-import { useCheckAccess } from 'hooks/checkAccess';
+import { selectUser, setToken, setTokenLogged } from 'store/userSlice';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
 import { TErr, TValidator, IApiError } from 'types';
-import { useStoreDispatch } from 'hooks/store.hooks';
+import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState } from 'react';
 
@@ -21,11 +20,13 @@ const validator: TValidator = {
 
 export const useFormSign = (isSignUp: boolean) => {
   const [errStack, setErrStack] = useState<TErr | Record<string, string>>({});
-  useCheckAccess('guest');
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const dispatch = useStoreDispatch();
   const [t] = useTranslation();
+
+  //TODO
+  const { id } = useStoreSelector(selectUser);
 
   const validateStack = (name: string, value: string) => {
     err[name] = validator[name].reduce((acc, fn) => acc + fn(value), '');
@@ -42,7 +43,7 @@ export const useFormSign = (isSignUp: boolean) => {
       }
     }
 
-    if (!isErrCheck(errStack)) {
+    if (!isErrCheck(err)) {
       const data = Object.fromEntries(formData.entries());
       if (isSignUp) {
         try {
@@ -73,11 +74,29 @@ export const useFormSign = (isSignUp: boolean) => {
     setErrStack(validateStack(name, value));
   };
 
+  const handleSubmitProfile: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    for (const [name, value] of formData.entries()) {
+      if (typeof value === 'string') {
+        setErrStack(validateStack(name, value));
+      }
+    }
+
+    if (!isErrCheck(err)) {
+      //TODO
+      const data = Object.fromEntries(formData.entries());
+      const req = { id, ...data };
+      console.log(req);
+    }
+  };
+
   return {
     errStack,
     isSigninLoading,
     isSignupLoading,
     handleSubmit,
+    handleSubmitProfile,
     handleChange,
     t,
   };
