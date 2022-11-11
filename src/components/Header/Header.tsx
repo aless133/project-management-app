@@ -23,34 +23,46 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { selectUser } from 'store/userSlice';
+import { selectIsLogged, selectUser } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { Constants } from 'utils';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { clearUser } from 'store/userSlice';
 import { BoardModal } from 'components/BoardModal';
 
+enum HeaderConstants {
+  START_TRIGGER = '100',
+  FINISH_TRIGGER = '120',
+  MIN_HEIGHT = '50',
+  MAX_HEIGHT = '64',
+}
+
 export const Header = () => {
   const [lang, setLang] = useState(true);
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const trigger0 = useScrollTrigger({ disableHysteresis: true, threshold: 100 });
-  const trigger1 = useScrollTrigger({ disableHysteresis: true, threshold: 120 });
-  const [headerMinHeight, setHMH] = useState(64);
+  const trigger0 = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: +HeaderConstants.START_TRIGGER,
+  });
+  const trigger1 = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: +HeaderConstants.FINISH_TRIGGER,
+  });
+  const [headerMinHeight, setHMH] = useState(+HeaderConstants.MAX_HEIGHT);
 
-  // const isAuth = useStoreSelector(selectIsLogged);
-  const isAuth = true;
+  const isAuth = useStoreSelector(selectIsLogged);
   const user = useStoreSelector(selectUser);
   const dispatch = useStoreDispatch();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   useEffect(() => {
-    if (trigger1) setHMH(50);
-    else if (!trigger0) setHMH(64);
+    if (trigger1) setHMH(+HeaderConstants.MIN_HEIGHT);
+    else if (!trigger0) setHMH(+HeaderConstants.MAX_HEIGHT);
   }, [trigger0, trigger1]);
 
-  const handleClickOpenModal = () => {
+  const handleOpenBoardModal = () => {
     setOpenModal(true);
   };
 
@@ -118,7 +130,7 @@ export const Header = () => {
               <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
                 <Button
                   sx={{ color: 'secondary.main', fontSize: 14 }}
-                  onClick={handleClickOpenModal}
+                  onClick={handleOpenBoardModal}
                 >
                   <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                   {t('Create Board')}
@@ -130,6 +142,7 @@ export const Header = () => {
                   display: { xs: 'none', md: 'flex', lb: 'flex' },
                   alignItems: 'center',
                   width: 420,
+                  fontSize: 14,
                 }}
               >
                 <FormGroup>
@@ -233,7 +246,7 @@ export const Header = () => {
                   <MenuItem onClick={handleClose}>
                     <Button
                       sx={{ color: 'secondary', fontSize: 14 }}
-                      onClick={handleClickOpenModal}
+                      onClick={handleOpenBoardModal}
                     >
                       <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                       {t('Create Board')}
@@ -288,42 +301,6 @@ export const Header = () => {
                   </MenuItem>
                 </Menu>
               </Box>
-
-              {/* <ModalWindow onClose={handleCloseModal} open={open} title="Create Board">
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    name={Constants.BOARD_TITLE}
-                    fullWidth
-                    label={t('Title')}
-                    error={!!errStack.boardTitle}
-                    helperText={setCreateTitleError(errStack.boardTitle)}
-                    defaultValue=""
-                    onChange={handleInputChange}
-                    margin="normal"
-                  /> */}
-
-              {/* <TextField
-                    name={Constants.BOARD_DESCRIPTION}
-                    fullWidth
-                    label={t('Description')}
-                    error={!!errStack.boardDescription}
-                    defaultValue=""
-                    onChange={handleInputChange}
-                    helperText={setCreateRequiredError(errStack.boardDescription)}
-                    margin="normal"
-                  />
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    size="large"
-                    disabled={isDisabledSubmitBtn}
-                    sx={{ mt: 2 }}
-                  >
-                    {t('Create Board')}
-                  </Button>
-                </form>
-              </ModalWindow> */}
             </>
           ) : (
             <>

@@ -15,7 +15,7 @@ export interface ModalWindowProps {
 
 const WrapperTheme = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
 }));
 

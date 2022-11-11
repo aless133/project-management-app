@@ -1,4 +1,5 @@
 import { Button, TextField } from '@mui/material';
+// import { useCreateBoardMutation } from 'api/boardsApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
 import React, { useState, FC } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,19 +21,21 @@ const validator: TValidator = {
   [Constants.BOARD_DESCRIPTION]: [validateMinLength(Constants.MIN_LENGTH)],
 };
 
+const err: TErr = {
+  [Constants.BOARD_TITLE]: '',
+  [Constants.BOARD_DESCRIPTION]: '',
+};
+
 interface BoardModalProps {
   openModal: boolean;
   closeModal: () => void;
 }
 
 export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
-  const err: TErr = {
-    [Constants.BOARD_TITLE]: '',
-    [Constants.BOARD_DESCRIPTION]: '',
-  };
   const [errStack, setErrStack] = useState<TErr>(err);
   const [isDisabledSubmitBtn, setIsDisabledSubmitBtn] = useState<boolean>(false);
   const { t } = useTranslation();
+  // const [createBoard] = useCreateBoardMutation();
 
   const closeBoardModal = () => {
     setErrStack({
@@ -51,7 +54,7 @@ export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
       err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
       setErrStack({ ...err });
 
-      if (Object.values(err).every((err) => err === '')) {
+      if (Object.values(err).every((err) => !err)) {
         setIsDisabledSubmitBtn(false);
       } else {
         setIsDisabledSubmitBtn(true);
@@ -62,7 +65,6 @@ export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const { name, value } = e.target as HTMLInputElement;
     for (const [name, value] of formData.entries()) {
       if (typeof value === 'string') {
         err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
@@ -71,6 +73,8 @@ export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
     }
 
     if (Object.values(err).every((err) => err === '')) {
+      // const dataForm = Object.fromEntries(formData.entries());
+      // TO DO add POST method for create board
       closeBoardModal();
     } else {
       setIsDisabledSubmitBtn(true);
@@ -78,7 +82,7 @@ export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
   };
 
   return (
-    <ModalWindow onClose={closeBoardModal} open={openModal} title="Create Board">
+    <ModalWindow onClose={closeBoardModal} open={openModal} title={t('Create Board')}>
       <form onSubmit={handleSubmit} onChange={handleChange}>
         <TextField
           name={Constants.BOARD_TITLE}
