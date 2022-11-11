@@ -11,6 +11,7 @@ import {
   MenuItem,
   useScrollTrigger,
   SvgIcon,
+  Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -156,7 +157,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
@@ -214,7 +219,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
@@ -344,7 +353,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
@@ -396,7 +409,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
