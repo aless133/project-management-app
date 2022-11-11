@@ -5,6 +5,7 @@ import { TErr, TValidator, IApiError } from 'types';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState } from 'react';
+import { useUpdateUserMutation } from 'api/usersApiSlice';
 
 const err: TErr = {
   name: '',
@@ -19,11 +20,12 @@ const validator: TValidator = {
 };
 
 export const useFormSign = (isSignUp: boolean) => {
+  const [t] = useTranslation();
   const [errStack, setErrStack] = useState<TErr | Record<string, string>>({});
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
+  const [updateUser] = useUpdateUserMutation();
   const dispatch = useStoreDispatch();
-  const [t] = useTranslation();
 
   //TODO
   const { id } = useStoreSelector(selectUser);
@@ -83,11 +85,10 @@ export const useFormSign = (isSignUp: boolean) => {
       }
     }
 
-    if (!isErrCheck(err)) {
+    if (id && !isErrCheck(err)) {
       //TODO
       const data = Object.fromEntries(formData.entries());
-      const req = { id, ...data };
-      console.log(req);
+      updateUser({ id, data });
     }
   };
 
