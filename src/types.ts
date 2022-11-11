@@ -15,6 +15,15 @@ export interface IBoard {
   users: string[];
 }
 
+export interface UpdatedUser {
+  id: string;
+  data: Record<string, FormDataEntryValue>;
+}
+
+export interface NewUser {
+  data: { _id: string; name: string; login: string };
+}
+
 export interface IStoreState {
   user: IUser;
 }
