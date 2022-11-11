@@ -5,16 +5,19 @@ import { useFormSign } from 'hooks/formSign.hook';
 import Container from '@mui/system/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { useStoreSelector } from 'hooks/store.hooks';
-import { selectUser } from 'store/userSlice';
+import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
+import { clearUser, selectUser } from 'store/userSlice';
 import { useDeleteUserMutation } from 'api/usersApiSlice';
+import { useNavigate } from 'react-router-dom';
+import { Constants } from 'utils';
 
 export const AccountPage = () => {
   const { errStack, t, handleChange, handleSubmitProfile } = useFormSign(false);
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
-
+  const dispatch = useStoreDispatch();
   const [deleteUser] = useDeleteUserMutation();
+  const navigate = useNavigate();
 
   //TODO Confirmation Modal
   const handleDelete = async (id: string) => {
@@ -22,6 +25,8 @@ export const AccountPage = () => {
       return;
     }
     await deleteUser(id);
+    dispatch(clearUser());
+    navigate(Constants.MAIN, { replace: true });
   };
 
   useEffect(() => {
@@ -54,7 +59,7 @@ export const AccountPage = () => {
                 name="name"
                 fullWidth
                 label={t('Name')}
-                defaultValue={name}
+                defaultValue={name || ''}
                 helperText={setMinMaxLengthError(errStack.name) || ' '}
                 margin="normal"
               />
@@ -64,7 +69,7 @@ export const AccountPage = () => {
                 name="login"
                 fullWidth
                 label={t('Login')}
-                defaultValue={login}
+                defaultValue={login || ''}
                 helperText={setMinMaxLengthError(errStack.login) || ' '}
                 margin="normal"
               />

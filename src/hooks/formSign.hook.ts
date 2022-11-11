@@ -1,4 +1,4 @@
-import { selectUser, setToken, setTokenLogged } from 'store/userSlice';
+import { selectUser, setToken, setTokenLogged, updateUser } from 'store/userSlice';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
 import { TErr, TValidator, IApiError } from 'types';
@@ -24,7 +24,7 @@ export const useFormSign = (isSignUp: boolean) => {
   const [errStack, setErrStack] = useState<TErr | Record<string, string>>({});
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUserDB] = useUpdateUserMutation();
   const dispatch = useStoreDispatch();
 
   //TODO
@@ -86,9 +86,9 @@ export const useFormSign = (isSignUp: boolean) => {
     }
 
     if (id && !isErrCheck(err)) {
-      //TODO
       const data = Object.fromEntries(formData.entries());
-      updateUser({ id, data });
+      const newUser = await updateUserDB({ id, data }).unwrap();
+      dispatch(updateUser({ ...newUser }));
     }
   };
 

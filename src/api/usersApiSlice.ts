@@ -1,4 +1,4 @@
-import { UpdateIUser } from 'types';
+import { NewUser, UpdatedUser } from 'types';
 import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
@@ -6,8 +6,8 @@ const extendedApiSlice = apiSlice.injectEndpoints({
     getUser: builder.query({
       query: (id) => `/users/${id}`,
     }),
-    updateUser: builder.mutation({
-      query: ({ id, data }: UpdateIUser) => ({
+    updateUser: builder.mutation<NewUser, UpdatedUser>({
+      query: ({ id, data }) => ({
         url: `/users/${id}`,
         method: 'PUT',
         body: data,
