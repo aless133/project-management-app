@@ -40,8 +40,8 @@ export function ModalWindow(props: ModalWindowProps) {
             <CloseIcon />
           </IconButton>
         ) : null}
-        <DialogContent>{children}</DialogContent>
       </DialogTitle>
+      <DialogContent onClick={(e) => e.stopPropagation()}>{children}</DialogContent>
     </WrapperTheme>
   );
 }

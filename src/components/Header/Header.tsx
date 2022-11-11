@@ -32,8 +32,8 @@ import { clearUser } from 'store/userSlice';
 import { BoardModal } from 'components/BoardModal';
 
 enum HeaderConstants {
-  START_TRIGGER = '100',
-  FINISH_TRIGGER = '120',
+  START_TRIGGER = '120',
+  FINISH_TRIGGER = '100',
   MIN_HEIGHT = '50',
   MAX_HEIGHT = '64',
 }
@@ -45,11 +45,11 @@ export const Header = () => {
 
   const trigger0 = useScrollTrigger({
     disableHysteresis: true,
-    threshold: +HeaderConstants.START_TRIGGER,
+    threshold: +HeaderConstants.FINISH_TRIGGER,
   });
   const trigger1 = useScrollTrigger({
     disableHysteresis: true,
-    threshold: +HeaderConstants.FINISH_TRIGGER,
+    threshold: +HeaderConstants.START_TRIGGER,
   });
   const [headerMinHeight, setHMH] = useState(+HeaderConstants.MAX_HEIGHT);
 
