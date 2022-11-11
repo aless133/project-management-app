@@ -7,14 +7,21 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
+import { useDeleteUserMutation } from 'api/usersApiSlice';
 
 export const AccountPage = () => {
   const { errStack, t, handleChange, handleSubmitProfile } = useFormSign(false);
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
 
-  const handleDelete = () => {
-    console.log({ id });
+  const [deleteUser] = useDeleteUserMutation();
+
+  //TODO Confirmation Modal
+  const handleDelete = async (id: string) => {
+    if (!id) {
+      return;
+    }
+    await deleteUser(id);
   };
 
   useEffect(() => {
@@ -36,7 +43,7 @@ export const AccountPage = () => {
                 component="h2"
                 align="center"
                 sx={{
-                  fontSize: { xs: 22, sm: 34, md: 34, lg: 50 },
+                  fontSize: { xs: 22, sm: 34, md: 34, lg: 40 },
                   mt: { xs: 5 },
                 }}
               >
@@ -90,7 +97,7 @@ export const AccountPage = () => {
               fullWidth
               size="large"
               sx={{ mt: 2 }}
-              onClick={handleDelete}
+              onClick={() => id && handleDelete(id)}
             >
               {t('Delete account')}
             </Button>
