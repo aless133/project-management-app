@@ -24,5 +24,8 @@
   "Get started": "Начать",
   "Back to Home": "На главную",
   "Something went wrong": "Что-то пошло не так",
-  "Sorry, page not found": "Страница не найдена"
+  "Sorry, page not found": "Страница не найдена",
+  "Title": "Название",
+  "Description": "Описание",
+  "This field is required": "Это обязательное поле"
 }

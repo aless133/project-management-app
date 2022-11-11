@@ -11,6 +11,7 @@ import {
   MenuItem,
   useScrollTrigger,
   SvgIcon,
+  Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,32 +24,51 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { selectUser, selectIsLogged } from 'store/userSlice';
+import { selectIsLogged, selectUser } from 'store/userSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { Constants } from 'utils';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { clearUser } from 'store/userSlice';
+import { BoardModal } from 'components/BoardModal';
+
+enum HeaderConstants {
+  START_TRIGGER = '120',
+  FINISH_TRIGGER = '100',
+  MIN_HEIGHT = '50',
+  MAX_HEIGHT = '64',
+}
 
 export const Header = () => {
   const [lang, setLang] = useState(true);
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const trigger0 = useScrollTrigger({ disableHysteresis: true, threshold: 100 });
-  const trigger1 = useScrollTrigger({ disableHysteresis: true, threshold: 120 });
-  const [headerMinHeight, setHMH] = useState(64);
+  const trigger0 = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: +HeaderConstants.FINISH_TRIGGER,
+  });
+  const trigger1 = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: +HeaderConstants.START_TRIGGER,
+  });
+  const [headerMinHeight, setHMH] = useState(+HeaderConstants.MAX_HEIGHT);
 
   const isAuth = useStoreSelector(selectIsLogged);
   const user = useStoreSelector(selectUser);
   const dispatch = useStoreDispatch();
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   useEffect(() => {
-    if (trigger1) setHMH(50);
-    else if (!trigger0) setHMH(64);
+    if (trigger1) setHMH(+HeaderConstants.MIN_HEIGHT);
+    else if (!trigger0) setHMH(+HeaderConstants.MAX_HEIGHT);
   }, [trigger0, trigger1]);
 
-  const openBoardModal = () => {
-    // TO DO add function for open modal window
+  const handleOpenBoardModal = () => {
+    setOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setOpenModal(false);
   };
 
   const openExitModal = () => {
@@ -86,6 +106,7 @@ export const Header = () => {
         >
           {isAuth ? (
             <>
+              <BoardModal openModal={openModal} closeModal={closeModal} />
               <Box>
                 <Button
                   component={NavLink}
@@ -108,7 +129,10 @@ export const Header = () => {
                 </Button>
               </Box>
               <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
-                <Button sx={{ color: 'secondary.main', fontSize: 14 }} onClick={openBoardModal}>
+                <Button
+                  sx={{ color: 'secondary.main', fontSize: 14 }}
+                  onClick={handleOpenBoardModal}
+                >
                   <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                   {t('Create Board')}
                 </Button>
@@ -119,6 +143,7 @@ export const Header = () => {
                   display: { xs: 'none', md: 'flex', lb: 'flex' },
                   alignItems: 'center',
                   width: 420,
+                  fontSize: 14,
                 }}
               >
                 <FormGroup>
@@ -132,7 +157,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
@@ -190,7 +219,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
@@ -220,7 +253,10 @@ export const Header = () => {
                   disableScrollLock={true}
                 >
                   <MenuItem onClick={handleClose}>
-                    <Button sx={{ color: 'secondary', fontSize: 14 }} onClick={openBoardModal}>
+                    <Button
+                      sx={{ color: 'secondary', fontSize: 14 }}
+                      onClick={handleOpenBoardModal}
+                    >
                       <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
                       {t('Create Board')}
                     </Button>
@@ -317,7 +353,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
@@ -369,7 +409,11 @@ export const Header = () => {
                         aria-label="login switch"
                       />
                     }
-                    label={lang ? 'EN' : 'RU'}
+                    label={
+                      <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
+                        {lang ? 'EN' : 'RU'}
+                      </Typography>
+                    }
                   />
                 </FormGroup>
 
