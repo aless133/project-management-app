@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import { useCreateBoardMutation } from 'api/boardsApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
 import { useStoreSelector } from 'hooks/store.hooks';
@@ -9,6 +9,7 @@ import { TErr, TValidator } from 'types';
 import { IBoard } from 'types/boardTypes';
 import { Constants } from 'utils';
 import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'utils/helpers';
+import { LoadingButton } from '@mui/lab';
 
 const validator: TValidator = {
   [Constants.BOARD_TITLE]: [
@@ -42,6 +43,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
   const { id } = useStoreSelector(selectUser);
   const [createBoard] = useCreateBoardMutation();
   const [value, setValue] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const clearForm = () => {
     setErrStack({
@@ -89,6 +91,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
           owner: id as string,
           users: [],
         };
+        setIsLoading(true);
         const answer = await createBoard(data).unwrap();
         if (answer?._id) {
           openAlertSuccess();
@@ -96,6 +99,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
       } catch (err) {
         openAlertError();
       } finally {
+        setIsLoading(false);
         closeBoardModal();
       }
     } else {
@@ -118,7 +122,8 @@ export const BoardModal: FC<IBoardModalProps> = ({
           helperText={setCreateTitleError(errStack.boardTitle)}
           margin="normal"
         />
-        <Button
+        <LoadingButton
+          loading={isLoading}
           type="submit"
           variant="contained"
           fullWidth
@@ -127,7 +132,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
           sx={{ mt: 2 }}
         >
           {t('Create Board')}
-        </Button>
+        </LoadingButton>
       </form>
     </ModalWindow>
   );
