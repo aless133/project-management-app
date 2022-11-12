@@ -15,13 +15,14 @@ export interface IBoard {
   users: string[];
 }
 
-export interface UpdatedUser {
+export interface IUpdatedUser {
   id: string;
   data: Record<string, FormDataEntryValue>;
 }
 
-export interface NewUser {
-  data: { _id: string; name: string; login: string };
+export interface INewUser {
+  data?: { _id: string; name: string; login: string };
+  error?: { status: string; originalStatus: number; data: string };
 }
 
 export interface IStoreState {

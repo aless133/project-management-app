@@ -9,14 +9,17 @@ import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { LoadingButton } from '@mui/lab';
+import { Notifyer } from 'components/UI/Notifyer';
 
 export const FormSign = ({ isSignUp = true }) => {
   const {
     errStack,
+    isFail,
     isSigninLoading,
     isSignupLoading,
     handleSubmit,
     handleChange,
+    handleCloseNotify,
     t,
     isSignInLoad,
     isSignUpLoad,
@@ -41,6 +44,12 @@ export const FormSign = ({ isSignUp = true }) => {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onSubmit={handleSubmit} onChange={handleChange}>
+              <Notifyer
+                open={isFail}
+                onclose={() => handleCloseNotify('error')}
+                text={errStack.submit || 'Something went wrong'}
+                type="error"
+              />
               <Typography variant="h3" component="h2" align="center">
                 {isSignUp ? t('Sign Up') : t('Sign In')}
               </Typography>
@@ -74,11 +83,11 @@ export const FormSign = ({ isSignUp = true }) => {
                 margin="normal"
                 type="password"
               />
-              {errStack && errStack.submit ? (
+              {/* {errStack && errStack.submit ? (
                 <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
                   {errStack.submit}
                 </Typography>
-              ) : null}
+              ) : null} */}
               <LoadingButton
                 loading={isSignUp ? isSignUpLoad : isSignInLoad}
                 type="submit"

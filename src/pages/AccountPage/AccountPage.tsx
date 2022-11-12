@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Typography } from '@mui/material';
-import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
-import { useFormSign } from 'hooks/formSign.hook';
 import Container from '@mui/system/Container';
 import Grid from '@mui/material/Grid';
-import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
-import { clearUser, selectUser } from 'store/userSlice';
-import { useDeleteUserMutation } from 'api/usersApiSlice';
-import { useNavigate } from 'react-router-dom';
-import { Constants } from 'utils';
 import { LoadingButton } from '@mui/lab';
+import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
+import { useStoreSelector } from 'hooks/store.hooks';
+import { useCheckAccess } from 'hooks/checkAccess';
+import { useFormSign } from 'hooks/formSign.hook';
+import { selectUser } from 'store/userSlice';
+import { Notifyer } from 'components/UI/Notifyer';
 
 export const AccountPage = () => {
-  const { errStack, t, handleChange, handleSubmitProfile, isUpdateLoad } = useFormSign(false);
+  const {
+    errStack,
+    t,
+    handleChange,
+    handleSubmitProfile,
+    isUpdateLoad,
+    isSuccess,
+    isDeleteLoad,
+    isFail,
+    handleCloseNotify,
+    handleDelete,
+  } = useFormSign(false);
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
-  const dispatch = useStoreDispatch();
-  const [deleteUser, { isLoading: isDeleteLoad }] = useDeleteUserMutation();
-  const navigate = useNavigate();
-
-  //TODO Confirmation Modal
-  const handleDelete = async (id: string) => {
-    if (!id) {
-      return;
-    }
-    await deleteUser(id);
-    dispatch(clearUser());
-    navigate(Constants.MAIN, { replace: true });
-  };
+  useCheckAccess('user');
 
   useEffect(() => {
     if (!isErrCheck(errStack)) {
@@ -43,6 +41,18 @@ export const AccountPage = () => {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onChange={handleChange} onSubmit={handleSubmitProfile}>
+              <Notifyer
+                open={isSuccess}
+                onclose={() => handleCloseNotify('success')}
+                text="Successfully"
+                type="success"
+              />
+              <Notifyer
+                open={isFail}
+                onclose={() => handleCloseNotify('error')}
+                text="Something went wrong"
+                type="error"
+              />
               <Typography
                 variant="h3"
                 component="h2"

@@ -26,8 +26,11 @@
   "RS School is free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013.": "RS School - это бесплатная образовательная программа на базе сообщества, проводимая сообществом разработчиков Rolling Scopes с 2013 года.",
   "Get started": "Начать",
   "Back to Home": "На главную",
+  "Successfully": "Успешно",
   "Something went wrong": "Что-то пошло не так",
   "Sorry, page not found": "Страница не найдена",
+  "Invalid token": "Истёк ключ",
+  "Login already exist": "Пользователь уже существует",
   "Title": "Название",
   "Description": "Описание",
   "This field is required": "Это обязательное поле"

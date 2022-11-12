@@ -1,11 +1,11 @@
-import { selectUser, setToken, setTokenLogged, updateUser } from 'store/userSlice';
+import { clearUser, selectUser, setToken, setTokenLogged, updateUser } from 'store/userSlice';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
-import { TErr, TValidator, IApiError } from 'types';
+import { TErr, TValidator, INewUser, IApiError } from 'types';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState } from 'react';
-import { useUpdateUserMutation } from 'api/usersApiSlice';
+import { useDeleteUserMutation, useUpdateUserMutation } from 'api/usersApiSlice';
 
 const err: TErr = {
   name: '',
@@ -25,6 +25,9 @@ export const useFormSign = (isSignUp: boolean) => {
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const [updateUserDB, { isLoading: isUpdateLoading }] = useUpdateUserMutation();
+  const [deleteUser, { isLoading: isDeleteLoad }] = useDeleteUserMutation();
+  const [isSuccess, setSuccess] = useState(false);
+  const [isFail, setFail] = useState(false);
   const dispatch = useStoreDispatch();
 
   //TODO
@@ -61,6 +64,7 @@ export const useFormSign = (isSignUp: boolean) => {
           dispatch(setTokenLogged(signinData.token));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });
+          setFail(true);
         }
       } else {
         try {
@@ -68,6 +72,7 @@ export const useFormSign = (isSignUp: boolean) => {
           dispatch(setToken(signinData.token));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });
+          setFail(true);
         }
       }
     }
@@ -82,17 +87,39 @@ export const useFormSign = (isSignUp: boolean) => {
   const handleSubmitProfile: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    for (const [name, value] of formData.entries()) {
-      if (typeof value === 'string') {
-        setErrStack(validateStack(name, value));
+    try {
+      for (const [name, value] of formData.entries()) {
+        if (typeof value === 'string') {
+          setErrStack(validateStack(name, value));
+        }
       }
-    }
 
-    if (id && !isErrCheck(err)) {
-      const data = Object.fromEntries(formData.entries());
-      const newUser = await updateUserDB({ id, data }).unwrap();
-      dispatch(updateUser({ ...newUser }));
+      if (!isErrCheck(err)) {
+        const data = Object.fromEntries(formData.entries());
+        const newUser = id && (await updateUserDB({ id, data }).unwrap());
+        dispatch(updateUser({ ...newUser }));
+        setSuccess(true);
+      }
+    } catch {
+      setFail(true);
     }
+  };
+
+  const handleDelete = async (id: string) => {
+    const resp = (await deleteUser(id)) as INewUser;
+    console.log(resp);
+    if (resp.error) {
+      setFail(true);
+      return;
+    }
+    dispatch(clearUser());
+  };
+
+  const handleCloseNotify = (msg: 'success' | 'error') => {
+    if (msg === 'success') {
+      setSuccess(false);
+    }
+    setFail(false);
   };
 
   return {
@@ -106,5 +133,10 @@ export const useFormSign = (isSignUp: boolean) => {
     isSignInLoad,
     isSignUpLoad,
     isUpdateLoad,
+    isDeleteLoad,
+    isSuccess,
+    isFail,
+    handleCloseNotify,
+    handleDelete,
   };
 };
