@@ -10,6 +10,7 @@ import { useFormSign } from 'hooks/formSign.hook';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { LoadingButton } from '@mui/lab';
 import { Notifyer } from 'components/UI/Notifyer';
+import { CircularProgress } from '@mui/material';
 
 export const FormSign = ({ isSignUp = true }) => {
   const {
@@ -90,6 +91,7 @@ export const FormSign = ({ isSignUp = true }) => {
               ) : null} */}
               <LoadingButton
                 loading={isSignUp ? isSignUpLoad : isSignInLoad}
+                loadingIndicator={<CircularProgress color="primary" size={25} />}
                 type="submit"
                 disabled={inValid || isSigninLoading || isSignupLoading}
                 variant="contained"

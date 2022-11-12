@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Typography } from '@mui/material';
+import { CircularProgress, TextField, Typography } from '@mui/material';
 import Container from '@mui/system/Container';
 import Grid from '@mui/material/Grid';
 import { LoadingButton } from '@mui/lab';
@@ -95,6 +95,7 @@ export const AccountPage = () => {
               />
               <LoadingButton
                 loading={isUpdateLoad}
+                loadingIndicator={<CircularProgress color="primary" size={25} />}
                 type="submit"
                 disabled={inValid}
                 variant="contained"
@@ -107,6 +108,7 @@ export const AccountPage = () => {
             </form>
             <LoadingButton
               loading={isDeleteLoad}
+              loadingIndicator={<CircularProgress color="primary" size={25} />}
               type="submit"
               color="error"
               disabled={inValid}
