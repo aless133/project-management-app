@@ -8,9 +8,11 @@ import { Constants } from 'utils';
 export const ErrorPage = ({ text = 'Sorry, page not found' }) => {
   const { t } = useTranslation();
 
+  const img = text === 'Sorry, page not found' ? './not_found.jpg' : './error_image.jpg';
+
   return (
     <main>
-      <Grid2 container rowGap={4} justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
+      <Grid2 container justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
         <Grid item xl={8} sx={{ textAlign: 'center' }}>
           <Typography
             variant="h3"
@@ -21,20 +23,24 @@ export const ErrorPage = ({ text = 'Sorry, page not found' }) => {
           >
             {t(text)}...
           </Typography>
+          <Grid item xl={10}>
+            <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>
+              <Link
+                style={{ textDecoration: 'none', color: 'inherit' }}
+                to={Constants.HOME}
+                replace={true}
+              >
+                {t('Back to Home')}
+              </Link>
+            </Button>
+          </Grid>
         </Grid>
         <Grid item xl={4}>
-          <img style={{ width: '100%' }} src="./broken_robot.png" alt="broken robot" />
-        </Grid>
-        <Grid item xl={10}>
-          <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>
-            <Link
-              style={{ textDecoration: 'none', color: 'inherit' }}
-              to={Constants.HOME}
-              replace={true}
-            >
-              {t('Back to Home')}
-            </Link>
-          </Button>
+          <img
+            style={{ display: 'block', width: '50%', margin: 'auto' }}
+            src={img}
+            alt="broken robot"
+          />
         </Grid>
       </Grid2>
     </main>
