@@ -1,11 +1,11 @@
-import { setToken, setTokenLogged } from 'store/userSlice';
-import { useCheckAccess } from 'hooks/checkAccess';
+import { selectUser, setToken, setTokenLogged, updateUser } from 'store/userSlice';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
 import { TErr, TValidator, IApiError } from 'types';
-import { useStoreDispatch } from 'hooks/store.hooks';
+import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState } from 'react';
+import { useUpdateUserMutation } from 'api/usersApiSlice';
 
 const err: TErr = {
   name: '',
@@ -20,12 +20,18 @@ const validator: TValidator = {
 };
 
 export const useFormSign = (isSignUp: boolean) => {
+  const [t] = useTranslation();
   const [errStack, setErrStack] = useState<TErr | Record<string, string>>({});
-  useCheckAccess('guest');
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
+  const [updateUserDB, { isLoading: isUpdateLoading }] = useUpdateUserMutation();
   const dispatch = useStoreDispatch();
-  const [t] = useTranslation();
+
+  //TODO
+  const isSignInLoad = isSigninLoading;
+  const isSignUpLoad = isSignupLoading;
+  const isUpdateLoad = isUpdateLoading;
+  const { id } = useStoreSelector(selectUser);
 
   const validateStack = (name: string, value: string) => {
     err[name] = validator[name].reduce((acc, fn) => acc + fn(value), '');
@@ -42,7 +48,7 @@ export const useFormSign = (isSignUp: boolean) => {
       }
     }
 
-    if (!isErrCheck(errStack)) {
+    if (!isErrCheck(err)) {
       const data = Object.fromEntries(formData.entries());
       if (isSignUp) {
         try {
@@ -73,12 +79,32 @@ export const useFormSign = (isSignUp: boolean) => {
     setErrStack(validateStack(name, value));
   };
 
+  const handleSubmitProfile: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    for (const [name, value] of formData.entries()) {
+      if (typeof value === 'string') {
+        setErrStack(validateStack(name, value));
+      }
+    }
+
+    if (id && !isErrCheck(err)) {
+      const data = Object.fromEntries(formData.entries());
+      const newUser = await updateUserDB({ id, data }).unwrap();
+      dispatch(updateUser({ ...newUser }));
+    }
+  };
+
   return {
     errStack,
     isSigninLoading,
     isSignupLoading,
     handleSubmit,
+    handleSubmitProfile,
     handleChange,
     t,
+    isSignInLoad,
+    isSignUpLoad,
+    isUpdateLoad,
   };
 };

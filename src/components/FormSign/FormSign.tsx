@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/system/Container';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -8,12 +7,23 @@ import { Link } from 'react-router-dom';
 import { Constants, isErrCheck } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
-import styles from './formsign.module.scss';
+import { useCheckAccess } from 'hooks/checkAccess';
+import { LoadingButton } from '@mui/lab';
 
 export const FormSign = ({ isSignUp = true }) => {
-  const { errStack, isSigninLoading, isSignupLoading, handleSubmit, handleChange, t } =
-    useFormSign(isSignUp);
+  const {
+    errStack,
+    isSigninLoading,
+    isSignupLoading,
+    handleSubmit,
+    handleChange,
+    t,
+    isSignInLoad,
+    isSignUpLoad,
+  } = useFormSign(isSignUp);
   const [inValid, setInValid] = useState<boolean | null>(null);
+
+  useCheckAccess('guest');
 
   // if (navigated) return null;
 
@@ -26,7 +36,7 @@ export const FormSign = ({ isSignUp = true }) => {
   }, [errStack, inValid]);
 
   return (
-    <main className={styles.form_sign}>
+    <main style={{ display: 'flex', alignItems: 'center' }}>
       <Container maxWidth="xl" sx={{ height: '100%' }}>
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
@@ -69,7 +79,8 @@ export const FormSign = ({ isSignUp = true }) => {
                   {errStack.submit}
                 </Typography>
               ) : null}
-              <Button
+              <LoadingButton
+                loading={isSignUp ? isSignUpLoad : isSignInLoad}
                 type="submit"
                 disabled={inValid || isSigninLoading || isSignupLoading}
                 variant="contained"
@@ -78,7 +89,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 sx={{ mt: 2 }}
               >
                 {isSignUp ? t('Sign Up') : t('Sign In')}
-              </Button>
+              </LoadingButton>
               <Typography align="center" sx={{ mt: 2 }}>
                 {isSignUp ? (
                   <>
