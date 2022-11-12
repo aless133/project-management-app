@@ -22,7 +22,7 @@ export const MainPage = () => {
         <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
           {boards
             ? boards.map((board) => (
-                <Grid key={board._id} item xs={12} md={4}>
+                <Grid key={board._id} item xs={12} sm={4} md={3}>
                   <Card>
                     <CardContent>
                       <Typography variant="h2">{board.title}</Typography>

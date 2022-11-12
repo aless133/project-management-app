@@ -9,6 +9,7 @@ import { useCheckAccess } from 'hooks/checkAccess';
 import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { Notifyer } from 'components/UI/Notifyer';
+import { ConfirmModal } from 'components/UI/ConfirmModal';
 
 export const AccountPage = () => {
   const {
@@ -26,6 +27,9 @@ export const AccountPage = () => {
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
   useCheckAccess('user');
+
+  //TODO
+  const [isConfirm, setConfirm] = useState(false);
 
   useEffect(() => {
     if (!isErrCheck(errStack)) {
@@ -52,6 +56,12 @@ export const AccountPage = () => {
                 onclose={() => handleCloseNotify('error')}
                 text="Something went wrong"
                 type="error"
+              />
+
+              <ConfirmModal
+                isOpen={isConfirm}
+                onClose={() => setConfirm(false)}
+                onAction={() => id && handleDelete(id)}
               />
               <Typography
                 variant="h3"
@@ -116,7 +126,7 @@ export const AccountPage = () => {
               fullWidth
               size="large"
               sx={{ mt: 2 }}
-              onClick={() => id && handleDelete(id)}
+              onClick={() => setConfirm(true)}
             >
               {t('Delete account')}
             </LoadingButton>
