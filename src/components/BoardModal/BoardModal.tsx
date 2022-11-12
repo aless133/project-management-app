@@ -1,50 +1,59 @@
 import { Button, TextField } from '@mui/material';
-// import { useCreateBoardMutation } from 'api/boardsApiSlice';
+import { useCreateBoardMutation } from 'api/boardsApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
+import { useStoreSelector } from 'hooks/store.hooks';
 import React, { useState, FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { selectUser } from 'store/userSlice';
 import { TErr, TValidator } from 'types';
+import { IBoard } from 'types/boardTypes';
 import { Constants } from 'utils';
-import {
-  setCreateRequiredError,
-  setCreateTitleError,
-  validateMaxLength,
-  validateMinLength,
-  validateRequiredField,
-} from 'utils/helpers';
+import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'utils/helpers';
 
 const validator: TValidator = {
   [Constants.BOARD_TITLE]: [
     validateRequiredField(Constants.REQUIRED_LENGTH),
     validateMaxLength(Constants.MAX_LENGTH),
   ],
-  [Constants.BOARD_DESCRIPTION]: [validateMinLength(Constants.MIN_LENGTH)],
 };
 
 const err: TErr = {
   [Constants.BOARD_TITLE]: '',
-  [Constants.BOARD_DESCRIPTION]: '',
 };
 
-interface BoardModalProps {
+interface IBoardModalProps {
   openModal: boolean;
   closeModal: () => void;
+  openAlertSuccess: () => void;
+  openAlertError: () => void;
 }
 
-export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
+type TFormData = { boardTitle: string };
+
+export const BoardModal: FC<IBoardModalProps> = ({
+  openModal,
+  closeModal,
+  openAlertSuccess,
+  openAlertError,
+}) => {
   const [errStack, setErrStack] = useState<TErr>(err);
   const [isDisabledSubmitBtn, setIsDisabledSubmitBtn] = useState<boolean>(false);
   const { t } = useTranslation();
-  // const [createBoard] = useCreateBoardMutation();
+  const { id } = useStoreSelector(selectUser);
+  const [createBoard] = useCreateBoardMutation();
+  const [value, setValue] = useState<string>('');
 
-  const closeBoardModal = () => {
+  const clearForm = () => {
     setErrStack({
       [Constants.BOARD_TITLE]: '',
-      [Constants.BOARD_DESCRIPTION]: '',
     });
     setCreateTitleError('');
-    setCreateRequiredError('');
     setIsDisabledSubmitBtn(false);
+    setValue('');
+  };
+
+  const closeBoardModal = () => {
+    clearForm();
     closeModal();
   };
 
@@ -73,9 +82,22 @@ export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
     }
 
     if (Object.values(err).every((err) => err === '')) {
-      // const dataForm = Object.fromEntries(formData.entries());
-      // TO DO add POST method for create board
-      closeBoardModal();
+      try {
+        const dataForm = Object.fromEntries(formData.entries()) as TFormData;
+        const data: IBoard = {
+          title: dataForm.boardTitle,
+          owner: id as string,
+          users: [],
+        };
+        const answer = await createBoard(data).unwrap();
+        if (answer?._id) {
+          openAlertSuccess();
+        }
+      } catch (err) {
+        openAlertError();
+      } finally {
+        closeBoardModal();
+      }
     } else {
       setIsDisabledSubmitBtn(true);
     }
@@ -87,20 +109,13 @@ export const BoardModal: FC<BoardModalProps> = ({ openModal, closeModal }) => {
         <TextField
           name={Constants.BOARD_TITLE}
           fullWidth
+          onChange={(newValue) => {
+            setValue(newValue.target.value);
+          }}
+          value={value}
           label={t('Title')}
           error={!!errStack.boardTitle}
           helperText={setCreateTitleError(errStack.boardTitle)}
-          defaultValue=""
-          margin="normal"
-        />
-
-        <TextField
-          name={Constants.BOARD_DESCRIPTION}
-          fullWidth
-          label={t('Description')}
-          error={!!errStack.boardDescription}
-          defaultValue=""
-          helperText={setCreateRequiredError(errStack.boardDescription)}
           margin="normal"
         />
         <Button
