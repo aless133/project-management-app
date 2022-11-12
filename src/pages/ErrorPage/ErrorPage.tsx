@@ -29,14 +29,11 @@ export const ErrorPage = ({ text = 'Sorry, page not found' }) => {
           <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>
             <Link
               style={{ textDecoration: 'none', color: 'inherit' }}
-              to={Constants.MAIN}
+              to={Constants.HOME}
               replace={true}
             >
               {t('Back to Home')}
             </Link>
-          </Button>
-          <Button variant="contained" sx={{ mt: { xs: 4 } }}>
-            Action
           </Button>
         </Grid>
       </Grid2>

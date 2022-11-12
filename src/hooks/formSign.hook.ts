@@ -107,7 +107,7 @@ export const useFormSign = (isSignUp: boolean) => {
 
   const handleDelete = async (id: string) => {
     const resp = (await deleteUser(id)) as INewUser;
-    console.log(resp);
+
     if (resp.error) {
       setFail(true);
       return;
