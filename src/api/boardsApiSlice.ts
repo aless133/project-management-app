@@ -9,6 +9,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Board'],
     }),
     deleteBoard: builder.mutation<IBoard, string>({
       query: (data) => ({
@@ -16,9 +17,11 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'DELETE',
         body: data,
       }),
+      invalidatesTags: ['Board'],
     }),
     getUserBoards: builder.query<IBoard[], string>({
       query: (id) => `/boardsSet/${id}`,
+      providesTags: () => ['Board'],
     }),
   }),
 });
