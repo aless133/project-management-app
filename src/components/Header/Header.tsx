@@ -1,21 +1,13 @@
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Toolbar,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  Box,
-  Menu,
-  MenuItem,
-  useScrollTrigger,
-  SvgIcon,
-  Typography,
-} from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import SvgIcon from '@mui/material/SvgIcon';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import Container from '@mui/system/Container';
@@ -24,10 +16,12 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 import { useStoreSelector, useStoreDispatch } from 'hooks/store.hooks';
 import { selectIsLogged, selectUser, clearUser } from 'store/userSlice';
-import { selectLng, setLang } from 'store/uiSlice';
 import { Constants } from 'utils';
+import { LangSwitcher } from 'components/LangSwitcher';
 import { BoardModal } from 'components/BoardModal';
 import { AlertModal } from 'components/UI/AlertModal';
 
@@ -39,8 +33,7 @@ enum HeaderConstants {
 }
 
 export const Header = () => {
-  const lang = useStoreSelector(selectLng);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const trigger0 = useScrollTrigger({
@@ -100,18 +93,6 @@ export const Header = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  useEffect(() => {
-    i18n.changeLanguage(lang);
-  }, [i18n, lang]);
-
-  const langIsChecked = () => {
-    return lang == 'en';
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setLang(event.target.checked ? 'en' : 'ru'));
   };
 
   return (
@@ -181,32 +162,7 @@ export const Header = () => {
                     fontSize: 14,
                   }}
                 >
-                  <FormGroup>
-                    <FormControlLabel
-                      sx={{ mr: 1, color: 'secondary.main' }}
-                      control={
-                        <Switch
-                          checked={langIsChecked()}
-                          onChange={handleChange}
-                          color="default"
-                          aria-label="login switch"
-                        />
-                      }
-                      label={
-                        <Typography
-                          variant="h6"
-                          color="inherit"
-                          sx={{
-                            fontSize: 14,
-                            textTransform: 'uppercase',
-                          }}
-                        >
-                          {lang}
-                        </Typography>
-                      }
-                    />
-                  </FormGroup>
-
+                  <LangSwitcher />
                   <Button
                     component={NavLink}
                     sx={{
@@ -250,29 +206,7 @@ export const Header = () => {
                 </Box>
 
                 <Box sx={{ display: { xs: 'flex', md: 'none', lb: 'none' }, alignItems: 'center' }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      sx={{ mr: 1, color: 'secondary.main' }}
-                      control={
-                        <Switch
-                          checked={langIsChecked()}
-                          onChange={handleChange}
-                          color="default"
-                          aria-label="login switch"
-                        />
-                      }
-                      label={
-                        <Typography
-                          variant="h6"
-                          color="inherit"
-                          sx={{ fontSize: 14, textTransform: 'uppercase' }}
-                        >
-                          {lang}
-                        </Typography>
-                      }
-                    />
-                  </FormGroup>
-
+                  <LangSwitcher />
                   <IconButton
                     size="large"
                     aria-controls="menu-header"
@@ -388,29 +322,7 @@ export const Header = () => {
                     width: 310,
                   }}
                 >
-                  <FormGroup>
-                    <FormControlLabel
-                      sx={{ color: 'secondary.main' }}
-                      control={
-                        <Switch
-                          checked={langIsChecked()}
-                          onChange={handleChange}
-                          color="default"
-                          aria-label="login switch"
-                        />
-                      }
-                      label={
-                        <Typography
-                          variant="h6"
-                          color="inherit"
-                          sx={{ fontSize: 14, textTransform: 'uppercase' }}
-                        >
-                          {lang}
-                        </Typography>
-                      }
-                    />
-                  </FormGroup>
-
+                  <LangSwitcher />
                   <Button
                     component={NavLink}
                     sx={{
@@ -448,29 +360,7 @@ export const Header = () => {
                 </Box>
 
                 <Box sx={{ display: { xs: 'flex', md: 'none', lb: 'none' }, alignItems: 'center' }}>
-                  <FormGroup>
-                    <FormControlLabel
-                      sx={{ mr: 1, color: 'secondary.main' }}
-                      control={
-                        <Switch
-                          checked={langIsChecked()}
-                          onChange={handleChange}
-                          color="default"
-                          aria-label="login switch"
-                        />
-                      }
-                      label={
-                        <Typography
-                          variant="h6"
-                          color="inherit"
-                          sx={{ fontSize: 14, textTransform: 'uppercase' }}
-                        >
-                          {lang}
-                        </Typography>
-                      }
-                    />
-                  </FormGroup>
-
+                  <LangSwitcher />
                   <IconButton
                     size="large"
                     aria-controls="menu-header"

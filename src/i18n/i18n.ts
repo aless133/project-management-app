@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-// import en from './locales/en/translation.json';
+import { Languages } from 'utils/constants';
 import ru from './ru/t.json';
 
 i18n
@@ -11,8 +11,8 @@ i18n
         translation: ru,
       },
     },
-    supportedLngs: ['en', 'ru'],
-    fallbackLng: 'en',
+    supportedLngs: [Languages.LANG0, Languages.LANG1],
+    fallbackLng: Languages.LANG0,
     // debug: true,
     detection: {
       order: ['cookie'],
