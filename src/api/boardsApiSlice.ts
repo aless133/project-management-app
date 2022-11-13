@@ -9,26 +9,28 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Board'],
     }),
     deleteBoard: builder.mutation<IBoard, string>({
-      query: (id) => ({
-        url: `/boards/${id}`,
+      query: (data) => ({
+        url: '/boards',
         method: 'DELETE',
+        body: data,
       }),
-      invalidatesTags: ['Board'],
     }),
     getUserBoards: builder.query<IBoard[], string>({
       query: (id) => `/boardsSet/${id}`,
-      providesTags: (result) =>
-        result
-          ? [...result.map(({ _id }) => ({ type: 'Board' as const, _id })), 'Board']
-          : ['Board'],
+    }),
+    getBoardById: builder.query<IBoard, string>({
+      query: (id) => `/boards/${id}`,
     }),
   }),
 });
 
-export const { useCreateBoardMutation, useDeleteBoardMutation, useGetUserBoardsQuery } =
-  extendedApiSlice;
+export const {
+  useCreateBoardMutation,
+  useDeleteBoardMutation,
+  useGetUserBoardsQuery,
+  useGetBoardByIdQuery,
+} = extendedApiSlice;
 
 // export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()
