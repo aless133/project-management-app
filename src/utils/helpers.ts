@@ -37,11 +37,3 @@ export const setCreateTitleError = (len: string): string => {
     return ' ';
   }
 };
-
-export const setCreateRequiredError = (len: string): string => {
-  if (len === Constants.MIN_LENGTH) {
-    return i18next.t('can not be less than {{len}} characters', { len });
-  } else {
-    return ' ';
-  }
-};
