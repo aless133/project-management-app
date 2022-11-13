@@ -7,6 +7,7 @@ import { WelcomePage } from 'pages/WelcomePage';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ErrorPage } from 'pages/ErrorPage';
+import { BoardPage } from 'pages/BoardPage';
 
 const AppRouter = () => {
   return (
@@ -17,6 +18,7 @@ const AppRouter = () => {
         <Route path="signup" element={<SignUpPage />} />
         <Route path="account" element={<AccountPage />} />
         <Route path="main" element={<MainPage />} />
+        <Route path="board/:id" element={<BoardPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>

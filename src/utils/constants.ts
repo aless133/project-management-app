@@ -12,6 +12,7 @@ export enum Constants {
   ACCOUNT = '/account',
   MAIN = '/main',
   HOME = '/',
+  BOARD = '/board',
 }
 
 export enum Languages {
