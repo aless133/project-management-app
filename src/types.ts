@@ -8,7 +8,7 @@ export interface IUser {
   isChecked: true;
 }
 
-export interface UpdatedUser {
+export interface IUpdatedUser {
   id: string;
   data: Record<string, FormDataEntryValue>;
 }

@@ -14,7 +14,8 @@ export const ConfirmModal = ({ isOpen, onAction, onClose }: ConfirmModalProps) =
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.key === 'Enter') {
+      e.stopPropagation();
+      if (isOpen && e.key === 'Enter') {
         onAction();
       }
     };

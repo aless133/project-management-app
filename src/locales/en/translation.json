@@ -2,14 +2,8 @@
   "lng": "EN",
   "welcome": {
     "title": "Task tracker",
-    "signin": "Sign in",
-    "signout": "Sign out",
-    "signup": "Sign up",
-    "account": "account",
-    "home": "Home",
     "preloader": "Loading...",
     "start": "GET STARTED",
-    "description": "A task tracker is an intelligent version of a to-do list that can help manage tasks and assignments. Team members can use task trackers individually or together as a team. These tools allow team members to list their essential projects, prioritize them, and mark them as done when the tasks are complete.",
     "team": {
       "title": "Our Team",
       "teammate1": {
@@ -27,28 +21,6 @@
         "skill2": "",
         "skill3": ""
       }
-    }
-  },
-  "main": {
-    "btn": "Boards",
-    "create": {
-      "header": "CREATE BOARD",
-      "title": "Title",
-      "description": "Description",
-      "confirm": "Confirm",
-      "cancel": "Cancel"
-    },
-    "profile": {
-      "header": {
-        "name": "Name",
-        "login": "Login"
-      },
-      "title": "EDIT PROFILE",
-      "name": "Name",
-      "login": "Login",
-      "psw": "Password",
-      "save": "save",
-      "delete": "DELETE ACCOUNT"
     }
   },
   "search": {

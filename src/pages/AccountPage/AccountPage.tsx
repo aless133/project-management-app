@@ -48,7 +48,7 @@ export const AccountPage = () => {
               <Notifyer
                 open={isSuccess}
                 onclose={() => handleCloseNotify('success')}
-                text="Successfully"
+                text="Success"
                 type="success"
               />
               <Notifyer
