@@ -25,4 +25,4 @@ export const uiMiddleware: Middleware = (store) => (next) => (action) => {
 
 export default uiSlice.reducer;
 export const { setLang } = uiSlice.actions;
-export const selectLng = (state: IStoreState) => state.ui.lang;
+export const selectLang = (state: IStoreState) => state.ui.lang;

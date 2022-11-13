@@ -14,3 +14,8 @@ export enum Constants {
   HOME = '/',
   BOARD = '/board',
 }
+
+export enum Languages {
+  LANG0 = 'en',
+  LANG1 = 'ru',
+}
