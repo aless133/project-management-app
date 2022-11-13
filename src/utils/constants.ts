@@ -13,3 +13,8 @@ export enum Constants {
   MAIN = '/main',
   HOME = '/',
 }
+
+export enum Languages {
+  LANG0 = 'en',
+  LANG1 = 'ru',
+}
