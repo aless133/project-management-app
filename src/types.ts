@@ -8,13 +8,6 @@ export interface IUser {
   isChecked: true;
 }
 
-export interface IBoard {
-  _id: string;
-  title: string;
-  owner: string;
-  users: string[];
-}
-
 export interface UpdatedUser {
   id: string;
   data: Record<string, FormDataEntryValue>;

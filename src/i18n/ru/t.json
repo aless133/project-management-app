@@ -30,5 +30,6 @@
   "Sorry, page not found": "Страница не найдена",
   "Title": "Название",
   "Description": "Описание",
-  "This field is required": "Это обязательное поле"
+  "This field is required": "Это обязательное поле",
+  "Success": "Выполнено успешно"
 }
