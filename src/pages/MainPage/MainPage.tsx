@@ -19,11 +19,11 @@ export const MainPage = () => {
   return (
     <main>
       <Container maxWidth="xl">
-        <Grid container direction="row" justifyContent="center" alignItems="center">
-          <Grid item xl={4}>
-            {boards
-              ? boards.map((board) => (
-                  <Card key={board._id}>
+        <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
+          {boards
+            ? boards.map((board) => (
+                <Grid key={board._id} item xs={12} sm={4} md={3}>
+                  <Card>
                     <CardContent>
                       <Typography variant="h2">{board.title}</Typography>
                     </CardContent>
@@ -31,9 +31,9 @@ export const MainPage = () => {
                       <Button size="small">View tasks</Button>
                     </CardActions>
                   </Card>
-                ))
-              : null}
-          </Grid>
+                </Grid>
+              ))
+            : null}
         </Grid>
       </Container>
     </main>

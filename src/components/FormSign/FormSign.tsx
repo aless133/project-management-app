@@ -3,20 +3,24 @@ import Container from '@mui/system/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import { LoadingButton } from '@mui/lab';
+import { CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Constants, isErrCheck } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
 import { useCheckAccess } from 'hooks/checkAccess';
-import { LoadingButton } from '@mui/lab';
+import { Notifyer } from 'components/UI/Notifyer';
 
 export const FormSign = ({ isSignUp = true }) => {
   const {
     errStack,
+    isFail,
     isSigninLoading,
     isSignupLoading,
     handleSubmit,
     handleChange,
+    handleCloseNotify,
     t,
     isSignInLoad,
     isSignUpLoad,
@@ -41,6 +45,12 @@ export const FormSign = ({ isSignUp = true }) => {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onSubmit={handleSubmit} onChange={handleChange}>
+              <Notifyer
+                open={isFail}
+                onclose={() => handleCloseNotify('error')}
+                text={errStack.submit || 'Something went wrong'}
+                type="error"
+              />
               <Typography variant="h3" component="h2" align="center">
                 {isSignUp ? t('Sign Up') : t('Sign In')}
               </Typography>
@@ -74,13 +84,14 @@ export const FormSign = ({ isSignUp = true }) => {
                 margin="normal"
                 type="password"
               />
-              {errStack && errStack.submit ? (
+              {/* {errStack && errStack.submit ? (
                 <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
                   {errStack.submit}
                 </Typography>
-              ) : null}
+              ) : null} */}
               <LoadingButton
                 loading={isSignUp ? isSignUpLoad : isSignInLoad}
+                loadingIndicator={<CircularProgress color="primary" size={25} />}
                 type="submit"
                 disabled={inValid || isSigninLoading || isSignupLoading}
                 variant="contained"

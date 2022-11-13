@@ -1,33 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Typography } from '@mui/material';
-import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
-import { useFormSign } from 'hooks/formSign.hook';
+import { CircularProgress, TextField, Typography } from '@mui/material';
 import Container from '@mui/system/Container';
 import Grid from '@mui/material/Grid';
-import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
-import { clearUser, selectUser } from 'store/userSlice';
-import { useDeleteUserMutation } from 'api/usersApiSlice';
-import { useNavigate } from 'react-router-dom';
-import { Constants } from 'utils';
 import { LoadingButton } from '@mui/lab';
+import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
+import { useStoreSelector } from 'hooks/store.hooks';
+import { useCheckAccess } from 'hooks/checkAccess';
+import { useFormSign } from 'hooks/formSign.hook';
+import { selectUser } from 'store/userSlice';
+import { Notifyer } from 'components/UI/Notifyer';
+import { ConfirmModal } from 'components/UI/ConfirmModal';
 
 export const AccountPage = () => {
-  const { errStack, t, handleChange, handleSubmitProfile, isUpdateLoad } = useFormSign(false);
+  const {
+    errStack,
+    t,
+    handleChange,
+    handleSubmitProfile,
+    isUpdateLoad,
+    isSuccess,
+    isDeleteLoad,
+    isFail,
+    handleCloseNotify,
+    handleDelete,
+  } = useFormSign(false);
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
-  const dispatch = useStoreDispatch();
-  const [deleteUser, { isLoading: isDeleteLoad }] = useDeleteUserMutation();
-  const navigate = useNavigate();
+  useCheckAccess('user');
 
-  //TODO Confirmation Modal
-  const handleDelete = async (id: string) => {
-    if (!id) {
-      return;
-    }
-    await deleteUser(id);
-    dispatch(clearUser());
-    navigate(Constants.MAIN, { replace: true });
-  };
+  //TODO
+  const [isConfirm, setConfirm] = useState(false);
 
   useEffect(() => {
     if (!isErrCheck(errStack)) {
@@ -43,6 +45,24 @@ export const AccountPage = () => {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onChange={handleChange} onSubmit={handleSubmitProfile}>
+              <Notifyer
+                open={isSuccess}
+                onclose={() => handleCloseNotify('success')}
+                text="Success"
+                type="success"
+              />
+              <Notifyer
+                open={isFail}
+                onclose={() => handleCloseNotify('error')}
+                text="Something went wrong"
+                type="error"
+              />
+
+              <ConfirmModal
+                isOpen={isConfirm}
+                onClose={() => setConfirm(false)}
+                onAction={() => id && handleDelete(id)}
+              />
               <Typography
                 variant="h3"
                 component="h2"
@@ -85,6 +105,7 @@ export const AccountPage = () => {
               />
               <LoadingButton
                 loading={isUpdateLoad}
+                loadingIndicator={<CircularProgress color="primary" size={25} />}
                 type="submit"
                 disabled={inValid}
                 variant="contained"
@@ -97,6 +118,7 @@ export const AccountPage = () => {
             </form>
             <LoadingButton
               loading={isDeleteLoad}
+              loadingIndicator={<CircularProgress color="primary" size={25} />}
               type="submit"
               color="error"
               disabled={inValid}
@@ -104,7 +126,7 @@ export const AccountPage = () => {
               fullWidth
               size="large"
               sx={{ mt: 2 }}
-              onClick={() => id && handleDelete(id)}
+              onClick={() => setConfirm(true)}
             >
               {t('Delete account')}
             </LoadingButton>
