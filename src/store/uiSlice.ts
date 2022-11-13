@@ -1,28 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, Middleware } from '@reduxjs/toolkit';
 import { IStoreState } from 'types';
 
-const defaultUi = { lng: "en" };
+const defaultUi = { lang: 'en' };
 const uiSlice = createSlice({
   name: 'ui',
   initialState: () => {
-    const st = {...defaultUi};
-    const lng = localStorage.getItem('lng');
-    if (lng) return st.lng=ll;
+    const st = { ...defaultUi };
+    const lang = localStorage.getItem('lang');
+    if (lang) st.lang = lang;
     return st;
   },
   reducers: {
-    setLng: (state, action) => {
-      state.lng = action.payload;
+    setLang: (state, action) => {
+      state.lang = action.payload;
     },
   },
 });
 
 // eslint-disable-next-line
-export const userMiddleware: Middleware = (store) => (next) => (action) => {
-  if (action.type === 'ui/setLng') localStorage.setItem('lng', action.payload);
+export const uiMiddleware: Middleware = (store) => (next) => (action) => {
+  if (action.type === 'ui/setLang') localStorage.setItem('lang', action.payload);
   return next(action);
 };
 
 export default uiSlice.reducer;
-export const { setLng } = uiSlice.actions;
-export const selectLng = (state: IStoreState) => state.Lng;
+export const { setLang } = uiSlice.actions;
+export const selectLng = (state: IStoreState) => state.ui.lang;

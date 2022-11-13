@@ -56,7 +56,6 @@ export const useFormSign = (isSignUp: boolean) => {
       if (isSignUp) {
         try {
           const signupData = await signup(data).unwrap();
-          console.log(signupData);
           const signinData = await signin({
             login: data.login,
             password: data.password,

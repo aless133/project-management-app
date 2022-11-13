@@ -9,12 +9,12 @@ export interface IUser {
 }
 
 export interface IUI {
-  lng: string;
+  lang: string;
 }
 
 export interface IStoreState {
   user: IUser;
-  user: IUI;
+  ui: IUI;
 }
 
 export interface IUpdatedUser {
