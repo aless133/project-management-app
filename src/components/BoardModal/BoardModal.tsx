@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { useCreateBoardMutation } from 'api/boardsApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
 import { useStoreSelector } from 'hooks/store.hooks';
@@ -109,31 +109,45 @@ export const BoardModal: FC<IBoardModalProps> = ({
 
   return (
     <ModalWindow onClose={closeBoardModal} open={openModal} title={t('Create Board')}>
-      <form onSubmit={handleSubmit} onChange={handleChange}>
-        <TextField
-          name={Constants.BOARD_TITLE}
-          fullWidth
-          onChange={(newValue) => {
-            setValue(newValue.target.value);
-          }}
-          value={value}
-          label={t('Title')}
-          error={!!errStack.boardTitle}
-          helperText={setCreateTitleError(errStack.boardTitle)}
-          margin="normal"
-        />
-        <LoadingButton
-          loading={isLoading}
-          type="submit"
-          variant="contained"
-          fullWidth
-          size="large"
-          disabled={isDisabledSubmitBtn}
-          sx={{ mt: 2 }}
-        >
-          {t('Create Board')}
-        </LoadingButton>
-      </form>
+      <Box sx={{ width: { lg: '20vw' }, p: { lg: 2 } }}>
+        <form onSubmit={handleSubmit} onChange={handleChange}>
+          <TextField
+            name={Constants.BOARD_TITLE}
+            fullWidth
+            onChange={(newValue) => {
+              setValue(newValue.target.value);
+            }}
+            value={value}
+            label={t('Title')}
+            error={!!errStack.boardTitle}
+            helperText={setCreateTitleError(errStack.boardTitle)}
+            margin="normal"
+          />
+          <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 2 }}>
+            <LoadingButton
+              loading={isLoading}
+              type="submit"
+              variant="contained"
+              fullWidth
+              size="large"
+              disabled={isDisabledSubmitBtn}
+              sx={{ mt: 2 }}
+            >
+              {t('Create Board')}
+            </LoadingButton>
+            <Button
+              type="reset"
+              size="large"
+              variant="outlined"
+              fullWidth
+              color="error"
+              onClick={closeBoardModal}
+            >
+              {t('Cancel')}
+            </Button>
+          </Box>
+        </form>
+      </Box>
     </ModalWindow>
   );
 };
