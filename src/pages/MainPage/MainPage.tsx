@@ -29,7 +29,7 @@ export const MainPage = () => {
                 <Grid key={board._id} item xs={12} sm={4} md={3}>
                   <Card
                     sx={{ ':hover': { cursor: 'pointer' } }}
-                    onClick={() => navigate(`${Constants.BOARDS}/${board._id}`)}
+                    onClick={() => navigate(`${Constants.BOARD}/${board._id}`)}
                   >
                     <CardContent>
                       <Typography variant="h2">{board.title}</Typography>

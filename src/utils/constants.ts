@@ -12,5 +12,5 @@ export enum Constants {
   ACCOUNT = '/account',
   MAIN = '/main',
   HOME = '/',
-  BOARDS = '/boards',
+  BOARD = '/board',
 }
