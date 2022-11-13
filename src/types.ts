@@ -8,6 +8,15 @@ export interface IUser {
   isChecked: true;
 }
 
+export interface IUI {
+  lang: string;
+}
+
+export interface IStoreState {
+  user: IUser;
+  ui: IUI;
+}
+
 export interface IUpdatedUser {
   id: string;
   data: Record<string, FormDataEntryValue>;
@@ -16,10 +25,6 @@ export interface IUpdatedUser {
 export interface INewUser {
   data?: { _id: string; name: string; login: string };
   error?: { status: string; originalStatus: number; data: string };
-}
-
-export interface IStoreState {
-  user: IUser;
 }
 
 export type TErr = Record<string, string>;

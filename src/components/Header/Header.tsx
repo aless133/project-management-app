@@ -24,11 +24,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { selectIsLogged, selectUser } from 'store/userSlice';
-import { useStoreSelector } from 'hooks/store.hooks';
+import { useStoreSelector, useStoreDispatch } from 'hooks/store.hooks';
+import { selectIsLogged, selectUser, clearUser } from 'store/userSlice';
+import { selectLng, setLang } from 'store/uiSlice';
 import { Constants } from 'utils';
-import { useStoreDispatch } from 'hooks/store.hooks';
-import { clearUser } from 'store/userSlice';
 import { BoardModal } from 'components/BoardModal';
 import { AlertModal } from 'components/UI/AlertModal';
 
@@ -40,7 +39,7 @@ enum HeaderConstants {
 }
 
 export const Header = () => {
-  const [lang, setLang] = useState(true);
+  const lang = useStoreSelector(selectLng);
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -104,11 +103,15 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    lang ? i18n.changeLanguage('en') : i18n.changeLanguage('ru');
+    i18n.changeLanguage(lang);
   }, [i18n, lang]);
 
+  const langIsChecked = () => {
+    return lang == 'en';
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLang(event.target.checked);
+    dispatch(setLang(event.target.checked ? 'en' : 'ru'));
   };
 
   return (
@@ -183,15 +186,22 @@ export const Header = () => {
                       sx={{ mr: 1, color: 'secondary.main' }}
                       control={
                         <Switch
-                          checked={lang}
+                          checked={langIsChecked()}
                           onChange={handleChange}
                           color="default"
                           aria-label="login switch"
                         />
                       }
                       label={
-                        <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
-                          {lang ? 'EN' : 'RU'}
+                        <Typography
+                          variant="h6"
+                          color="inherit"
+                          sx={{
+                            fontSize: 14,
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          {lang}
                         </Typography>
                       }
                     />
@@ -245,15 +255,19 @@ export const Header = () => {
                       sx={{ mr: 1, color: 'secondary.main' }}
                       control={
                         <Switch
-                          checked={lang}
+                          checked={langIsChecked()}
                           onChange={handleChange}
                           color="default"
                           aria-label="login switch"
                         />
                       }
                       label={
-                        <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
-                          {lang ? 'EN' : 'RU'}
+                        <Typography
+                          variant="h6"
+                          color="inherit"
+                          sx={{ fontSize: 14, textTransform: 'uppercase' }}
+                        >
+                          {lang}
                         </Typography>
                       }
                     />
@@ -379,15 +393,19 @@ export const Header = () => {
                       sx={{ color: 'secondary.main' }}
                       control={
                         <Switch
-                          checked={lang}
+                          checked={langIsChecked()}
                           onChange={handleChange}
                           color="default"
                           aria-label="login switch"
                         />
                       }
                       label={
-                        <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
-                          {lang ? 'EN' : 'RU'}
+                        <Typography
+                          variant="h6"
+                          color="inherit"
+                          sx={{ fontSize: 14, textTransform: 'uppercase' }}
+                        >
+                          {lang}
                         </Typography>
                       }
                     />
@@ -435,15 +453,19 @@ export const Header = () => {
                       sx={{ mr: 1, color: 'secondary.main' }}
                       control={
                         <Switch
-                          checked={lang}
+                          checked={langIsChecked()}
                           onChange={handleChange}
                           color="default"
                           aria-label="login switch"
                         />
                       }
                       label={
-                        <Typography variant="h6" color="inherit" sx={{ fontSize: 14 }}>
-                          {lang ? 'EN' : 'RU'}
+                        <Typography
+                          variant="h6"
+                          color="inherit"
+                          sx={{ fontSize: 14, textTransform: 'uppercase' }}
+                        >
+                          {lang}
                         </Typography>
                       }
                     />
