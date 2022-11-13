@@ -27,6 +27,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     getBoardById: builder.query<IBoard, string>({
       query: (id) => `/boards/${id}`,
+      providesTags: (result) => [{ type: 'Board', id: result?._id }],
     }),
   }),
 });
