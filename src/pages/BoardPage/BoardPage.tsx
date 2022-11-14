@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { Constants } from 'utils';
+import { InlineTextField } from 'components/InlineTextField';
 
 export const BoardPage = () => {
   const [t] = useTranslation();
@@ -14,6 +15,7 @@ export const BoardPage = () => {
   return (
     <main>
       <Container maxWidth="xl">
+        <InlineTextField label={t('Title')} value="custom current value" handleSave={() => {}} />
         <Card sx={{ width: '300px', m: 4, p: 4 }}>
           <Typography variant="h3">{data && data.title}</Typography>
           <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>
