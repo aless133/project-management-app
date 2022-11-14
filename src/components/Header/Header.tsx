@@ -168,8 +168,23 @@ export const Header = () => {
                     }}
                     to={Constants.ACCOUNT}
                   >
-                    <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    {user.name}
+                    <AccountCircleIcon
+                      sx={{
+                        mb: 0.3,
+                        mr: 0.5,
+                        width: 20,
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        maxWidth: 60,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {user.name}
+                    </Box>
                   </Button>
 
                   <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>
@@ -251,7 +266,16 @@ export const Header = () => {
                         to={Constants.ACCOUNT}
                       >
                         <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                        {t('Account')}
+                        <Box
+                          sx={{
+                            maxWidth: 60,
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {user.name}
+                        </Box>
                       </Button>
                     </MenuItem>
 

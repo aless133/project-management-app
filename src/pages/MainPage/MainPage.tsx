@@ -59,11 +59,25 @@ export const MainPage = () => {
             ? boards.map((board) => (
                 <Grid key={board._id} item xs={12} sm={4} md={3}>
                   <Card
-                    sx={{ ':hover': { cursor: 'pointer' } }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      ':hover': { cursor: 'pointer' },
+                    }}
                     onClick={() => navigate(`${Constants.BOARD}/${board._id}`)}
                   >
                     <CardContent>
-                      <Typography variant="h2">{board.title}</Typography>
+                      <Typography
+                        variant="h2"
+                        sx={{
+                          maxWidth: 250,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {board.title}
+                      </Typography>
                     </CardContent>
 
                     <CardActions
