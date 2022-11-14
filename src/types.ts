@@ -10,6 +10,11 @@ export interface IUser {
 
 export interface IUI {
   lang: string;
+  alert: {
+    type: 'success' | 'error';
+    open: boolean;
+    text: string;
+  };
 }
 
 export interface IStoreState {
@@ -22,7 +27,7 @@ export interface IUpdatedUser {
   data: Record<string, FormDataEntryValue>;
 }
 
-export interface INewUser {
+export interface IBoardResponse {
   data?: { _id: string; name: string; login: string };
   error?: { status: string; originalStatus: number; data: string };
 }

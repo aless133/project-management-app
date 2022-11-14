@@ -1,6 +1,7 @@
-import { Box, Button } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import { ModalWindow } from '../ModalWindow';
 
 interface ConfirmModalProps {
