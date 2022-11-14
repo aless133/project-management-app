@@ -10,7 +10,7 @@ import { IBoard } from 'types/boardTypes';
 import { Constants } from 'utils';
 import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'utils/helpers';
 import { LoadingButton } from '@mui/lab';
-import { addAlert } from 'store/uiSlice';
+import { setAlert } from 'store/uiSlice';
 import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
 const validator: TValidator = {
@@ -92,11 +92,11 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
         const answer = await createBoard(data).unwrap();
         if (answer?._id) {
           dispatch(
-            addAlert({ type: NotifierType.SUCCESS, open: true, text: NotifierText.SUCCESS })
+            setAlert({ type: NotifierType.SUCCESS, open: true, text: NotifierText.SUCCESS })
           );
         }
       } catch (err) {
-        dispatch(addAlert({ type: NotifierType.ERROR, open: true, text: NotifierText.ERROR }));
+        dispatch(setAlert({ type: NotifierType.ERROR, open: true, text: NotifierText.ERROR }));
       } finally {
         setIsLoading(false);
         closeBoardModal();
