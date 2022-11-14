@@ -57,6 +57,7 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
 
   const handleChange: React.ChangeEventHandler<HTMLFormElement> = (e) => {
     const { name, value } = e.target;
+
     if (typeof value === 'string') {
       err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
       setErrStack({ ...err });
