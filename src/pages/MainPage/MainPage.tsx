@@ -7,6 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
@@ -14,7 +15,6 @@ import { selectUser } from 'store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 // import { Constants } from 'utils';
 
 export const MainPage = () => {

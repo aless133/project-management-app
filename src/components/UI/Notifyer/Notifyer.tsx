@@ -1,6 +1,7 @@
-import { Alert, Snackbar } from '@mui/material';
-import i18next from 'i18next';
 import React from 'react';
+import i18next from 'i18next';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 interface NotifyerProps {
   open: boolean;

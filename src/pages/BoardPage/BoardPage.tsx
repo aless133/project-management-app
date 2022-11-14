@@ -1,9 +1,11 @@
-import { Button, Card, Typography } from '@mui/material';
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import { useGetBoardByIdQuery } from 'api/boardsApiSlice';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
 import { Constants } from 'utils';
 
 export const BoardPage = () => {

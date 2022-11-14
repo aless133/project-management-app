@@ -1,8 +1,10 @@
-import { Button, Grid, Typography } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Constants } from 'utils';
 
 export const ErrorPage = ({ text = 'Sorry, page not found' }) => {

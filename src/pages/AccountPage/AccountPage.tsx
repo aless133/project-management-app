@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, TextField, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import Container from '@mui/system/Container';
 import Grid from '@mui/material/Grid';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { useCheckAccess } from 'hooks/checkAccess';
