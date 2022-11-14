@@ -23,7 +23,6 @@ import { selectIsLogged, selectUser, clearUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { LangSwitcher } from 'components/LangSwitcher';
 import { BoardModal } from 'components/BoardModal';
-import { AlertModal } from 'components/UI/AlertModal';
 
 enum HeaderConstants {
   START_TRIGGER = '120',
@@ -51,25 +50,6 @@ export const Header = () => {
   const dispatch = useStoreDispatch();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const [alertSuccess, setAlertSuccess] = useState<boolean>(false);
-  const [alertError, setAlertError] = useState<boolean>(false);
-
-  const openAlertSuccess = () => {
-    setAlertSuccess(true);
-  };
-
-  const closeAlertSuccess = () => {
-    setAlertSuccess(false);
-  };
-
-  const openAlertError = () => {
-    setAlertError(true);
-  };
-
-  const closeAlertError = () => {
-    setAlertError(false);
-  };
-
   useEffect(() => {
     if (trigger1) setHMH(+HeaderConstants.MIN_HEIGHT);
     else if (!trigger0) setHMH(+HeaderConstants.MAX_HEIGHT);
@@ -79,7 +59,7 @@ export const Header = () => {
     setOpenModal(true);
   };
 
-  const closeModal = () => {
+  const handleCloseBoardModal = () => {
     setOpenModal(false);
   };
 
@@ -99,14 +79,7 @@ export const Header = () => {
     <>
       {isAuth && (
         <>
-          <BoardModal
-            openModal={openModal}
-            closeModal={closeModal}
-            openAlertSuccess={openAlertSuccess}
-            openAlertError={openAlertError}
-          />
-          <AlertModal isSuccess={true} alertValue={alertSuccess} closeAlert={closeAlertSuccess} />
-          <AlertModal isSuccess={false} alertValue={alertError} closeAlert={closeAlertError} />
+          <BoardModal openModal={openModal} closeModal={handleCloseBoardModal} />
         </>
       )}
       <AppBar position="sticky" sx={{ backgroundColor: 'primary.main' }}>

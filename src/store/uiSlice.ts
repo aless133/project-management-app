@@ -1,7 +1,13 @@
 import { createSlice, Middleware } from '@reduxjs/toolkit';
 import { IStoreState } from 'types';
 
-const defaultUi = { lang: 'en' };
+const alert = {
+  type: 'success',
+  open: false,
+  text: 'Success',
+};
+const defaultUi = { lang: 'en', alert };
+
 const uiSlice = createSlice({
   name: 'ui',
   initialState: () => {
@@ -14,6 +20,12 @@ const uiSlice = createSlice({
     setLang: (state, action) => {
       state.lang = action.payload;
     },
+    addAlert: (state, action) => {
+      state.alert = action.payload;
+    },
+    clearAlert: (state) => {
+      state.alert = alert;
+    },
   },
 });
 
@@ -24,5 +36,6 @@ export const uiMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 export default uiSlice.reducer;
-export const { setLang } = uiSlice.actions;
+export const { setLang, addAlert, clearAlert } = uiSlice.actions;
 export const selectLang = (state: IStoreState) => state.ui.lang;
+export const selectAlert = (state: IStoreState) => state.ui.alert;

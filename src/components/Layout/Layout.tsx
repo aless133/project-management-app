@@ -5,6 +5,7 @@ import { Header } from 'components/Header';
 import { Spinner } from 'components/Spinner';
 import { useCheckToken } from 'hooks/checkToken';
 import styles from './layout.module.scss';
+import { Notifier } from 'components/UI/Notifier';
 
 export const Layout = () => {
   const { isChecking } = useCheckToken();
@@ -15,6 +16,7 @@ export const Layout = () => {
       ) : (
         <>
           <Header />
+          <Notifier />
           <Outlet />
           <Footer />
         </>

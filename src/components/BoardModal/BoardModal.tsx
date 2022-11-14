@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from '@mui/material';
 import { useCreateBoardMutation } from 'api/boardsApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
-import { useStoreSelector } from 'hooks/store.hooks';
+import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import React, { useState, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { selectUser } from 'store/userSlice';
@@ -10,6 +10,8 @@ import { IBoard } from 'types/boardTypes';
 import { Constants } from 'utils';
 import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'utils/helpers';
 import { LoadingButton } from '@mui/lab';
+import { addAlert } from 'store/uiSlice';
+import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
 const validator: TValidator = {
   [Constants.BOARD_TITLE]: [
@@ -25,18 +27,11 @@ const err: TErr = {
 interface IBoardModalProps {
   openModal: boolean;
   closeModal: () => void;
-  openAlertSuccess: () => void;
-  openAlertError: () => void;
 }
 
 type TFormData = { boardTitle: string };
 
-export const BoardModal: FC<IBoardModalProps> = ({
-  openModal,
-  closeModal,
-  openAlertSuccess,
-  openAlertError,
-}) => {
+export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
   const [errStack, setErrStack] = useState<TErr>(err);
   const [isDisabledSubmitBtn, setIsDisabledSubmitBtn] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -44,6 +39,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
   const [createBoard] = useCreateBoardMutation();
   const [value, setValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useStoreDispatch();
 
   const clearForm = () => {
     setErrStack({
@@ -94,10 +90,12 @@ export const BoardModal: FC<IBoardModalProps> = ({
         setIsLoading(true);
         const answer = await createBoard(data).unwrap();
         if (answer?._id) {
-          openAlertSuccess();
+          dispatch(
+            addAlert({ type: NotifierType.SUCCESS, open: true, text: NotifierText.SUCCESS })
+          );
         }
       } catch (err) {
-        openAlertError();
+        dispatch(addAlert({ type: NotifierType.ERROR, open: true, text: NotifierText.ERROR }));
       } finally {
         setIsLoading(false);
         closeBoardModal();
