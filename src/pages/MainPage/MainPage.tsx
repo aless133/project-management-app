@@ -37,6 +37,7 @@ export const MainPage = () => {
       const response = (await deleteBoard(id)) as IBoardResponse;
       if (response.error) {
         dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+        return;
       }
       dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
       setConfirm(false);
