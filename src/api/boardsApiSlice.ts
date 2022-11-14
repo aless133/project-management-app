@@ -22,10 +22,10 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       query: (id) => `/boardsSet/${id}`,
       providesTags: (result) =>
         result
-          ? [...result.map(({ _id }) => ({ type: 'Board' as const, _id })), 'Board']
+          ? [...result.map(({ _id }) => ({ type: 'Board' as const, id: _id })), 'Board']
           : ['Board'],
     }),
-    getBoardById: builder.query<IBoard, string>({
+    getBoard: builder.query<IBoard, string>({
       query: (id) => `/boards/${id}`,
       providesTags: (result) => [{ type: 'Board', id: result?._id }],
     }),
@@ -36,7 +36,7 @@ export const {
   useCreateBoardMutation,
   useDeleteBoardMutation,
   useGetUserBoardsQuery,
-  useGetBoardByIdQuery,
+  useGetBoardQuery,
 } = extendedApiSlice;
 
 // export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()
