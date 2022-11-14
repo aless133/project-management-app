@@ -10,11 +10,14 @@ import Typography from '@mui/material/Typography';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlice';
-import { useStoreSelector } from 'hooks/store.hooks';
+import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
+import { IBoardResponse } from 'types';
+import { setAlert } from 'store/uiSlice';
+import { NotifierText, NotifierType } from 'types/NotifierTypes';
 // import { Constants } from 'utils';
 
 export const MainPage = () => {
@@ -24,13 +27,18 @@ export const MainPage = () => {
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
   const [t] = useTranslation();
+  const dispatch = useStoreDispatch();
   const boardIdRef = useRef('');
 
   useCheckAccess('user');
 
-  const handleDeleteBoard = (id: string) => {
+  const handleDeleteBoard = async (id: string) => {
     if (boardIdRef.current) {
-      deleteBoard(id);
+      const response = (await deleteBoard(id)) as IBoardResponse;
+      if (response.error) {
+        dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+      }
+      dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
       setConfirm(false);
     }
   };

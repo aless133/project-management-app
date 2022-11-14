@@ -27,7 +27,7 @@ export interface IUpdatedUser {
   data: Record<string, FormDataEntryValue>;
 }
 
-export interface INewUser {
+export interface IBoardResponse {
   data?: { _id: string; name: string; login: string };
   error?: { status: string; originalStatus: number; data: string };
 }

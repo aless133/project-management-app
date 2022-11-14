@@ -1,7 +1,7 @@
 import { clearUser, selectUser, setToken, setTokenLogged, updateUser } from 'store/userSlice';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
-import { TErr, TValidator, INewUser, IApiError } from 'types';
+import { TErr, TValidator, IBoardResponse, IApiError } from 'types';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState } from 'react';
@@ -106,7 +106,7 @@ export const useFormSign = (isSignUp: boolean) => {
   };
 
   const handleDelete = async (id: string) => {
-    const resp = (await deleteUser(id)) as INewUser;
+    const resp = (await deleteUser(id)) as IBoardResponse;
 
     if (resp.error) {
       setFail(true);
