@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -8,19 +9,19 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useCheckAccess } from 'hooks/checkAccess';
-import { useGetUserBoardsQuery } from 'api/boardsApiSlice';
+import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
-import { useTranslation } from 'react-i18next';
 // import { Constants } from 'utils';
 
 export const MainPage = () => {
+  const [isConfirm, setConfirm] = useState(false);
   const user = useStoreSelector(selectUser);
   const { data: boards /*, error, isLoading*/ } = useGetUserBoardsQuery(user.id as string);
-  const [isConfirm, setConfirm] = useState(false);
+  const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
   const [t] = useTranslation();
   const boardIdRef = useRef('');
@@ -29,7 +30,8 @@ export const MainPage = () => {
 
   const handleDeleteBoard = (id: string) => {
     if (boardIdRef.current) {
-      alert(JSON.stringify(id));
+      deleteBoard(id);
+      setConfirm(false);
     }
   };
 
@@ -55,8 +57,7 @@ export const MainPage = () => {
                       <Typography variant="h2">{board.title}</Typography>
                     </CardContent>
 
-                    <CardActions sx={{ display: 'flex', columnGap: 2 }}>
-                      <Button size="small">{t('View tasks')}</Button>
+                    <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <ClearIcon
                         color="error"
                         onClick={(e) => {
@@ -65,6 +66,7 @@ export const MainPage = () => {
                           boardIdRef.current = `${board._id}` || '';
                         }}
                       />
+                      <Button size="small">{t('View tasks')}</Button>
                     </CardActions>
                   </Card>
                 </Grid>
