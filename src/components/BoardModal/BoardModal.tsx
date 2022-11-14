@@ -6,7 +6,7 @@ import React, { useState, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { selectUser } from 'store/userSlice';
 import { TErr, TValidator } from 'types';
-import { IBoard } from 'types/boardTypes';
+import { IBoardData } from 'types/boardTypes';
 import { Constants } from 'utils';
 import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'utils/helpers';
 import { LoadingButton } from '@mui/lab';
@@ -83,7 +83,7 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
     if (Object.values(err).every((err) => err === '')) {
       try {
         const dataForm = Object.fromEntries(formData.entries()) as TFormData;
-        const data: IBoard = {
+        const data: IBoardData = {
           title: dataForm.boardTitle,
           owner: id as string,
           users: [],
