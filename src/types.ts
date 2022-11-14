@@ -10,6 +10,11 @@ export interface IUser {
 
 export interface IUI {
   lang: string;
+  alert: {
+    type: 'success' | 'error';
+    open: boolean;
+    text: string;
+  };
 }
 
 export interface IStoreState {
