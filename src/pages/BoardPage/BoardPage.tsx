@@ -46,7 +46,11 @@ export const BoardPage = () => {
           <Grid container>
             {columns.map((column) => (
               <Grid key={column._id}>
-                <InlineTextField label={t('Title')} value="custom current value" handleSave={() => {}} />
+                <InlineTextField
+                  label={t('Title')}
+                  value="custom current value"
+                  handleSave={() => {}}
+                />
               </Grid>
             ))}
           </Grid>
