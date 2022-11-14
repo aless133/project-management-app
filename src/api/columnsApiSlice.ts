@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice';
-import { IColumnData, IColumnParams, IColumnResult } from 'types/columnTypes';
+import { IColumnParams, IColumnResult } from 'types/columnTypes';
 // import { TApiTag } from 'types';
 // import type { TagDescription } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 

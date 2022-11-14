@@ -3,10 +3,10 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
+// import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
-import { useCreateColumnMutation, useGetBoardColumnsQuery } from 'api/columnsApiSlice';
+import { useGetBoardColumnsQuery } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { Constants } from 'utils';
