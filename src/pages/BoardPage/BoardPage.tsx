@@ -10,6 +10,7 @@ import { useGetBoardColumnsQuery } from 'api/columnsApiSlice'; //useCreateColumn
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { Constants } from 'utils';
+import { InlineTextField } from 'components/InlineTextField';
 
 export const BoardPage = () => {
   const [t] = useTranslation();
@@ -44,7 +45,9 @@ export const BoardPage = () => {
         <Container>
           <Grid container>
             {columns.map((column) => (
-              <Grid key={column._id}>тут будет компонент column</Grid>
+              <Grid key={column._id}>
+                <InlineTextField label={t('Title')} value="custom current value" handleSave={() => {}} />
+              </Grid>
             ))}
           </Grid>
         </Container>
