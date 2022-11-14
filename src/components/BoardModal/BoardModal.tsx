@@ -91,12 +91,10 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
         setIsLoading(true);
         const answer = await createBoard(data).unwrap();
         if (answer?._id) {
-          dispatch(
-            setAlert({ type: NotifierType.SUCCESS, open: true, text: NotifierText.SUCCESS })
-          );
+          dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
         }
       } catch (err) {
-        dispatch(setAlert({ type: NotifierType.ERROR, open: true, text: NotifierText.ERROR }));
+        dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
       } finally {
         setIsLoading(false);
         closeBoardModal();
