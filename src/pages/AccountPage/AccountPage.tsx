@@ -46,7 +46,7 @@ export const AccountPage = () => {
               <ConfirmModal
                 isOpen={isConfirm}
                 onClose={() => setConfirm(false)}
-                onAction={() => id && handleDelete(id)}
+                onAction={() => handleDelete(id)}
               />
               <Typography
                 variant="h3"
