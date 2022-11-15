@@ -1,9 +1,9 @@
 export interface IUser {
-  id?: string;
+  id: string;
   name?: string;
   login?: string;
   token?: string;
-  exp: number;
+  exp?: number;
   isLogged?: boolean;
   isChecked: true;
 }

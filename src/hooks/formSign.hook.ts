@@ -1,7 +1,7 @@
 import { clearUser, selectUser, setToken, setTokenLogged, updateUser } from 'store/userSlice';
 import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
-import { TErr, TValidator, IBoardResponse, IApiError } from 'types';
+import { TErr, TValidator, IApiError } from 'types';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState } from 'react';
@@ -62,19 +62,20 @@ export const useFormSign = (isSignUp: boolean) => {
             password: data.password,
           }).unwrap();
           dispatch(setTokenLogged(signinData.token));
+          dispatch(updateUser({ name: data.name })); ///after token!
         } catch (err) {
-          setErrStack({ submit: (err as IApiError).data.message });
-          dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+          const err1 = (err as IApiError).data.message;
+          setErrStack({ submit: err1 });
+          dispatch(setAlert({ type: NotifierType.ERROR, text: err1 || NotifierText.ERROR }));
         }
       } else {
         try {
           const signinData = await signin(data).unwrap();
           dispatch(setToken(signinData.token));
         } catch (err) {
-          setErrStack({ submit: (err as IApiError).data.message });
-          dispatch(
-            setAlert({ type: NotifierType.ERROR, text: errStack.submit || NotifierText.ERROR })
-          );
+          const err1 = (err as IApiError).data.message;
+          setErrStack({ submit: err1 });
+          dispatch(setAlert({ type: NotifierType.ERROR, text: err1 || NotifierText.ERROR }));
         }
       }
     }
@@ -108,12 +109,7 @@ export const useFormSign = (isSignUp: boolean) => {
   };
 
   const handleDelete = async (id: string) => {
-    const resp = (await deleteUser(id)) as IBoardResponse;
-
-    if (resp.error) {
-      dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
-      return;
-    }
+    await deleteUser(id).unwrap();
     dispatch(clearUser());
   };
 

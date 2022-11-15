@@ -1,7 +1,7 @@
 import { createSlice, Middleware } from '@reduxjs/toolkit';
 import { IStoreState } from 'types';
 
-const defaultUser = { isChecked: true };
+const defaultUser = { id: '', isChecked: true };
 const userSlice = createSlice({
   name: 'user',
   initialState: () => {
