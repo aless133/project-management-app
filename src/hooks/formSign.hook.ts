@@ -1,5 +1,4 @@
 import { clearUser, selectUser, setToken, setTokenLogged, updateUser } from 'store/userSlice';
-import { useTranslation } from 'react-i18next';
 import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
 import { TErr, TValidator, IApiError } from 'types';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
@@ -22,7 +21,6 @@ const validator: TValidator = {
 };
 
 export const useFormSign = (isSignUp: boolean) => {
-  const [t] = useTranslation();
   const [errStack, setErrStack] = useState<TErr | Record<string, string>>({});
   const [signin, { isLoading: isSigninLoading }] = useSignInMutation();
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
@@ -120,7 +118,6 @@ export const useFormSign = (isSignUp: boolean) => {
     handleSubmit,
     handleSubmitProfile,
     handleChange,
-    t,
     isSignInLoad,
     isSignUpLoad,
     isUpdateLoad,

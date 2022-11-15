@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
-import { ModalWindow } from '../ModalWindow';
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import { useFormSign } from 'hooks/formSign.hook';
 import { setMinMaxLengthError } from 'utils/helpers';
+import { ModalWindow } from '../ModalWindow';
 
-interface ConfirmModalProps {
+interface FormModalProps {
   isOpen: boolean;
   title: string;
   description?: boolean;
@@ -19,8 +20,9 @@ export const FormModal = ({
   onClose,
   title,
   description = false,
-}: ConfirmModalProps) => {
-  const { errStack, handleChange, t } = useFormSign(false);
+}: FormModalProps) => {
+  const { errStack, handleChange } = useFormSign(false);
+  const [t] = useTranslation();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent): void => {

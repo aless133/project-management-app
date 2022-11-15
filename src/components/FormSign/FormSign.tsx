@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Container from '@mui/system/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -18,10 +19,10 @@ export const FormSign = ({ isSignUp = true }) => {
     isSignupLoading,
     handleSubmit,
     handleChange,
-    t,
     isSignInLoad,
     isSignUpLoad,
   } = useFormSign(isSignUp);
+  const [t] = useTranslation();
   const [inValid, setInValid] = useState<boolean | null>(null);
 
   useCheckAccess('guest');

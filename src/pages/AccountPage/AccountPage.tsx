@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -13,15 +14,9 @@ import { selectUser } from 'store/userSlice';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 
 export const AccountPage = () => {
-  const {
-    errStack,
-    t,
-    handleChange,
-    handleSubmitProfile,
-    isUpdateLoad,
-    isDeleteLoad,
-    handleDelete,
-  } = useFormSign(false);
+  const { errStack, handleChange, handleSubmitProfile, isUpdateLoad, isDeleteLoad, handleDelete } =
+    useFormSign(false);
+  const [t] = useTranslation();
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
   useCheckAccess('user');

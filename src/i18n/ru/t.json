@@ -1,5 +1,6 @@
 {
   "Create Board": "Создать проект",
+  "No boards available": "Проекты отсутствуют",
   "View tasks": "Посмотреть проект",
   "Sign In": "Вход",
   "Main": "Главная",
@@ -42,6 +43,6 @@
   "Back to main": "Вернуться на главную",
   "Add first column": "Добавить первую колонку",
   "Add task": "Добавить задачу",
-  "Task Title":"Название задачи",
-  "Task Description":"Описание задачи"
+  "Task Title": "Название задачи",
+  "Task Description": "Описание задачи"
 }
