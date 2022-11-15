@@ -10,7 +10,6 @@ import { useStoreSelector } from 'hooks/store.hooks';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
-import { Notifyer } from 'components/UI/Notifyer';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 
 export const AccountPage = () => {
@@ -20,10 +19,7 @@ export const AccountPage = () => {
     handleChange,
     handleSubmitProfile,
     isUpdateLoad,
-    isSuccess,
     isDeleteLoad,
-    isFail,
-    handleCloseNotify,
     handleDelete,
   } = useFormSign(false);
   const [inValid, setInValid] = useState<boolean>(false);
@@ -47,19 +43,6 @@ export const AccountPage = () => {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onChange={handleChange} onSubmit={handleSubmitProfile}>
-              <Notifyer
-                open={isSuccess}
-                onclose={() => handleCloseNotify('success')}
-                text="Success"
-                type="success"
-              />
-              <Notifyer
-                open={isFail}
-                onclose={() => handleCloseNotify('error')}
-                text="Something went wrong"
-                type="error"
-              />
-
               <ConfirmModal
                 isOpen={isConfirm}
                 onClose={() => setConfirm(false)}
