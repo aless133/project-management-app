@@ -2,7 +2,7 @@ export interface IColumnData {
   title: string;
   order: number;
 }
-export interface IColumnResult extends IColumnData {
+export interface IColumn extends IColumnData {
   _id: string,
   boardId: string;
 }

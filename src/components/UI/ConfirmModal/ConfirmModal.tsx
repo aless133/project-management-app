@@ -4,6 +4,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { ModalWindow } from '../ModalWindow';
 
+import { useStoreDispatch } from 'hooks/store.hooks';
+import { setAlert } from 'store/uiSlice';
+import { NotifierText, NotifierType } from 'types/NotifierTypes';
+
 interface ConfirmModalProps {
   isOpen: boolean;
   onAction: () => void;
@@ -12,12 +16,13 @@ interface ConfirmModalProps {
 
 export const ConfirmModal = ({ isOpen, onAction, onClose }: ConfirmModalProps) => {
   const [t] = useTranslation();
+  const dispatch = useStoreDispatch();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent): void => {
       e.stopPropagation();
       if (isOpen && e.key === 'Enter') {
-        onAction();
+        runOnAction();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -27,15 +32,25 @@ export const ConfirmModal = ({ isOpen, onAction, onClose }: ConfirmModalProps) =
     };
   });
 
+  const runOnAction = async () => {
+    try {
+      await onAction();
+      dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
+      onClose();
+    } catch (err) {
+      dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+    }
+  };
+
   return (
-    <ModalWindow onClose={onClose} open={isOpen} title={t('You sure?')}>
+    <ModalWindow onClose={onClose} open={isOpen} title={t('Are you sure?')}>
       <Box sx={{ p: { md: 4 } }}>
         <Button
           variant="contained"
           fullWidth
           size="large"
           sx={{ mt: 2, fontSize: { xs: 12 } }}
-          onClick={onAction}
+          onClick={runOnAction}
         >
           {t('Confirm')}
         </Button>

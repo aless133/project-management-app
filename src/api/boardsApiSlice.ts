@@ -1,9 +1,9 @@
 import { apiSlice } from './apiSlice';
-import { IBoard } from 'types/boardTypes';
+import { IBoard, IBoardData } from 'types/boardTypes';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createBoard: builder.mutation<IBoard, IBoard>({
+    createBoard: builder.mutation<IBoard, IBoardData>({
       query: (data) => ({
         url: '/boards',
         method: 'POST',

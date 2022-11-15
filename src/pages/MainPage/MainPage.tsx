@@ -10,15 +10,13 @@ import Typography from '@mui/material/Typography';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlice';
-import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
+import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
-import { IBoardResponse } from 'types';
-import { setAlert } from 'store/uiSlice';
-import { NotifierText, NotifierType } from 'types/NotifierTypes';
-// import { Constants } from 'utils';
+// import { setAlert } from 'store/uiSlice';
+// import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
 export const MainPage = () => {
   const [isConfirm, setConfirm] = useState(false);
@@ -27,20 +25,19 @@ export const MainPage = () => {
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
   const [t] = useTranslation();
-  const dispatch = useStoreDispatch();
+  // const dispatch = useStoreDispatch();
   const boardIdRef = useRef('');
 
   useCheckAccess('user');
 
-  const handleDeleteBoard = async (id: string) => {
+  const handleDeleteBoard = (id: string) => {
+    boardIdRef.current = id;
+    setConfirm(true);
+  };
+
+  const handleDeleteBoardConfirmed = async () => {
     if (boardIdRef.current) {
-      const response = (await deleteBoard(id)) as IBoardResponse;
-      if (response.error) {
-        dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
-        return;
-      }
-      dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
-      setConfirm(false);
+      return await deleteBoard(boardIdRef.current).unwrap();
     }
   };
 
@@ -50,9 +47,7 @@ export const MainPage = () => {
         <ConfirmModal
           isOpen={isConfirm}
           onClose={() => setConfirm(false)}
-          onAction={() => {
-            boardIdRef.current && handleDeleteBoard(boardIdRef.current);
-          }}
+          onAction={handleDeleteBoardConfirmed}
         />
         <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
           {boards
@@ -96,8 +91,7 @@ export const MainPage = () => {
                         color="error"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setConfirm(true);
-                          boardIdRef.current = `${board._id}` || '';
+                          handleDeleteBoard(board._id);
                         }}
                       />
                       <Button size="small">{t('View tasks')}</Button>
