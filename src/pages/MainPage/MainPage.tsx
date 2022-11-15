@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -12,7 +13,6 @@ import { useCheckAccess } from 'hooks/checkAccess';
 import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
-import { useNavigate } from 'react-router-dom';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 // import { setAlert } from 'store/uiSlice';

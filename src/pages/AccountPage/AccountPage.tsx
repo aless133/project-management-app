@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -11,7 +12,6 @@ import { useCheckAccess } from 'hooks/checkAccess';
 import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
-import { useTranslation } from 'react-i18next';
 
 export const AccountPage = () => {
   const { errStack, handleChange, handleSubmitProfile, isUpdateLoad, isDeleteLoad, handleDelete } =

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
-import { ModalWindow } from '../ModalWindow';
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import { useFormSign } from 'hooks/formSign.hook';
 import { setMinMaxLengthError } from 'utils/helpers';
-import { useTranslation } from 'react-i18next';
+import { ModalWindow } from '../ModalWindow';
 
 interface FormModalProps {
   isOpen: boolean;

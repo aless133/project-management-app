@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Container from '@mui/system/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -10,7 +11,6 @@ import { Constants, isErrCheck } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
 import { useCheckAccess } from 'hooks/checkAccess';
-import { useTranslation } from 'react-i18next';
 
 export const FormSign = ({ isSignUp = true }) => {
   const {
