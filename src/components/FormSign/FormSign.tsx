@@ -10,6 +10,7 @@ import { Constants, isErrCheck } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
 import { useCheckAccess } from 'hooks/checkAccess';
+import { useTranslation } from 'react-i18next';
 
 export const FormSign = ({ isSignUp = true }) => {
   const {
@@ -18,10 +19,10 @@ export const FormSign = ({ isSignUp = true }) => {
     isSignupLoading,
     handleSubmit,
     handleChange,
-    t,
     isSignInLoad,
     isSignUpLoad,
   } = useFormSign(isSignUp);
+  const [t] = useTranslation();
   const [inValid, setInValid] = useState<boolean | null>(null);
 
   useCheckAccess('guest');

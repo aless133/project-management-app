@@ -11,17 +11,12 @@ import { useCheckAccess } from 'hooks/checkAccess';
 import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
+import { useTranslation } from 'react-i18next';
 
 export const AccountPage = () => {
-  const {
-    errStack,
-    t,
-    handleChange,
-    handleSubmitProfile,
-    isUpdateLoad,
-    isDeleteLoad,
-    handleDelete,
-  } = useFormSign(false);
+  const { errStack, handleChange, handleSubmitProfile, isUpdateLoad, isDeleteLoad, handleDelete } =
+    useFormSign(false);
+  const [t] = useTranslation();
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
   useCheckAccess('user');
