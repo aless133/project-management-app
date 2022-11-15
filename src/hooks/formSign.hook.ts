@@ -6,6 +6,8 @@ import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState } from 'react';
 import { useDeleteUserMutation, useUpdateUserMutation } from 'api/usersApiSlice';
+import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import { setAlert } from 'store/uiSlice';
 
 const err: TErr = {
   name: '',
@@ -26,8 +28,6 @@ export const useFormSign = (isSignUp: boolean) => {
   const [signup, { isLoading: isSignupLoading }] = useSignUpMutation();
   const [updateUserDB, { isLoading: isUpdateLoading }] = useUpdateUserMutation();
   const [deleteUser, { isLoading: isDeleteLoad }] = useDeleteUserMutation();
-  const [isSuccess, setSuccess] = useState(false);
-  const [isFail, setFail] = useState(false);
   const dispatch = useStoreDispatch();
 
   //TODO
@@ -64,7 +64,7 @@ export const useFormSign = (isSignUp: boolean) => {
           dispatch(setTokenLogged(signinData.token));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });
-          setFail(true);
+          dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
         }
       } else {
         try {
@@ -72,7 +72,9 @@ export const useFormSign = (isSignUp: boolean) => {
           dispatch(setToken(signinData.token));
         } catch (err) {
           setErrStack({ submit: (err as IApiError).data.message });
-          setFail(true);
+          dispatch(
+            setAlert({ type: NotifierType.ERROR, text: errStack.submit || NotifierText.ERROR })
+          );
         }
       }
     }
@@ -98,10 +100,10 @@ export const useFormSign = (isSignUp: boolean) => {
         const data = Object.fromEntries(formData.entries());
         const newUser = id && (await updateUserDB({ id, data }).unwrap());
         dispatch(updateUser({ ...newUser }));
-        setSuccess(true);
+        dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
       }
     } catch {
-      setFail(true);
+      dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
     }
   };
 
@@ -109,17 +111,10 @@ export const useFormSign = (isSignUp: boolean) => {
     const resp = (await deleteUser(id)) as IBoardResponse;
 
     if (resp.error) {
-      setFail(true);
+      dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
       return;
     }
     dispatch(clearUser());
-  };
-
-  const handleCloseNotify = (msg: 'success' | 'error') => {
-    if (msg === 'success') {
-      setSuccess(false);
-    }
-    setFail(false);
   };
 
   return {
@@ -134,9 +129,6 @@ export const useFormSign = (isSignUp: boolean) => {
     isSignUpLoad,
     isUpdateLoad,
     isDeleteLoad,
-    isSuccess,
-    isFail,
-    handleCloseNotify,
     handleDelete,
   };
 };
