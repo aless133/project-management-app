@@ -40,5 +40,8 @@
   "Success": "Выполнено успешно",
   "Are you sure?": "Вы уверенны?",
   "Back to main": "Вернуться на главную",
-  "Add first column": "Добавить первую колонку"
+  "Add first column": "Добавить первую колонку",
+  "Add task": "Добавить задачу",
+  "Task Title":"Название задачи",
+  "Task Description":"Описание задачи"
 }
