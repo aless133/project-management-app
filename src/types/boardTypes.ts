@@ -1,6 +1,9 @@
-export interface IBoard {
+export interface IBoardData {
   title: string;
   owner: string;
   users: string[];
-  _id?: string;
+}
+
+export interface IBoard extends IBoardData {
+  _id: string;
 }

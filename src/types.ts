@@ -43,3 +43,8 @@ export interface IApiError {
     message: string;
   };
 }
+
+export interface IApiResult<T> {
+  data?: T;
+  error?: IApiError;
+}
