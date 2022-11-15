@@ -21,8 +21,7 @@ export const FormModal = ({
   title,
   description = false,
 }: ConfirmModalProps) => {
-  const [t] = useTranslation();
-  const { errStack, handleChange } = useFormSign(false);
+  const { errStack, handleChange, t } = useFormSign(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent): void => {

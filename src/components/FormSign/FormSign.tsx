@@ -84,11 +84,6 @@ export const FormSign = ({ isSignUp = true }) => {
                 margin="normal"
                 type="password"
               />
-              {/* {errStack && errStack.submit ? (
-                <Typography align="center" sx={{ mt: 2, color: 'error.main' }}>
-                  {errStack.submit}
-                </Typography>
-              ) : null} */}
               <LoadingButton
                 loading={isSignUp ? isSignUpLoad : isSignInLoad}
                 loadingIndicator={<CircularProgress color="primary" size={25} />}
