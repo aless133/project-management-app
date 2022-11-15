@@ -8,19 +8,44 @@ import Grid from '@mui/material/Grid';
 // import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
-import { useGetBoardColumnsQuery } from 'api/columnsApiSlice'; //useCreateColumnMutation,
+import { useCreateColumnMutation, useGetBoardColumnsQuery } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { Constants } from 'utils';
 import { InlineTextField } from 'components/InlineTextField';
 import { FormModal } from 'components/UI/FormModal';
+import { useStoreDispatch } from 'hooks/store.hooks';
+import { setAlert } from 'store/uiSlice';
+import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
 export const BoardPage = () => {
   const [t] = useTranslation();
   const { id } = useParams();
   const { data: board } = useGetBoardQuery(id as string);
   const { data: columns } = useGetBoardColumnsQuery(id as string);
+  const [createColumn] = useCreateColumnMutation();
+  const dispatch = useStoreDispatch();
 
   const [isFormModalCol, setFormModalCol] = useState(false);
   const [isFormModalTask, setFormModalTask] = useState(false);
+
+  const addColumn = (fields: { name: string; login?: string } | undefined) => {
+    if (id && fields?.name) {
+      const order = columns?.length || 0;
+      const data = { title: fields?.name, order };
+
+      createColumn({ id, data })
+        .unwrap()
+        .then(() => dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS })))
+        .catch(() => {
+          dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+        });
+
+      setFormModalCol(false);
+    }
+  };
+
+  const addTask = () => {
+    //TODO
+  };
 
   return (
     <Box component="main" /*sx={{ flexGrow: 0 }}*/>
@@ -28,18 +53,15 @@ export const BoardPage = () => {
         title="Add Column"
         isOpen={isFormModalCol}
         onClose={() => setFormModalCol(false)}
-        onAction={() => {
-          console.log('action column');
-        }}
+        onAction={addColumn}
       />
       <Container maxWidth="xl">
-        <FormModal
+        {/* <FormModal
           title="Add task"
           isOpen={isFormModalTask}
           description={true}
           onClose={() => setFormModalTask(false)}
-          onAction={() => console.log('action task')}
-        />
+        /> */}
         <Box sx={{ my: 1, display: 'flex', alignItems: 'center' }}>
           <Button variant="outlined">
             <Link
@@ -53,7 +75,7 @@ export const BoardPage = () => {
           <Typography variant="h3" sx={{ margin: 'auto' }}>
             {board && board.title}
           </Typography>
-          <Button
+          {/* <Button
             size="large"
             variant="contained"
             color="secondary"
@@ -61,7 +83,7 @@ export const BoardPage = () => {
             onClick={() => setFormModalTask(true)}
           >
             {t('Add task')}
-          </Button>
+          </Button> */}
         </Box>
         <Box sx={{ textAlign: 'center' }}>
           <Button

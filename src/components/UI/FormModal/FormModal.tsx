@@ -1,46 +1,63 @@
-import React, { useEffect } from 'react';
+import React, { FormEvent, KeyboardEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useFormSign } from 'hooks/formSign.hook';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { ModalWindow } from '../ModalWindow';
+import { setAlert } from 'store/uiSlice';
+import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import { useStoreDispatch } from 'hooks/store.hooks';
 
 interface FormModalProps {
   isOpen: boolean;
   title: string;
   description?: boolean;
-  onAction: () => void;
   onClose: () => void;
+  onAction: (data: { name: string; login?: string } | undefined) => void;
 }
 
 export const FormModal = ({
   isOpen,
-  onAction,
   onClose,
   title,
   description = false,
+  onAction,
 }: FormModalProps) => {
-  const { errStack, handleChange } = useFormSign(false);
+  const { errStack, handleChange, getFieldsColumn } = useFormSign(false);
   const [t] = useTranslation();
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      e.stopPropagation();
-      if (isOpen && e.key === 'Enter') {
-        onAction();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
+  // useEffect(() => {
+  //   const handleKeyDown = (e: KeyboardEvent): void => {
+  //     e.stopPropagation();
+  //     if (isOpen && e.key === 'Enter') {
+  //       onAction();
+  //     }
+  //   };
+  //   document.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  });
+  //   return () => {
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // });
+
+  // const runOnAction = async (e: FormEvent) => {
+  //   try {
+  //     await onAction(e);
+  //     dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
+  //     onClose();
+  //   } catch (err) {
+  //     dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+  //   }
+  // };
 
   return (
     <ModalWindow onClose={onClose} open={isOpen} title={t(title)}>
-      <form onSubmit={onAction} onChange={handleChange} style={{ width: '100%' }}>
+      <form
+        onSubmit={(e) => onAction(getFieldsColumn(e))}
+        onChange={handleChange}
+        style={{ width: '100%' }}
+      >
         <TextField
           error={!!errStack.name}
           name="name"

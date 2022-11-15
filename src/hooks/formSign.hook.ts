@@ -3,7 +3,7 @@ import { useSignInMutation, useSignUpMutation } from 'api/authApiSlice';
 import { TErr, TValidator, IApiError } from 'types';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useDeleteUserMutation, useUpdateUserMutation } from 'api/usersApiSlice';
 import { NotifierText, NotifierType } from 'types/NotifierTypes';
 import { setAlert } from 'store/uiSlice';
@@ -106,6 +106,20 @@ export const useFormSign = (isSignUp: boolean) => {
     }
   };
 
+  const getFieldsColumn = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    for (const [name, value] of formData.entries()) {
+      if (typeof value === 'string') {
+        setErrStack(validateStack(name, value));
+      }
+    }
+    if (!isErrCheck(err)) {
+      return Object.fromEntries(formData.entries()) as { name: string; login?: string };
+    }
+  };
+
   const handleDelete = async (id: string) => {
     await deleteUser(id).unwrap();
     dispatch(clearUser());
@@ -123,5 +137,6 @@ export const useFormSign = (isSignUp: boolean) => {
     isUpdateLoad,
     isDeleteLoad,
     handleDelete,
+    getFieldsColumn,
   };
 };

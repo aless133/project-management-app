@@ -3,11 +3,11 @@ export interface IColumnData {
   order: number;
 }
 export interface IColumn extends IColumnData {
-  _id: string,
+  _id: string;
   boardId: string;
 }
 export interface IColumnParams {
-  id?:string;
-  boardId?:string;
-  data:IColumnData;
+  id?: string;
+  boardId?: string;
+  data: IColumnData;
 }

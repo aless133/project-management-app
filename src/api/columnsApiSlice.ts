@@ -1,18 +1,18 @@
 import { apiSlice } from './apiSlice';
-import { IColumnParams, IColumn } from 'types/columnTypes';
+import { IColumnParams, IColumn, IColumnData } from 'types/columnTypes';
 // import { TApiTag } from 'types';
 // import type { TagDescription } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createColumn: builder.mutation<IColumn, IColumnParams>({
-      query: ({ boardId, data }) => ({
-        url: `/boards/${boardId}/columns`,
-        method: 'POST',
-        body: data,
-      }),
-      // invalidatesTags: ['Column'],
-    }),
+    // createColumn: builder.mutation<IColumn, IColumnParams>({
+    //   query: ({ boardId, data }) => ({
+    //     url: `/boards/${boardId}/columns`,
+    //     method: 'POST',
+    //     body: data,
+    //   }),
+    //   // invalidatesTags: ['Column'],
+    // }),
     getBoardColumns: builder.query<IColumn[], string>({
       query: (boardId) => `/boards/${boardId}/columns`,
       providesTags: (result, err, arg) => [
@@ -21,6 +21,16 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         ...(result ? result!.map(({ _id }) => ({ type: 'Column' as const, id: _id })) : []),
       ],
     }),
+    createColumn: builder.mutation<IColumn, { id: string; data: { title: string; order: number } }>(
+      {
+        query: ({ id, data }) => ({
+          url: `/boards/${id}/columns`,
+          method: 'POST',
+          body: data,
+        }),
+        invalidatesTags: ['BoardColumns'],
+      }
+    ),
   }),
 });
 
