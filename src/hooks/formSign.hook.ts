@@ -62,19 +62,20 @@ export const useFormSign = (isSignUp: boolean) => {
             password: data.password,
           }).unwrap();
           dispatch(setTokenLogged(signinData.token));
+          dispatch(updateUser({ name: data.name })); ///after token!
         } catch (err) {
-          setErrStack({ submit: (err as IApiError).data.message });
-          dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+          const err1 = (err as IApiError).data.message;
+          setErrStack({ submit: err1 });
+          dispatch(setAlert({ type: NotifierType.ERROR, text: err1 || NotifierText.ERROR }));
         }
       } else {
         try {
           const signinData = await signin(data).unwrap();
           dispatch(setToken(signinData.token));
         } catch (err) {
-          setErrStack({ submit: (err as IApiError).data.message });
-          dispatch(
-            setAlert({ type: NotifierType.ERROR, text: errStack.submit || NotifierText.ERROR })
-          );
+          const err1 = (err as IApiError).data.message;
+          setErrStack({ submit: err1 });
+          dispatch(setAlert({ type: NotifierType.ERROR, text: err1 || NotifierText.ERROR }));
         }
       }
     }
