@@ -1,13 +1,10 @@
-import React, { FormEvent, KeyboardEvent, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useFormSign } from 'hooks/formSign.hook';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { ModalWindow } from '../ModalWindow';
-import { setAlert } from 'store/uiSlice';
-import { NotifierText, NotifierType } from 'types/NotifierTypes';
-import { useStoreDispatch } from 'hooks/store.hooks';
 
 interface FormModalProps {
   isOpen: boolean;
@@ -26,30 +23,6 @@ export const FormModal = ({
 }: FormModalProps) => {
   const { errStack, handleChange, getFieldsColumn } = useFormSign(false);
   const [t] = useTranslation();
-
-  // useEffect(() => {
-  //   const handleKeyDown = (e: KeyboardEvent): void => {
-  //     e.stopPropagation();
-  //     if (isOpen && e.key === 'Enter') {
-  //       onAction();
-  //     }
-  //   };
-  //   document.addEventListener('keydown', handleKeyDown);
-
-  //   return () => {
-  //     document.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // });
-
-  // const runOnAction = async (e: FormEvent) => {
-  //   try {
-  //     await onAction(e);
-  //     dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
-  //     onClose();
-  //   } catch (err) {
-  //     dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
-  //   }
-  // };
 
   return (
     <ModalWindow onClose={onClose} open={isOpen} title={t(title)}>

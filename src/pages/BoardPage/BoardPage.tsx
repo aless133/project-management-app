@@ -25,7 +25,7 @@ export const BoardPage = () => {
   const dispatch = useStoreDispatch();
 
   const [isFormModalCol, setFormModalCol] = useState(false);
-  const [isFormModalTask, setFormModalTask] = useState(false);
+  // const [isFormModalTask, setFormModalTask] = useState(false);
 
   const addColumn = (fields: { name: string; login?: string } | undefined) => {
     if (id && fields?.name) {
