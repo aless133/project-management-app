@@ -24,15 +24,15 @@ export const BoardPage = () => {
 
   return (
     <Box component="main" /*sx={{ flexGrow: 0 }}*/>
+      <FormModal
+        title="Add Column"
+        isOpen={isFormModalCol}
+        onClose={() => setFormModalCol(false)}
+        onAction={() => {
+          console.log('action column');
+        }}
+      />
       <Container maxWidth="xl">
-        <FormModal
-          title="Add Column"
-          isOpen={isFormModalCol}
-          onClose={() => setFormModalCol(false)}
-          onAction={() => {
-            console.log('action column');
-          }}
-        />
         <FormModal
           title="Add task"
           isOpen={isFormModalTask}
