@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import { ModalWindow } from '../ModalWindow';
 import { TextField } from '@mui/material';
