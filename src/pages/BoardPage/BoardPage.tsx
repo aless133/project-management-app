@@ -53,6 +53,15 @@ export const BoardPage = () => {
           <Typography variant="h3" sx={{ margin: 'auto' }}>
             {board && board.title}
           </Typography>
+          <Button
+            size="large"
+            variant="contained"
+            color="secondary"
+            sx={{ my: 4 }}
+            onClick={() => setFormModalTask(true)}
+          >
+            {t('Add task')}
+          </Button>
         </Box>
         <Box sx={{ textAlign: 'center' }}>
           <Button
@@ -63,16 +72,6 @@ export const BoardPage = () => {
             onClick={() => setFormModalCol(true)}
           >
             {t('Add first column')}
-          </Button>
-
-          <Button
-            size="large"
-            variant="contained"
-            color="secondary"
-            sx={{ my: 4 }}
-            onClick={() => setFormModalTask(true)}
-          >
-            {t('Add task')}
           </Button>
         </Box>
       </Container>
