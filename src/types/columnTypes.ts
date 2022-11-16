@@ -7,8 +7,7 @@ export interface IColumn extends IColumnData {
   boardId: string;
 }
 export interface IColumnParams {
-  id?: string;
-  columnId?: string;
   boardId: string;
+  columnId?: string;
   data?: IColumnData;
 }
