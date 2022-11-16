@@ -15,17 +15,18 @@ import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 import { TrashBasket } from 'components/TrashBasket';
+import { Spinner } from 'components/Spinner';
 // import { setAlert } from 'store/uiSlice';
 // import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
 export const MainPage = () => {
-  const [isConfirm, setConfirm] = useState(false);
+  const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
-  const { data: boards /*, error, isLoading*/ } = useGetUserBoardsQuery(user.id as string);
+  const { data: boards, isFetching } = useGetUserBoardsQuery(user.id as string);
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
-  const [t] = useTranslation();
   // const dispatch = useStoreDispatch();
+  const [isConfirm, setConfirm] = useState(false);
   const boardIdRef = useRef('');
 
   useCheckAccess('user');
@@ -40,6 +41,10 @@ export const MainPage = () => {
       return await deleteBoard(boardIdRef.current).unwrap();
     }
   };
+
+  if (isFetching) {
+    return <Spinner />;
+  }
 
   return (
     <main>

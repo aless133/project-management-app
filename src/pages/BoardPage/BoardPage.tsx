@@ -36,7 +36,6 @@ export const BoardPage = () => {
   const [isFormModalCol, setFormModalCol] = useState(false);
   const [isConfirm, setConfirm] = useState(false);
   const columnRef = useRef('');
-  // const [isFormModalTask, setFormModalTask] = useState(false);
 
   const isLoading = () => {
     return isBoardLoading || isColumnsLoading;
@@ -60,10 +59,6 @@ export const BoardPage = () => {
       setFormModalCol(false);
     }
   };
-
-  // const addTask = () => {
-  //   //TODO
-  // };
 
   const setColumnId = (id: string) => {
     columnRef.current = id;
