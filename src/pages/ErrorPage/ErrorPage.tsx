@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Constants } from 'utils';
 
-export const ErrorPage = ({ text = 'Sorry, page not found' }) => {
+export const ErrorPage = ({ isNotFound = true }) => {
   const { t } = useTranslation();
 
-  const img = text === 'Sorry, page not found' ? './not_found.jpg' : './error_image.jpg';
+  const img = isNotFound ? './not_found.jpg' : './error_image.jpg';
 
   return (
     <main>
@@ -23,7 +23,7 @@ export const ErrorPage = ({ text = 'Sorry, page not found' }) => {
               fontSize: { xs: 22, sm: 34, md: 34, lg: 50 },
             }}
           >
-            {t(text)}...
+            {isNotFound ? t('Sorry, page not found') : t('Something went wrong')}...
           </Typography>
           <Grid item xl={10}>
             <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>

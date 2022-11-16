@@ -18,7 +18,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <ErrorPage text="Something went wrong" />;
+      return <ErrorPage isNotFound={false} />;
     }
 
     return this.props.children;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -10,37 +10,27 @@ interface FormModalProps {
   isOpen: boolean;
   title: string;
   description?: boolean;
-  onAction: () => void;
   onClose: () => void;
+  onAction: (data: { name: string; login?: string } | undefined) => void;
 }
 
 export const FormModal = ({
   isOpen,
-  onAction,
   onClose,
   title,
   description = false,
+  onAction,
 }: FormModalProps) => {
-  const { errStack, handleChange } = useFormSign(false);
+  const { errStack, handleChange, getFieldsColumn } = useFormSign(false);
   const [t] = useTranslation();
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      e.stopPropagation();
-      if (isOpen && e.key === 'Enter') {
-        onAction();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  });
 
   return (
     <ModalWindow onClose={onClose} open={isOpen} title={t(title)}>
-      <form onSubmit={onAction} onChange={handleChange} style={{ width: '100%' }}>
+      <form
+        onSubmit={(e) => onAction(getFieldsColumn(e))}
+        onChange={handleChange}
+        style={{ width: '100%' }}
+      >
         <TextField
           error={!!errStack.name}
           name="name"
