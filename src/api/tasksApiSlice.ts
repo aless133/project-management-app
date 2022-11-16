@@ -17,7 +17,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'ColumnTasks', id: arg.columnId }],
+      invalidatesTags: (result, error, arg) => [{ type: 'ColumnTasks' as const, id: arg.columnId }],
     }),
 
     updateTask: builder.mutation<ITask, ITaskParams>({
@@ -26,7 +26,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Task', id: arg.taskId }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),    
 
     deleteTask: builder.mutation<ITask, ITaskParams>({
@@ -34,7 +34,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Task', id: arg.taskId }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
   }),
 });

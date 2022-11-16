@@ -13,7 +13,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 
     getBoard: builder.query<IBoard, string>({
       query: (boardId) => `/boards/${boardId}`,
-      providesTags: (result, err, arg) => [{ type: 'Board', id: arg }],
+      providesTags: (result, err, arg) => [{ type: 'Board' as const, id: arg }],
     }),
 
     createBoard: builder.mutation<IBoard, IBoardData>({
@@ -39,7 +39,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${boardId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, err, arg) => [{ type: 'Board', id: arg }],
+      invalidatesTags: (result, err, arg) => [{ type: 'Board' as const, id: arg }],
     }),
   }),
 });

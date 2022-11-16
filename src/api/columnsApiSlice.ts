@@ -19,7 +19,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'BoardColumns', id: arg.boardId }],
+      invalidatesTags: (result, error, arg) => [{ type: 'BoardColumns' as const, id: arg.boardId }],
     }),
 
     updateColumn: builder.mutation<IColumn, IColumnParams>({
@@ -36,7 +36,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${boardId}/columns/${columnId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Column', id: arg.columnId }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Column' as const, id: arg.columnId }],
     }),
   }),
 });
