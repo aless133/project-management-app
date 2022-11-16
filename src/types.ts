@@ -44,7 +44,10 @@ export interface IApiError {
   };
 }
 
+export type TAnyError = Error | IApiError;
+
 export interface IApiResult<T> {
   data?: T;
   error?: IApiError;
 }
+

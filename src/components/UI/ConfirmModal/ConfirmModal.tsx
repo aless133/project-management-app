@@ -5,8 +5,8 @@ import Button from '@mui/material/Button';
 import { ModalWindow } from '../ModalWindow';
 
 import { useStoreDispatch } from 'hooks/store.hooks';
-import { setAlert } from 'store/uiSlice';
-import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import { alertSuccess, alertError } from 'store/uiSlice';
+import { getErrorMessage } from 'utils/helpers';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -35,10 +35,10 @@ export const ConfirmModal = ({ isOpen, onAction, onClose }: ConfirmModalProps) =
   const runOnAction = async () => {
     try {
       await onAction();
-      dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
+      dispatch(alertSuccess());
       onClose();
     } catch (err) {
-      dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+      dispatch(alertError(getErrorMessage(err)));
     }
   };
 

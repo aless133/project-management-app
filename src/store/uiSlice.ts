@@ -1,5 +1,6 @@
-import { createSlice, Middleware } from '@reduxjs/toolkit';
+import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
 import { IStoreState } from 'types';
+import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
 const alert = {
   type: 'success',
@@ -17,11 +18,27 @@ const uiSlice = createSlice({
     return st;
   },
   reducers: {
-    setLang: (state, action) => {
-      state.lang = action.payload;
+    setLang: (state, { payload }) => {
+      state.lang = payload;
     },
-    setAlert: (state, action) => {
-      state.alert = { ...action.payload, open: true };
+    alertError: (state, action: PayloadAction<string | undefined>) => {
+      state.alert = {
+        type: NotifierType.ERROR,
+        text: action.payload
+          ? NotifierText.ERROR_PREFIX + ': ' + action.payload
+          : NotifierText.ERROR,
+        open: true,
+      };
+    },
+    alertSuccess: (state, action: PayloadAction<string | undefined>) => {
+      state.alert = {
+        type: NotifierType.SUCCESS,
+        text: action.payload ? action.payload : NotifierText.SUCCESS,
+        open: true,
+      };
+    },
+    setAlert: (state, { payload }) => {
+      state.alert = { ...payload, open: true };
     },
     clearAlert: (state) => {
       state.alert = { ...alert };
@@ -36,6 +53,6 @@ export const uiMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 export default uiSlice.reducer;
-export const { setLang, setAlert, clearAlert } = uiSlice.actions;
+export const { setLang, setAlert, alertError, alertSuccess, clearAlert } = uiSlice.actions;
 export const selectLang = (state: IStoreState) => state.ui.lang;
 export const selectAlert = (state: IStoreState) => state.ui.alert;
