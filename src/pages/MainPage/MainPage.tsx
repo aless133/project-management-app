@@ -65,7 +65,6 @@ export const MainPage = () => {
                     <Typography
                       variant="h2"
                       sx={{
-                        maxWidth: 250,
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
