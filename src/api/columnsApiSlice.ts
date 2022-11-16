@@ -28,7 +28,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${boardId}/columns/${columnId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'BoardColumns', id: arg.boardId }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Column', id: arg.columnId }],
     }),
   }),
 });
