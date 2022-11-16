@@ -18,6 +18,6 @@ export const apiSlice = createApi({
     },
     // credentials: 'include', // This allows server to set cookies
   }),
-  tagTypes: ['Board', 'BoardColumns', 'Column'],
+  tagTypes: ['Board', 'BoardColumns', 'Column', 'ColumnTask', 'Task'],
   endpoints: () => ({}), //extend!
 });
