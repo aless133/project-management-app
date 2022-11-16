@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -8,7 +8,11 @@ import Button from '@mui/material/Button';
 // import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
-import { useCreateColumnMutation, useGetBoardColumnsQuery } from 'api/columnsApiSlice'; //useCreateColumnMutation,
+import {
+  useCreateColumnMutation,
+  useDeleteColumnMutation,
+  useGetBoardColumnsQuery,
+} from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { Column } from 'components/Column';
 import { Spinner } from 'components/Spinner';
 import { Constants } from 'utils';
@@ -17,6 +21,7 @@ import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { useCheckAccess } from 'hooks/checkAccess';
+import { ConfirmModal } from 'components/UI/ConfirmModal';
 
 export const BoardPage = () => {
   useCheckAccess('user');
@@ -25,9 +30,12 @@ export const BoardPage = () => {
   const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
+  const [deleteColumn] = useDeleteColumnMutation();
   const dispatch = useStoreDispatch();
 
   const [isFormModalCol, setFormModalCol] = useState(false);
+  const [isConfirm, setConfirm] = useState(false);
+  const columnRef = useRef('');
   // const [isFormModalTask, setFormModalTask] = useState(false);
 
   const isLoading = () => {
@@ -57,6 +65,17 @@ export const BoardPage = () => {
   //   //TODO
   // };
 
+  const setColumnId = (id: string) => {
+    columnRef.current = id;
+    setConfirm(true);
+  };
+
+  const handleDeleteColumnConfirmed = async () => {
+    if (id && columnRef.current) {
+      return await deleteColumn({ boardId: id, columnId: columnRef.current }).unwrap();
+    }
+  };
+
   return (
     <Box component="main" className="has-loader">
       {isLoading() ? (
@@ -64,6 +83,11 @@ export const BoardPage = () => {
       ) : (
         <>
           <Container maxWidth="xl">
+            <ConfirmModal
+              isOpen={isConfirm}
+              onClose={() => setConfirm(false)}
+              onAction={handleDeleteColumnConfirmed}
+            />
             <Box sx={{ my: 1, display: 'flex', alignItems: 'center' }}>
               <Button variant="outlined">
                 <Link
@@ -114,7 +138,7 @@ export const BoardPage = () => {
               >
                 {columns!.map((column) => (
                   <Box key={column._id} sx={{ width: 300, flexShrink: 0 }}>
-                    <Column column={column} />
+                    <Column column={column} onSetColumnId={setColumnId} />
                   </Box>
                 ))}
                 <Box key="column-add">

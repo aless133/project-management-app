@@ -8,13 +8,13 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
+import { TrashBasket } from 'components/TrashBasket';
 // import { setAlert } from 'store/uiSlice';
 // import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
@@ -80,15 +80,8 @@ export const MainPage = () => {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <DeleteOutlineIcon
-                      sx={{
-                        borderRadius: '50%',
-                        p: 0.5,
-                        ':hover': { backgroundColor: '#f4d8d8' },
-                        transition: 'background-color .3s',
-                      }}
-                      color="error"
-                      onClick={(e) => {
+                    <TrashBasket
+                      onAction={(e) => {
                         e.stopPropagation();
                         handleDeleteBoard(board._id);
                       }}

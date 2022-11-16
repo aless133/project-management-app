@@ -13,16 +13,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'BoardColumns', id: arg.boardId }],
     }),
-    // createColumn: builder.mutation<IColumn, { id: string; data: { title: string; order: number } }>(
-    //   {
-    //     query: ({ id, data }) => ({
-    //       url: `/boards/${id}/columns`,
-    //       method: 'POST',
-    //       body: data,
-    //     }),
-    //     invalidatesTags: ['BoardColumns'],
-    //   }
-    // ),
+
     getBoardColumns: builder.query<IColumn[], string>({
       query: (boardId) => `/boards/${boardId}/columns`,
       providesTags: (result, err, arg) => [
@@ -31,12 +22,21 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         ...(result ? result!.map(({ _id }) => ({ type: 'Column' as const, id: _id })) : []),
       ],
     }),
+
+    deleteColumn: builder.mutation<IColumn, { boardId: string; columnId: string }>({
+      query: ({ boardId, columnId }) => ({
+        url: `/boards/${boardId}/columns/${columnId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Column', id: arg.columnId }],
+    }),
   }),
 });
 
 export const {
   useCreateColumnMutation,
   // useDeleteBoardMutation,
+  useDeleteColumnMutation,
   useGetBoardColumnsQuery,
   // useGetBoardQuery,
 } = extendedApiSlice;
