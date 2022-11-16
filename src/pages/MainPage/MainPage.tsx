@@ -15,6 +15,7 @@ import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 import { TrashBasket } from 'components/TrashBasket';
+import { useAppContext } from 'app.context';
 // import { setAlert } from 'store/uiSlice';
 // import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
@@ -27,28 +28,33 @@ export const MainPage = () => {
   const [t] = useTranslation();
   // const dispatch = useStoreDispatch();
   const boardIdRef = useRef('');
+  const { confirm } = useAppContext();
 
   useCheckAccess('user');
 
   const handleDeleteBoard = (id: string) => {
-    boardIdRef.current = id;
-    setConfirm(true);
+    confirm(async () => {
+      return await deleteBoard(id).unwrap();
+    });
+    // boardIdRef.current = id;
+    // setConfirm(true);
   };
 
-  const handleDeleteBoardConfirmed = async () => {
-    if (boardIdRef.current) {
-      return await deleteBoard(boardIdRef.current).unwrap();
-    }
-  };
+  // const handleDeleteBoardConfirmed = async () => {
+  //   if (boardIdRef.current) {
+  //     return await deleteBoard(boardIdRef.current).unwrap();
+  //   }
+  // };
 
   return (
     <main>
       <Container maxWidth="xl">
-        <ConfirmModal
+        {/*        <ConfirmModal
           isOpen={isConfirm}
           onClose={() => setConfirm(false)}
           onAction={handleDeleteBoardConfirmed}
         />
+*/}
         <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
           {boards && boards.length ? (
             boards.map((board) => (
