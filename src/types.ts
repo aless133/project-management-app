@@ -50,4 +50,3 @@ export interface IApiResult<T> {
   data?: T;
   error?: IApiError;
 }
-

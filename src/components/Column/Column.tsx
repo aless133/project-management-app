@@ -1,10 +1,9 @@
 import React, { FC, useState } from 'react';
-// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
 import { InlineTextField } from 'components/InlineTextField';
-import { IColumn } from 'types/columnTypes';
+import { IColumn, IColumnParams } from 'types/columnTypes';
 import { TrashBasket } from 'components/TrashBasket';
 import { useGetColumnsTaskQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
 import { FormModal } from 'components/UI/FormModal';
@@ -14,6 +13,7 @@ import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { Grid, Typography } from '@mui/material';
 import { Spinner } from 'components/Spinner';
+import { useUpdateColumnMutation } from 'api/columnsApiSlice';
 
 interface IColumnProps {
   column: IColumn;
@@ -31,6 +31,7 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
     columnId: column._id,
   });
   const [createTask] = useCreateTaskMutation();
+  const [updateColumn] = useUpdateColumnMutation();
 
   const addTask = (fields: { name: string; login?: string } | undefined) => {
     if (fields?.name && fields.login) {
@@ -58,9 +59,22 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
     return <Spinner />;
   }
 
+  const handleSave = async (value: string) => {
+    const requestObj: IColumnParams = {
+      boardId: column.boardId as string,
+      columnId: column._id as string,
+      data: {
+        title: value,
+        order: column.order,
+      },
+    };
+    const resp = await updateColumn(requestObj).unwrap();
+    return resp;
+  };
+
   return (
     <Paper elevation={3}>
-      <InlineTextField label={t('Title')} value={column.title} handleSave={() => {}} />
+      <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
       <TrashBasket onAction={() => onSetColumnId(column._id)} />
       {tasks &&
         tasks.map((task) => (
