@@ -9,23 +9,33 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
 import { useCreateColumnMutation, useGetBoardColumnsQuery } from 'api/columnsApiSlice'; //useCreateColumnMutation,
+import { Column } from 'components/Column';
+import { Spinner } from 'components/Spinner';
 import { Constants } from 'utils';
-import { InlineTextField } from 'components/InlineTextField';
 import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch } from 'hooks/store.hooks';
-import { setAlert } from 'store/uiSlice';
-import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import { alertSuccess, alertError } from 'store/uiSlice';
+import { getErrorMessage } from 'utils/helpers';
+import { useCheckAccess } from 'hooks/checkAccess';
 
 export const BoardPage = () => {
+  useCheckAccess('user');
   const [t] = useTranslation();
   const { id } = useParams();
-  const { data: board } = useGetBoardQuery(id as string);
-  const { data: columns } = useGetBoardColumnsQuery(id as string);
+  const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
+  const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
   const dispatch = useStoreDispatch();
 
   const [isFormModalCol, setFormModalCol] = useState(false);
   // const [isFormModalTask, setFormModalTask] = useState(false);
+
+  const isLoading = () => {
+    return isBoardLoading || isColumnsLoading;
+  };
+  const isColumns = () => {
+    return !!columns && columns.length > 0;
+  };
 
   const addColumn = (fields: { name: string; login?: string } | undefined) => {
     if (id && fields?.name) {
@@ -34,9 +44,9 @@ export const BoardPage = () => {
 
       createColumn({ id, data })
         .unwrap()
-        .then(() => dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS })))
-        .catch(() => {
-          dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+        .then(() => dispatch(alertSuccess()))
+        .catch((err) => {
+          dispatch(alertError(getErrorMessage(err)));
         });
 
       setFormModalCol(false);
@@ -48,70 +58,70 @@ export const BoardPage = () => {
   // };
 
   return (
-    <Box component="main" /*sx={{ flexGrow: 0 }}*/>
-      <FormModal
-        title="Add Column"
-        isOpen={isFormModalCol}
-        onClose={() => setFormModalCol(false)}
-        onAction={addColumn}
-      />
-      <Container maxWidth="xl">
-        {/* <FormModal
-          title="Add task"
-          isOpen={isFormModalTask}
-          description={true}
-          onClose={() => setFormModalTask(false)}
-        /> */}
-        <Box sx={{ my: 1, display: 'flex', alignItems: 'center' }}>
-          <Button variant="outlined">
-            <Link
-              style={{ textDecoration: 'none', color: 'inherit' }}
-              to={Constants.MAIN}
-              replace={true}
-            >
-              {t('Back to main')}
-            </Link>
-          </Button>
-          <Typography variant="h3" sx={{ margin: 'auto' }}>
-            {board && board.title}
-          </Typography>
-          {/* <Button
-            size="large"
-            variant="contained"
-            color="secondary"
-            sx={{ my: 4 }}
-            onClick={() => setFormModalTask(true)}
-          >
-            {t('Add task')}
-          </Button> */}
-        </Box>
-        <Box sx={{ textAlign: 'center' }}>
-          <Button
-            size="large"
-            variant="contained"
-            color="secondary"
-            sx={{ my: 4 }}
-            onClick={() => setFormModalCol(true)}
-          >
-            {t('Add first column')}
-          </Button>
-        </Box>
-      </Container>
-      {columns ? (
-        <Container>
-          <Grid container>
-            {columns.map((column) => (
-              <Grid key={column._id}>
-                <InlineTextField
-                  label={t('Title')}
-                  value="custom current value"
-                  handleSave={() => {}}
-                />
+    <Box component="main" className="has-loader">
+      {isLoading() ? (
+        <Spinner />
+      ) : (
+        <>
+          <Container maxWidth="xl">
+            <Box sx={{ my: 1, display: 'flex', alignItems: 'center' }}>
+              <Button variant="outlined">
+                <Link
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                  to={Constants.MAIN}
+                  replace={true}
+                >
+                  {t('Back to main')}
+                </Link>
+              </Button>
+              <Typography variant="h3" sx={{ margin: 'auto' }}>
+                {board && board.title}
+              </Typography>
+            </Box>
+            {isColumns() ? null : (
+              <Box sx={{ textAlign: 'center' }}>
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="secondary"
+                  sx={{ my: 4 }}
+                  onClick={() => setFormModalCol(true)}
+                >
+                  {t('Add first column')}
+                </Button>
+              </Box>
+            )}
+          </Container>
+          {isColumns() ? (
+            <Container>
+              <Grid container spacing={2} sx={{ flexWrap: 'nowrap' }}>
+                {columns!.map((column) => (
+                  <Grid item key={column._id} sx={{ minWidth: 300 }}>
+                    <Column column={column} />
+                  </Grid>
+                ))}
+                <Grid item key="column-add">
+                  <Button
+                    size="large"
+                    variant="contained"
+                    color="secondary"
+                    sx={{ my: 4, whiteSpace: 'nowrap' }}
+                    onClick={() => setFormModalCol(true)}
+                  >
+                    {t('Add column')}
+                  </Button>
+                </Grid>
               </Grid>
-            ))}
-          </Grid>
-        </Container>
-      ) : null}
+            </Container>
+          ) : null}
+          <FormModal
+            title={t('Add Column')}
+            isOpen={isFormModalCol}
+            onClose={() => setFormModalCol(false)}
+            onAction={addColumn}
+          />
+        </>
+      )}
     </Box>
   );
 };
