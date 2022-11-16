@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+// import Grid from '@mui/material/Grid';
 // import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
@@ -42,7 +42,7 @@ export const BoardPage = () => {
       const order = columns?.length || 0;
       const data = { title: fields?.name, order };
 
-      createColumn({ id, data })
+      createColumn({ boardId: id, data })
         .unwrap()
         .then(() => dispatch(alertSuccess()))
         .catch((err) => {
@@ -93,14 +93,31 @@ export const BoardPage = () => {
             )}
           </Container>
           {isColumns() ? (
-            <Container>
-              <Grid container spacing={2} sx={{ flexWrap: 'nowrap' }}>
+            <Container
+              maxWidth={false}
+              sx={{
+                display: 'flex',
+                overflowX: 'auto',
+              }}
+            >
+              <Box
+                sx={{
+                  margin: 'auto',
+                  display: 'flex',
+                  flexWrap: 'nowrap',
+                  gap: 2,
+                  py: 2,
+                  flexDirection: 'row',
+                  alignItems: 'top',
+                  justifyContent: 'center',
+                }}
+              >
                 {columns!.map((column) => (
-                  <Grid item key={column._id} sx={{ minWidth: 300 }}>
+                  <Box key={column._id} sx={{ width: 300, flexShrink: 0 }}>
                     <Column column={column} />
-                  </Grid>
+                  </Box>
                 ))}
-                <Grid item key="column-add">
+                <Box key="column-add">
                   <Button
                     size="large"
                     variant="contained"
@@ -110,8 +127,8 @@ export const BoardPage = () => {
                   >
                     {t('Add column')}
                   </Button>
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             </Container>
           ) : null}
           <FormModal
