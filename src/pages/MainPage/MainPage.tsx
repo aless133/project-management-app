@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
+// import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
@@ -13,21 +14,21 @@ import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlic
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
-import { ConfirmModal } from 'components/UI/ConfirmModal';
+// import { ConfirmModal } from 'components/UI/ConfirmModal';
 import { TrashBasket } from 'components/TrashBasket';
 import { useAppContext } from 'app.context';
 // import { setAlert } from 'store/uiSlice';
 // import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
 export const MainPage = () => {
-  const [isConfirm, setConfirm] = useState(false);
+  // const [isConfirm, setConfirm] = useState(false);
   const user = useStoreSelector(selectUser);
   const { data: boards /*, error, isLoading*/ } = useGetUserBoardsQuery(user.id as string);
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
   const [t] = useTranslation();
   // const dispatch = useStoreDispatch();
-  const boardIdRef = useRef('');
+  // const boardIdRef = useRef('');
   const { confirm } = useAppContext();
 
   useCheckAccess('user');
