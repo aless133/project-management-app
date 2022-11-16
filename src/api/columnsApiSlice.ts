@@ -17,7 +17,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
     getBoardColumns: builder.query<IColumn[], string>({
       query: (boardId) => `/boards/${boardId}/columns`,
       providesTags: (result, err, arg) => [
-        'Column',
         { type: 'BoardColumns' as const, id: arg },
         ...(result ? result!.map(({ _id }) => ({ type: 'Column' as const, id: _id })) : []),
       ],

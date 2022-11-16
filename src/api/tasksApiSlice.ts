@@ -3,21 +3,21 @@ import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getColumnsTask: builder.query<ITask[], ITaskParams>({
-      query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
-      providesTags: (result) =>
-        result
-          ? [...result.map(({ _id }) => ({ type: 'ColumnTask' as const, id: _id })), 'ColumnTask']
-          : [],
-    }),
-
     createTask: builder.mutation<ITask, ITaskParams>({
       query: ({ boardId, columnId, data }) => ({
         url: `/boards/${boardId}/columns/${columnId}/tasks`,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['ColumnTask'],
+      invalidatesTags: (result, error, arg) => [{ type: 'ColumnTasks', id: arg.columnId }],
+    }),
+
+    getColumnsTask: builder.query<ITask[], ITaskParams>({
+      query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
+      providesTags: (result, err, arg) => [
+        { type: 'ColumnTasks', id: arg.columnId },
+        ...(result ? result!.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : []),
+      ],      
     }),
 
     deleteTask: builder.mutation<ITask, ITaskParams>({
@@ -25,7 +25,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'ColumnTask', id: arg.columnId }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Task', id: arg.taskId }],
     }),
   }),
 });
