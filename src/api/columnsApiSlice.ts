@@ -23,12 +23,21 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       ],
     }),
 
-    deleteColumn: builder.mutation<IColumn, { boardId: string; columnId: string }>({
+    deleteColumn: builder.mutation<IColumn, IColumnParams>({
       query: ({ boardId, columnId }) => ({
         url: `/boards/${boardId}/columns/${columnId}`,
         method: 'DELETE',
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Column', id: arg.columnId }],
+    }),
+
+    updateColumn: builder.mutation<IColumn, IColumnParams>({
+      query: ({ boardId, columnId, data }) => ({
+        url: `/boards/${boardId}/columns/${columnId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['BoardColumns'],
     }),
   }),
 });
@@ -39,6 +48,7 @@ export const {
   useDeleteColumnMutation,
   useGetBoardColumnsQuery,
   // useGetBoardQuery,
+  useUpdateColumnMutation,
 } = extendedApiSlice;
 
 // export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()
