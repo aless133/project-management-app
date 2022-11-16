@@ -1,9 +1,9 @@
-import { ITaskParams, ITaskResponse } from 'types/taskTypes';
+import { ITask, ITaskParams } from 'types/taskTypes';
 import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getColumnsTask: builder.query<ITaskResponse[], ITaskParams>({
+    getColumnsTask: builder.query<ITask[], ITaskParams>({
       query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
       providesTags: (result) =>
         result
@@ -11,7 +11,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
           : [],
     }),
 
-    createTask: builder.mutation<ITaskResponse, ITaskParams>({
+    createTask: builder.mutation<ITask, ITaskParams>({
       query: ({ boardId, columnId, data }) => ({
         url: `/boards/${boardId}/columns/${columnId}/tasks`,
         method: 'POST',
@@ -20,7 +20,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['ColumnTask'],
     }),
 
-    deleteTask: builder.mutation<ITaskResponse, ITaskParams>({
+    deleteTask: builder.mutation<ITask, ITaskParams>({
       query: ({ boardId, columnId, taskId }) => ({
         url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         method: 'DELETE',

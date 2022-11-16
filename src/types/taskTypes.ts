@@ -1,4 +1,4 @@
-export interface ITask {
+export interface ITaskData {
   title: string;
   order: number;
   description: string;
@@ -8,7 +8,7 @@ export interface ITask {
   users: string[];
 }
 
-export interface ITaskResponse extends ITask {
+export interface ITask extends ITaskData {
   _id: string;
 }
 
