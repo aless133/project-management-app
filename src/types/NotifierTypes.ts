@@ -6,4 +6,5 @@ export enum NotifierType {
 export enum NotifierText {
   SUCCESS = 'Success',
   ERROR = 'Something went wrong',
+  ERROR_PREFIX = 'Error',
 }

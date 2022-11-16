@@ -1,5 +1,5 @@
 import { Constants } from 'utils';
-import { TErr } from 'types';
+import { TErr, IApiError } from 'types';
 import i18next from 'i18next';
 
 export const isErrCheck = (err: TErr) => Object.values(err).some((err) => err.length > 0);
@@ -36,4 +36,10 @@ export const setCreateTitleError = (len: string): string => {
   } else {
     return ' ';
   }
+};
+
+export const getErrorMessage = (err: unknown): string => {
+  if ((err as IApiError).data?.message) return (err as IApiError).data?.message;
+  if ((err as Error).message) return (err as Error).message;
+  return '';
 };
