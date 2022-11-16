@@ -43,9 +43,9 @@ export const BoardPage = () => {
     }
   };
 
-  const addTask = () => {
-    //TODO
-  };
+  // const addTask = () => {
+  //   //TODO
+  // };
 
   return (
     <Box component="main" /*sx={{ flexGrow: 0 }}*/>
