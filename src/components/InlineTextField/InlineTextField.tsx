@@ -4,20 +4,20 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-// import { addAlert } from 'store/uiSlice';
-// import { useStoreDispatch } from 'hooks/store.hooks';
-// import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import { useStoreDispatch } from 'hooks/store.hooks';
+import { alertError, alertSuccess } from 'store/uiSlice';
+import { IColumn } from 'types/columnTypes';
 
 interface IInlineTextFieldProps {
   label: string;
   value: string;
-  handleSave: (value: string) => void;
+  handleSave: (value: string) => Promise<IColumn>;
 }
 
 export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldProps) => {
   const [isEditing, setEditing] = useState<boolean>(false);
   const input = useRef<HTMLInputElement>(null);
-  // const dispatch = useStoreDispatch();
+  const dispatch = useStoreDispatch();
 
   useEffect(() => {
     if (isEditing && input.current) {
@@ -26,12 +26,18 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
   }, [isEditing, input]);
 
   const handleOk = async () => {
-    const value1 = input.current ? input.current.value : '';
+    const value = input.current ? input.current.value : '';
     try {
-      await handleSave(value1);
-      setEditing(false);
+      const resp = await handleSave(value);
+      if (resp?.title) {
+        dispatch(alertSuccess());
+      } else {
+        dispatch(alertError());
+      }
     } catch (e) {
-      // dispatch(addAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+      dispatch(alertError());
+    } finally {
+      setEditing(false);
     }
   };
 
@@ -54,7 +60,19 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
           />
         </Box>
       ) : (
-        <Typography variant="h3" onClick={() => setEditing(true)}>
+        <Typography
+          variant="h3"
+          onClick={() => setEditing(true)}
+          sx={{
+            pt: 1,
+            pl: 2,
+            pr: 2,
+            fontSize: 28,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
           {value}
         </Typography>
       )}
