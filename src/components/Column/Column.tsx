@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
 import { InlineTextField } from 'components/InlineTextField';
 import { IColumn } from 'types/columnTypes';
-import { Trash } from 'components/Trash';
+import { TrashBasket } from 'components/TrashBasket';
 
 interface IColumnProps {
   column: IColumn;
@@ -18,7 +18,7 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
   return (
     <Paper elevation={3}>
       <InlineTextField label={t('Title')} value={column.title} handleSave={() => {}} />
-      <Trash onAction={() => onSetColumnId(column._id)} />
+      <TrashBasket onAction={() => onSetColumnId(column._id)} />
       <Button
         variant="contained"
         color="secondary"

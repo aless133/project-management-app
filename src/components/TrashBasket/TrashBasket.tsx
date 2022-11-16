@@ -1,11 +1,11 @@
 import React from 'react';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-interface TrashProps {
+interface TrashBasketProps {
   onAction: React.MouseEventHandler<SVGSVGElement>;
 }
 
-export const Trash = ({ onAction }: TrashProps) => {
+export const TrashBasket = ({ onAction }: TrashBasketProps) => {
   return (
     <DeleteOutlineIcon
       sx={{

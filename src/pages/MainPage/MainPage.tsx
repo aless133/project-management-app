@@ -14,7 +14,7 @@ import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
-import { Trash } from 'components/Trash';
+import { TrashBasket } from 'components/TrashBasket';
 // import { setAlert } from 'store/uiSlice';
 // import { NotifierText, NotifierType } from 'types/NotifierTypes';
 
@@ -80,7 +80,7 @@ export const MainPage = () => {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <Trash
+                    <TrashBasket
                       onAction={(e) => {
                         e.stopPropagation();
                         handleDeleteBoard(board._id);
