@@ -23,19 +23,10 @@ export const FormSign = ({ isSignUp = true }) => {
     isSignUpLoad,
   } = useFormSign(isSignUp);
   const [t] = useTranslation();
-  // const [inValid, setInValid] = useState<boolean | null>(null);
 
   useCheckAccess('guest');
 
   // if (navigated) return null;
-
-  // useEffect(() => {
-  //   if (inValid === null || !isErrCheck(errStack)) {
-  //     setInValid(false);
-  //   } else {
-  //     setInValid(true);
-  //   }
-  // }, [errStack, inValid]);
 
   return (
     <main style={{ display: 'flex', alignItems: 'center' }}>
@@ -75,6 +66,13 @@ export const FormSign = ({ isSignUp = true }) => {
                 helperText={setMinMaxLengthError(errStack.password)}
                 margin="normal"
                 type="password"
+                required
+                inputProps={{
+                  autocomplete: 'new-password',
+                  form: {
+                    autocomplete: 'off',
+                  },
+                }}
               />
               <LoadingButton
                 loading={isSignUp ? isSignUpLoad : isSignInLoad}
