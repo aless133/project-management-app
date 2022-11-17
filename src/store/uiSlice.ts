@@ -27,14 +27,14 @@ const uiSlice = createSlice({
         type: NotifierType.ERROR,
         text: action.payload
           ? i18n.t(NotifierText.ERROR_PREFIX) + ': ' + action.payload
-          : NotifierText.ERROR,
+          : i18n.t(NotifierText.ERROR),
         open: true,
       };
     },
     alertSuccess: (state, action: PayloadAction<string | undefined>) => {
       state.alert = {
         type: NotifierType.SUCCESS,
-        text: action.payload ? action.payload : NotifierText.SUCCESS,
+        text: action.payload ? action.payload : i18n.t(NotifierText.SUCCESS),
         open: true,
       };
     },
