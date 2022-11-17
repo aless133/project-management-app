@@ -1,8 +1,21 @@
 import { apiSlice } from './apiSlice';
-import { IBoard, IBoardData } from 'types/boardTypes';
+import { IBoard, IBoardData, IBoardParams } from 'types/boardTypes';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getUserBoards: builder.query<IBoard[], string>({
+      query: (userId) => `/boardsSet/${userId}`,
+      providesTags: (result) => [
+        'Board',
+        ...(result ? result.map(({ _id }) => ({ type: 'Board' as const, id: _id })) : []),
+      ],
+    }),
+
+    getBoard: builder.query<IBoard, string>({
+      query: (boardId) => `/boards/${boardId}`,
+      providesTags: (result, err, arg) => [{ type: 'Board' as const, id: arg }],
+    }),
+
     createBoard: builder.mutation<IBoard, IBoardData>({
       query: (data) => ({
         url: '/boards',
@@ -11,23 +24,22 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Board'],
     }),
+
+    updateBoard: builder.mutation<IBoard, IBoardParams>({
+      query: ({ boardId, data }) => ({
+        url: `/boards/${boardId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (result, err, arg) => [{ type: 'Board' as const, id: arg.boardId }],
+    }),
+
     deleteBoard: builder.mutation<IBoard, string>({
-      query: (id) => ({
-        url: `/boards/${id}`,
+      query: (boardId) => ({
+        url: `/boards/${boardId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Board'],
-    }),
-    getUserBoards: builder.query<IBoard[], string>({
-      query: (id) => `/boardsSet/${id}`,
-      providesTags: (result) =>
-        result
-          ? [...result.map(({ _id }) => ({ type: 'Board' as const, id: _id })), 'Board']
-          : ['Board'],
-    }),
-    getBoard: builder.query<IBoard, string>({
-      query: (id) => `/boards/${id}`,
-      providesTags: (result) => [{ type: 'Board', id: result?._id }],
+      invalidatesTags: (result, err, arg) => [{ type: 'Board' as const, id: arg }],
     }),
   }),
 });
