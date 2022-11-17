@@ -168,14 +168,14 @@ export const BoardPage = () => {
                   sx={{
                     position: 'absolute',
                     top: -15,
-                    right: { xs: -100, sm: -100, md: -178, lg: -178 },
+                    right: { xs: -100, sm: -100, md: -240, lg: -240 },
                   }}
                 >
                   <Button
                     size="large"
                     variant="contained"
                     color="secondary"
-                    sx={{ my: 4, whiteSpace: 'nowrap', mr: 2 }}
+                    sx={{ width: { md: 205, lg: 205 }, my: 4, whiteSpace: 'nowrap', mr: 2 }}
                     onClick={() => setFormModalCol(true)}
                   >
                     <AddchartSharpIcon

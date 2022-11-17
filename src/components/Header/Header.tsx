@@ -96,14 +96,14 @@ export const Header = () => {
           >
             {isAuth ? (
               <>
-                <Box sx={{ width: { md: 390, lg: 420 } }}>
+                <Box sx={{ width: { md: 390, lg: 390 } }}>
                   <Button
                     component={NavLink}
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
                       color: 'secondary.main',
-                      width: 180,
+                      width: 145,
                       fontSize: 14,
                       textDecoration: 'none',
                       '&.active': {
@@ -132,7 +132,7 @@ export const Header = () => {
                   sx={{
                     display: { xs: 'none', md: 'flex', lb: 'flex' },
                     alignItems: 'center',
-                    width: { md: 390, lg: 420 },
+                    width: { md: 390, lg: 390 },
                     fontSize: 14,
                   }}
                 >
@@ -188,7 +188,7 @@ export const Header = () => {
                     </Box>
                   </Button>
 
-                  <Button sx={{ mr: 1, color: 'secondary.main' }} onClick={openExitModal}>
+                  <Button sx={{ color: 'secondary.main' }} onClick={openExitModal}>
                     <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
                     {t('Sign Out')}
                   </Button>
