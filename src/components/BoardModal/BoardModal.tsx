@@ -10,8 +10,8 @@ import { IBoardData } from 'types/boardTypes';
 import { Constants } from 'utils';
 import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'utils/helpers';
 import { LoadingButton } from '@mui/lab';
-import { setAlert } from 'store/uiSlice';
-import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import { alertError, alertSuccess } from 'store/uiSlice';
+import { getErrorMessage } from 'utils/helpers';
 
 const validator: TValidator = {
   [Constants.BOARD_TITLE]: [
@@ -82,22 +82,20 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
 
     if (Object.values(err).every((err) => err === '')) {
       try {
+        setIsLoading(true);
         const dataForm = Object.fromEntries(formData.entries()) as TFormData;
         const data: IBoardData = {
           title: dataForm.boardTitle,
           owner: id as string,
           users: [],
         };
-        setIsLoading(true);
-        const answer = await createBoard(data).unwrap();
-        if (answer?._id) {
-          dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
-        }
+        await createBoard(data).unwrap();
+        dispatch(alertSuccess());
+        closeBoardModal();
       } catch (err) {
-        dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+        dispatch(alertError(getErrorMessage(err)));
       } finally {
         setIsLoading(false);
-        closeBoardModal();
       }
     } else {
       setIsDisabledSubmitBtn(true);

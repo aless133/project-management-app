@@ -38,11 +38,8 @@ const uiSlice = createSlice({
         open: true,
       };
     },
-    setAlert: (state, { payload }) => {
-      state.alert = { ...payload, open: true };
-    },
-    clearAlert: (state) => {
-      state.alert = { ...alert };
+    hideAlert: (state) => {
+      state.alert.open = false;
     },
   },
 });
@@ -54,6 +51,6 @@ export const uiMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 export default uiSlice.reducer;
-export const { setLang, setAlert, alertError, alertSuccess, clearAlert } = uiSlice.actions;
+export const { setLang, alertError, alertSuccess, hideAlert } = uiSlice.actions;
 export const selectLang = (state: IStoreState) => state.ui.lang;
 export const selectAlert = (state: IStoreState) => state.ui.alert;
