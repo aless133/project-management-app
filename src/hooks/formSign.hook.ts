@@ -6,7 +6,8 @@ import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'uti
 import { useState, FormEvent } from 'react';
 import { useDeleteUserMutation, useUpdateUserMutation } from 'api/usersApiSlice';
 import { NotifierText, NotifierType } from 'types/NotifierTypes';
-import { setAlert } from 'store/uiSlice';
+import { alertSuccess, alertError } from 'store/uiSlice';
+import { getErrorMessage } from 'utils/helpers';
 
 const err: TErr = {
   name: '',
@@ -64,7 +65,7 @@ export const useFormSign = (isSignUp: boolean) => {
         } catch (err) {
           const err1 = (err as IApiError).data.message;
           setErrStack({ submit: err1 });
-          dispatch(setAlert({ type: NotifierType.ERROR, text: err1 || NotifierText.ERROR }));
+          dispatch(alertError(getErrorMessage(err)));
         }
       } else {
         try {
@@ -73,7 +74,7 @@ export const useFormSign = (isSignUp: boolean) => {
         } catch (err) {
           const err1 = (err as IApiError).data.message;
           setErrStack({ submit: err1 });
-          dispatch(setAlert({ type: NotifierType.ERROR, text: err1 || NotifierText.ERROR }));
+          dispatch(alertError(getErrorMessage(err)));
         }
       }
     }
@@ -99,10 +100,10 @@ export const useFormSign = (isSignUp: boolean) => {
         const data = Object.fromEntries(formData.entries());
         const newUser = id && (await updateUserDB({ id, data }).unwrap());
         dispatch(updateUser({ ...newUser }));
-        dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
+        dispatch(alertSuccess());
       }
-    } catch {
-      dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
+    } catch (err) {
+      dispatch(alertError(getErrorMessage(err)));
     }
   };
 
