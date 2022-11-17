@@ -168,7 +168,7 @@ export const BoardPage = () => {
                   sx={{
                     position: 'absolute',
                     top: -15,
-                    right: { xs: -100, sm: -100, md: -240, lg: -240 },
+                    left: '103%',
                   }}
                 >
                   <Button
