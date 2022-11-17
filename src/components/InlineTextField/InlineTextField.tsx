@@ -15,6 +15,7 @@ interface IInlineTextFieldProps {
 }
 
 export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldProps) => {
+  const [inputValue, setInputValue] = useState<string>(value);
   const [isEditing, setEditing] = useState<boolean>(false);
   const input = useRef<HTMLInputElement>(null);
   const dispatch = useStoreDispatch();
@@ -25,19 +26,19 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
     }
   }, [isEditing, input]);
 
+  useEffect(() => {
+    setInputValue(value);
+  }, [value, setInputValue]);
+
   const handleOk = async () => {
     const value = input.current ? input.current.value : '';
     try {
-      const resp = await handleSave(value);
-      if (resp?.title) {
-        dispatch(alertSuccess());
-      } else {
-        dispatch(alertError());
-      }
+      await handleSave(value);
+      setInputValue(value);
+      setEditing(false);
+      dispatch(alertSuccess());
     } catch (e) {
       dispatch(alertError());
-    } finally {
-      setEditing(false);
     }
   };
 
@@ -49,7 +50,7 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
             sx={{ flexGrow: 1 }}
             label={label}
             variant="outlined"
-            defaultValue={value}
+            defaultValue={inputValue}
             inputRef={input}
           />
           <CheckIcon fontSize="large" sx={{ cursor: 'pointer' }} onClick={handleOk} />
@@ -73,7 +74,7 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
             textOverflow: 'ellipsis',
           }}
         >
-          {value}
+          {inputValue}
         </Typography>
       )}
     </Box>

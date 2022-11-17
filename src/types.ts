@@ -50,3 +50,5 @@ export interface IApiResult<T> {
   data?: T;
   error?: IApiError;
 }
+
+export type TFnVoid = () => void;

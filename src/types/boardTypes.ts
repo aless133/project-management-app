@@ -7,3 +7,7 @@ export interface IBoardData {
 export interface IBoard extends IBoardData {
   _id: string;
 }
+export interface IBoardParams {
+  boardId: string;
+  data?: IBoardData;
+}

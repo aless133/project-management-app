@@ -15,6 +15,7 @@ import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 import { TrashBasket } from 'components/TrashBasket';
+import { useAppContext } from 'app.context';
 import { Spinner } from 'components/Spinner';
 // import { setAlert } from 'store/uiSlice';
 // import { NotifierText, NotifierType } from 'types/NotifierTypes';

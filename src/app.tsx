@@ -3,6 +3,7 @@ import { StoreProvider } from 'store/store';
 import AppRouter from 'router/AppRouter';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
+import { AppContextProvider } from 'app.context';
 
 const theme = createTheme({
   palette: {
@@ -23,7 +24,9 @@ function App() {
   return (
     <StoreProvider>
       <ThemeProvider theme={theme}>
-        <AppRouter />
+        <AppContextProvider>
+          <AppRouter />
+        </AppContextProvider>
       </ThemeProvider>
     </StoreProvider>
   );
