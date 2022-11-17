@@ -54,7 +54,7 @@ export const BoardPage = () => {
   };
 
   useEffect(() => {
-    if (!!board && !!user && user.id && board.owner != user.id) {
+    if (!!board && !!user && user.id && board.owner !== user.id) {
       navigate(Constants.MAIN, { replace: true });
     }
   }, [isBoardSuccess, board, user, navigate]);
