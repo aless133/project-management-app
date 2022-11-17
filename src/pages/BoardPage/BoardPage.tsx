@@ -176,10 +176,7 @@ export const BoardPage = () => {
                     color="secondary"
                     sx={{
                       width: { md: 205, lg: 205 },
-                      my: 4,
                       whiteSpace: 'nowrap',
-                      mt: 0,
-                      mb: 0,
                       mr: 2,
                     }}
                     onClick={() => setFormModalCol(true)}
