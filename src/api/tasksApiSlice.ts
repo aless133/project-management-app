@@ -27,7 +27,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
-    }),    
+    }),
 
     deleteTask: builder.mutation<ITask, ITaskParams>({
       query: ({ boardId, columnId, taskId }) => ({

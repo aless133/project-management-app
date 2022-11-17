@@ -1,5 +1,4 @@
 import React from 'react';
-// import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
@@ -14,21 +13,16 @@ import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlic
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
-// import { ConfirmModal } from 'components/UI/ConfirmModal';
 import { TrashBasket } from 'components/TrashBasket';
 import { useAppContext } from 'app.context';
-// import { setAlert } from 'store/uiSlice';
-// import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import { Spinner } from 'components/Spinner';
 
 export const MainPage = () => {
-  // const [isConfirm, setConfirm] = useState(false);
+  const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
-  const { data: boards /*, error, isLoading*/ } = useGetUserBoardsQuery(user.id as string);
+  const { data: boards, isFetching } = useGetUserBoardsQuery(user.id as string);
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
-  const [t] = useTranslation();
-  // const dispatch = useStoreDispatch();
-  // const boardIdRef = useRef('');
   const { confirm } = useAppContext();
 
   useCheckAccess('user');
@@ -37,25 +31,15 @@ export const MainPage = () => {
     confirm(async () => {
       return await deleteBoard(id).unwrap();
     });
-    // boardIdRef.current = id;
-    // setConfirm(true);
   };
 
-  // const handleDeleteBoardConfirmed = async () => {
-  //   if (boardIdRef.current) {
-  //     return await deleteBoard(boardIdRef.current).unwrap();
-  //   }
-  // };
+  if (isFetching) {
+    return <Spinner />;
+  }
 
   return (
     <main>
       <Container maxWidth="xl">
-        {/*        <ConfirmModal
-          isOpen={isConfirm}
-          onClose={() => setConfirm(false)}
-          onAction={handleDeleteBoardConfirmed}
-        />
-*/}
         <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
           {boards && boards.length ? (
             boards.map((board) => (

@@ -3,8 +3,6 @@ export interface ITaskData {
   order: number;
   description: string;
   userId: string;
-  boardId: string;
-  columnId: string;
   users: string[];
 }
 
@@ -16,5 +14,5 @@ export interface ITaskParams {
   boardId: string;
   columnId: string;
   taskId?: string;
-  data?: ITask;
+  data?: ITaskData;
 }
