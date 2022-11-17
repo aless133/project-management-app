@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Container from '@mui/system/Container';
@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Constants, isErrCheck } from 'utils';
+import { Constants } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
 import { useCheckAccess } from 'hooks/checkAccess';
@@ -23,7 +23,7 @@ export const FormSign = ({ isSignUp = true }) => {
     isSignUpLoad,
   } = useFormSign(isSignUp);
   const [t] = useTranslation();
-  const [inValid, setInValid] = useState<boolean | null>(null);
+  // const [inValid, setInValid] = useState<boolean | null>(null);
 
   useCheckAccess('guest');
 
