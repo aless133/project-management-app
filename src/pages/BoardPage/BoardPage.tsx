@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -22,16 +22,27 @@ import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { useCheckAccess } from 'hooks/checkAccess';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
+import { useNavigate } from 'react-router-dom';
+import { useStoreSelector } from 'hooks/store.hooks';
+import { selectUser } from 'store/userSlice';
+import ReplyIcon from '@mui/icons-material/Reply';
+import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 
 export const BoardPage = () => {
   useCheckAccess('user');
   const [t] = useTranslation();
   const { id } = useParams();
-  const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
+  const {
+    data: board,
+    isLoading: isBoardLoading,
+    isSuccess: isBoardSuccess,
+  } = useGetBoardQuery(id as string);
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
   const [deleteColumn] = useDeleteColumnMutation();
   const dispatch = useStoreDispatch();
+  const navigate = useNavigate();
+  const user = useStoreSelector(selectUser);
 
   const [isFormModalCol, setFormModalCol] = useState(false);
   const [isConfirm, setConfirm] = useState(false);
@@ -43,6 +54,12 @@ export const BoardPage = () => {
   const isColumns = () => {
     return !!columns && columns.length > 0;
   };
+
+  useEffect(() => {
+    if (!!board && !!user && user.id && board.owner !== user.id) {
+      navigate(Constants.MAIN, { replace: true });
+    }
+  }, [isBoardSuccess, board, user, navigate]);
 
   const addColumn = (fields: { name: string; login?: string } | undefined) => {
     if (id && fields?.name) {
@@ -83,17 +100,41 @@ export const BoardPage = () => {
               onClose={() => setConfirm(false)}
               onAction={handleDeleteColumnConfirmed}
             />
-            <Box sx={{ my: 1, display: 'flex', alignItems: 'center' }}>
-              <Button variant="outlined">
+            <Box
+              sx={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                my: 1,
+              }}
+            >
+              <Button variant="outlined" sx={{ position: 'absolute', left: 0 }}>
                 <Link
                   style={{ textDecoration: 'none', color: 'inherit' }}
                   to={Constants.MAIN}
                   replace={true}
                 >
-                  {t('Back to main')}
+                  <ReplyIcon sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }} />
+                  <Box
+                    sx={{
+                      display: { xs: 'none', sm: 'none', md: 'block' },
+                    }}
+                  >
+                    {t('Back to main')}
+                  </Box>
                 </Link>
               </Button>
-              <Typography variant="h3" sx={{ margin: 'auto' }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: { xs: 30, sm: 38 },
+                  maxWidth: { xs: 120, sm: 220, md: 400, lg: 700 },
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
                 {board && board.title}
               </Typography>
             </Box>
@@ -121,6 +162,7 @@ export const BoardPage = () => {
             >
               <Box
                 sx={{
+                  position: 'relative',
                   margin: 'auto',
                   display: 'flex',
                   flexWrap: 'nowrap',
@@ -136,15 +178,30 @@ export const BoardPage = () => {
                     <Column column={column} onSetColumnId={setColumnId} />
                   </Box>
                 ))}
-                <Box key="column-add">
+                <Box
+                  key="column-add"
+                  sx={{
+                    position: 'absolute',
+                    left: 'calc(100% + 16px)',
+                  }}
+                >
                   <Button
                     size="large"
                     variant="contained"
                     color="secondary"
-                    sx={{ my: 4, whiteSpace: 'nowrap' }}
+                    sx={{
+                      width: { md: 205, lg: 205 },
+                      whiteSpace: 'nowrap',
+                      mr: 2,
+                    }}
                     onClick={() => setFormModalCol(true)}
                   >
-                    {t('Add column')}
+                    <AddchartSharpIcon
+                      sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
+                    />
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }}>
+                      {t('Add column')}
+                    </Box>
                   </Button>
                 </Box>
               </Box>
