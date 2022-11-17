@@ -1,6 +1,7 @@
 import { createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit';
 import { IStoreState } from 'types';
 import { NotifierText, NotifierType } from 'types/NotifierTypes';
+import i18n from 'i18n/i18n';
 
 const alert = {
   type: 'success',
@@ -25,7 +26,7 @@ const uiSlice = createSlice({
       state.alert = {
         type: NotifierType.ERROR,
         text: action.payload
-          ? NotifierText.ERROR_PREFIX + ': ' + action.payload
+          ? i18n.t(NotifierText.ERROR_PREFIX) + ': ' + action.payload
           : NotifierText.ERROR,
         open: true,
       };
