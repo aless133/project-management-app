@@ -29,13 +29,13 @@ export const FormSign = ({ isSignUp = true }) => {
 
   // if (navigated) return null;
 
-  useEffect(() => {
-    if (inValid === null || !isErrCheck(errStack)) {
-      setInValid(false);
-    } else {
-      setInValid(true);
-    }
-  }, [errStack, inValid]);
+  // useEffect(() => {
+  //   if (inValid === null || !isErrCheck(errStack)) {
+  //     setInValid(false);
+  //   } else {
+  //     setInValid(true);
+  //   }
+  // }, [errStack, inValid]);
 
   return (
     <main style={{ display: 'flex', alignItems: 'center' }}>
@@ -80,7 +80,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 loading={isSignUp ? isSignUpLoad : isSignInLoad}
                 loadingIndicator={<CircularProgress color="primary" size={25} />}
                 type="submit"
-                disabled={inValid || isSigninLoading || isSignupLoading}
+                disabled={isSigninLoading || isSignupLoading}
                 variant="contained"
                 fullWidth
                 size="large"
