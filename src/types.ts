@@ -22,16 +22,6 @@ export interface IStoreState {
   ui: IUI;
 }
 
-export interface IUpdatedUser {
-  id: string;
-  data: Record<string, FormDataEntryValue>;
-}
-
-export interface IBoardResponse {
-  data?: { _id: string; name: string; login: string };
-  error?: { status: string; originalStatus: number; data: string };
-}
-
 export type TErr = Record<string, string>;
 
 export type TFields = TErr;
