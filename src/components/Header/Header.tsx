@@ -132,6 +132,7 @@ export const Header = () => {
                   sx={{
                     display: { xs: 'none', md: 'flex', lb: 'flex' },
                     alignItems: 'center',
+                    justifyContent: 'end',
                     width: { md: 390, lg: 390 },
                     fontSize: 14,
                   }}
@@ -194,7 +195,13 @@ export const Header = () => {
                   </Button>
                 </Box>
 
-                <Box sx={{ display: { xs: 'flex', md: 'none', lb: 'none' }, alignItems: 'center' }}>
+                <Box
+                  sx={{
+                    display: { xs: 'flex', md: 'none', lb: 'none' },
+                    alignItems: 'center',
+                    justifyContent: 'end',
+                  }}
+                >
                   <LangSwitcher />
                   <IconButton
                     size="large"
@@ -269,7 +276,7 @@ export const Header = () => {
                         <AccountCircleIcon sx={{ mb: 0.3, mr: 0.5 }} />
                         <Box
                           sx={{
-                            maxWidth: 60,
+                            maxWidth: 200,
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
