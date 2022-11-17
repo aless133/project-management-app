@@ -96,13 +96,14 @@ export const Header = () => {
           >
             {isAuth ? (
               <>
-                <Box>
+                <Box sx={{ width: { md: 390, lg: 420 } }}>
                   <Button
                     component={NavLink}
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
                       color: 'secondary.main',
+                      width: 180,
                       fontSize: 14,
                       textDecoration: 'none',
                       '&.active': {
@@ -123,7 +124,7 @@ export const Header = () => {
                     onClick={handleOpenBoardModal}
                   >
                     <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
-                    {t('Create Board')}
+                    <Box sx={{ display: { md: 'none', lg: 'block' } }}>{t('Create Board')}</Box>
                   </Button>
                 </Box>
 
@@ -131,7 +132,7 @@ export const Header = () => {
                   sx={{
                     display: { xs: 'none', md: 'flex', lb: 'flex' },
                     alignItems: 'center',
-                    width: 420,
+                    width: { md: 390, lg: 420 },
                     fontSize: 14,
                   }}
                 >
