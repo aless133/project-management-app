@@ -167,15 +167,21 @@ export const BoardPage = () => {
                   key="column-add"
                   sx={{
                     position: 'absolute',
-                    top: -15,
-                    left: '103%',
+                    left: 'calc(100% + 16px)',
                   }}
                 >
                   <Button
                     size="large"
                     variant="contained"
                     color="secondary"
-                    sx={{ width: { md: 205, lg: 205 }, my: 4, whiteSpace: 'nowrap', mr: 2 }}
+                    sx={{
+                      width: { md: 205, lg: 205 },
+                      my: 4,
+                      whiteSpace: 'nowrap',
+                      mt: 0,
+                      mb: 0,
+                      mr: 2,
+                    }}
                     onClick={() => setFormModalCol(true)}
                   >
                     <AddchartSharpIcon
