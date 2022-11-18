@@ -8,7 +8,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useCheckAccess } from 'hooks/checkAccess';
 import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlice';
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
@@ -24,8 +23,6 @@ export const MainPage = () => {
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
   const { confirm } = useAppContext();
-
-  useCheckAccess('user');
 
   const handleDeleteBoard = (id: string) => {
     confirm(async () => {

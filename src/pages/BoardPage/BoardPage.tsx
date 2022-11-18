@@ -20,7 +20,7 @@ import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { useCheckAccess } from 'hooks/checkAccess';
+// import { useCheckAccess } from 'hooks/checkAccess';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
 import { useStoreSelector } from 'hooks/store.hooks';
@@ -29,7 +29,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 
 export const BoardPage = () => {
-  useCheckAccess('user');
+  // useCheckAccess('user');
   const [t] = useTranslation();
   const { id } = useParams();
   const {
