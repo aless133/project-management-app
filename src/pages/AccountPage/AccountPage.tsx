@@ -19,7 +19,7 @@ export const AccountPage = () => {
   const [t] = useTranslation();
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
-  useCheckAccess('user');
+  // useCheckAccess('user');
 
   //TODO
   const [isConfirm, setConfirm] = useState(false);

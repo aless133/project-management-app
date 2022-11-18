@@ -8,6 +8,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ErrorPage } from 'pages/ErrorPage';
 import { BoardPage } from 'pages/BoardPage';
+import { ProtectedPage } from './ProtectedPage';
 
 const AppRouter = () => {
   return (
@@ -16,7 +17,10 @@ const AppRouter = () => {
         <Route index element={<WelcomePage />} />
         <Route path="signin" element={<SignInPage />} />
         <Route path="signup" element={<SignUpPage />} />
-        <Route path="account" element={<AccountPage />} />
+        <Route
+          path="account"
+          element={<ProtectedPage rules={['user']} component={<AccountPage />} />}
+        />
         <Route path="main" element={<MainPage />} />
         <Route path="board/:id" element={<BoardPage />} />
         <Route path="*" element={<ErrorPage />} />
