@@ -17,7 +17,6 @@ import { useAppContext } from 'app.context';
 import { Spinner } from 'components/Spinner';
 import { Box, IconButton } from '@mui/material';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import { flexbox } from '@mui/system';
 import { BoardModal } from 'components/BoardModal';
 
 export const MainPage = () => {
@@ -27,11 +26,13 @@ export const MainPage = () => {
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
   const { confirm } = useAppContext();
+  const [boardId, setBoardId] = useState<string>('');
 
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const handleOpenBoardModal = () => {
+  const handleOpenBoardModal = (id: string) => {
     setOpenModal(true);
+    setBoardId(id);
   };
 
   const handleCloseBoardModal = () => {
@@ -51,7 +52,12 @@ export const MainPage = () => {
   return (
     <main>
       <Container maxWidth="xl">
-        <BoardModal parent="board" openModal={openModal} closeModal={handleCloseBoardModal} />
+        <BoardModal
+          parent="board"
+          boardId={boardId}
+          openModal={openModal}
+          closeModal={handleCloseBoardModal}
+        />
         <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
           {boards && boards.length ? (
             boards.map((board) => (
@@ -89,7 +95,7 @@ export const MainPage = () => {
                         }}
                       />
                       <IconButton
-                        onClick={handleOpenBoardModal}
+                        onClick={() => handleOpenBoardModal(board._id)}
                         sx={{
                           color: 'gray',
                           ':hover': {

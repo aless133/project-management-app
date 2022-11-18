@@ -104,6 +104,7 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal, parent
               users: [],
             },
           };
+          setIsLoading(true);
           await updateBoard(data).unwrap();
         }
       } catch (err) {
