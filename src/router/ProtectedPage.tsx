@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Spinner } from 'components/Spinner';
 import { ProtectedRuleAuth } from './ProtectedRuleAuth';
+import { ProtectedRuleBoardOwner } from './ProtectedRuleBoardOwner';
 import { TProtectedRuleChecker } from 'types/protectedTypes';
 
 interface IProtectedPageProps {
@@ -23,12 +24,14 @@ export const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => 
     // const checker: TProtectedRuleChecker = (check) => {
     //   checks[key] = check;
     // };
-    const checker: TProtectedRuleChecker = (check) =>
-      setChecks((state: TChecks) => ({ ...state, [key]: check }));
+    // console.log(checks[key]);
+    const checker: TProtectedRuleChecker = (check) => {
+      setChecks((state: TChecks) => (state[key] === check ? state : { ...state, [key]: check }));
+    };
     if (item === 'user' || item === 'guest')
       rulesElements.push(<ProtectedRuleAuth key={key} userType={item} setCheck={checker} />);
-    // else if (item == 'boardOwner')
-    //   rulesElements.push(<ProtectedRuleAuth key="key" userType="guest" setCheck={checker} />);
+    else if (item == 'boardOwner')
+      rulesElements.push(<ProtectedRuleBoardOwner key={key} setCheck={checker} />);
   });
 
   return (

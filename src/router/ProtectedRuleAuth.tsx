@@ -12,6 +12,7 @@ interface IProtectedRuleAuth extends IProtectedRuleProps {
 export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }) => {
   const navigate = useNavigate();
   const user = useStoreSelector(selectUser);
+  console.log('ProtectedRuleAuth');
   useEffect(() => {
     if (user.isChecked) {
       if (userType == 'guest') {
