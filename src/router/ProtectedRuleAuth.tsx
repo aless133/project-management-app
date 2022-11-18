@@ -1,7 +1,7 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStoreSelector } from 'hooks/store.hooks';
-import { selectUser, selectIsLogged } from 'store/userSlice';
+import { selectUser } from 'store/userSlice';
 import { IProtectedRuleProps } from 'types/protectedTypes';
 import { Constants } from 'utils/constants';
 
@@ -34,7 +34,7 @@ export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }
     } else {
       setCheck(false);
     }
-  }, [user.isChecked, user.isLogged, userType]);
+  }, [user.isChecked, user.isLogged, userType, navigate, setCheck]);
 
   return null;
 };
