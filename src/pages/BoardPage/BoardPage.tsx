@@ -27,6 +27,7 @@ import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import ReplyIcon from '@mui/icons-material/Reply';
 import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
+import { DragDropContext, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 
 export const BoardPage = () => {
   useCheckAccess('user');
@@ -86,6 +87,11 @@ export const BoardPage = () => {
     if (id && columnRef.current) {
       return await deleteColumn({ boardId: id, columnId: columnRef.current }).unwrap();
     }
+  };
+
+  const dragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    console.log(result);
   };
 
   return (
@@ -160,51 +166,73 @@ export const BoardPage = () => {
                 overflowX: 'auto',
               }}
             >
-              <Box
-                sx={{
-                  position: 'relative',
-                  margin: 'auto',
-                  display: 'flex',
-                  flexWrap: 'nowrap',
-                  gap: 2,
-                  py: 2,
-                  flexDirection: 'row',
-                  alignItems: 'top',
-                  justifyContent: 'center',
-                }}
-              >
-                {columns!.map((column) => (
-                  <Box key={column._id} sx={{ width: 300, flexShrink: 0 }}>
-                    <Column column={column} onSetColumnId={setColumnId} />
-                  </Box>
-                ))}
+              {/* DROPCONTEXT */}
+              <DragDropContext onDragEnd={dragEnd}>
+                {/* dropabble */}
                 <Box
-                  key="column-add"
                   sx={{
-                    position: 'absolute',
-                    left: 'calc(100% + 16px)',
+                    position: 'relative',
+                    margin: 'auto',
+                    display: 'flex',
+                    flexWrap: 'nowrap',
+                    gap: 2,
+                    py: 2,
+                    flexDirection: 'row',
+                    alignItems: 'top',
+                    justifyContent: 'center',
                   }}
                 >
-                  <Button
-                    size="large"
-                    variant="contained"
-                    color="secondary"
+                  {columns!.map((column) => (
+                    <Droppable
+                      key={column._id}
+                      type="COLUMN"
+                      direction="horizontal"
+                      droppableId={column._id}
+                    >
+                      {(providedDropColumn: DroppableProvided) => (
+                        <Box
+                          sx={{ width: 300, flexShrink: 0 }}
+                          ref={providedDropColumn.innerRef}
+                          {...providedDropColumn.droppableProps}
+                        >
+                          <Column
+                            column={column}
+                            onSetColumnId={setColumnId}
+                            loading={isBoardLoading}
+                          />
+                          {providedDropColumn.placeholder}
+                        </Box>
+                      )}
+                    </Droppable>
+                  ))}
+                  <Box
+                    key="column-add"
                     sx={{
-                      width: { md: 205, lg: 205 },
-                      whiteSpace: 'nowrap',
-                      mr: 2,
+                      position: 'absolute',
+                      left: 'calc(100% + 16px)',
                     }}
-                    onClick={() => setFormModalCol(true)}
                   >
-                    <AddchartSharpIcon
-                      sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
-                    />
-                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }}>
-                      {t('Add column')}
-                    </Box>
-                  </Button>
+                    <Button
+                      size="large"
+                      variant="contained"
+                      color="secondary"
+                      sx={{
+                        width: { md: 205, lg: 205 },
+                        whiteSpace: 'nowrap',
+                        mr: 2,
+                      }}
+                      onClick={() => setFormModalCol(true)}
+                    >
+                      <AddchartSharpIcon
+                        sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
+                      />
+                      <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }}>
+                        {t('Add column')}
+                      </Box>
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
+              </DragDropContext>
             </Container>
           ) : null}
           <FormModal
