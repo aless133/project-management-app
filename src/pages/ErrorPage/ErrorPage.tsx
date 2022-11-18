@@ -28,24 +28,21 @@ export const ErrorPage = ({ isNotFound = true }) => {
         </Typography>
         <Grid container justifyContent="center" gap={2} my={4}>
           <Grid item>
-            <Button variant="contained">
-              <Link sx={{ textDecoration: 'none', color: 'inherit' }} href={Constants.HOME}>
-                {t('Back to Home')}
-              </Link>
+            <Button component={Link} variant="contained" href={Constants.HOME}>
+              {t('Back to Home')}
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained">
-              <Link
-                sx={{ textDecoration: 'none', color: 'inherit' }}
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.location.reload();
-                }}
-              >
-                {t('Refresh page')}
-              </Link>
+            <Button
+              component={Link}
+              variant="contained"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.reload();
+              }}
+            >
+              {t('Refresh page')}
             </Button>
           </Grid>
         </Grid>
