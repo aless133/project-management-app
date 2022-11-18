@@ -92,7 +92,10 @@ export const BoardPage = () => {
   };
 
   const dragEnd = (result: DropResult) => {
+    console.log(columns);
+
     if (!result.destination) return;
+
     if (result.type === 'COLUMN') {
       const newOrder = result.destination.index;
       const oldOrder = result.source.index;
@@ -111,6 +114,8 @@ export const BoardPage = () => {
         updateColumn({ boardId: id, columnId, data: dataDrag });
         updateColumn({ boardId: id, columnId: moveId, data: dataDrop });
       }
+    } else if (result.type === 'TASK') {
+      console.log(result);
     }
   };
 

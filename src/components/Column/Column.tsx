@@ -11,16 +11,16 @@ import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { Spinner } from 'components/Spinner';
 import { useUpdateColumnMutation } from 'api/columnsApiSlice';
 import {
   Draggable,
-  DraggableProvided,
   DraggableStateSnapshot,
   Droppable,
   DroppableProvided,
 } from 'react-beautiful-dnd';
+import { Task } from 'components/Task';
 
 interface IColumnProps {
   column: IColumn;
@@ -104,46 +104,45 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
         >
           <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
           <TrashBasket onAction={() => onSetColumnId(column._id)} />
-          <Box sx={{ overflowY: 'auto', maxHeight: '30vh' }}>
+
+          <Box style={{ overflowY: 'auto', maxHeight: '20vh' }}>
             {tasks &&
-              tasks.map((task) => (
-                <Droppable key={task._id} type="TASK" direction="vertical" droppableId={task._id}>
-                  {(providedDropTask: DroppableProvided) => (
-                    <Box
-                      key={task._id}
-                      ref={providedDropTask.innerRef}
-                      {...providedDropTask.droppableProps}
+              tasks
+                .slice(0)
+                .sort((a, b) => a.order - b.order)
+                .map((task) => {
+                  // console.log('task', task);
+
+                  return (
+                    <Droppable
+                      key={column._id}
+                      type="TASK"
+                      direction="vertical"
+                      droppableId={column._id}
                     >
-                      <Draggable
-                        draggableId={task._id}
-                        key={task._id}
-                        index={task.order}
-                        isDragDisabled={isLoading}
-                      >
-                        {(providedDragTask: DraggableProvided) => (
-                          <Grid
-                            container
-                            justifyContent="space-between"
-                            ref={providedDragTask.innerRef}
-                            {...providedDragTask.draggableProps}
-                            {...providedDragTask.dragHandleProps}
-                            sx={{ backgroundColor: '#ebebeb' }}
-                          >
-                            <Grid item>
-                              <Typography variant="h5" component="h5">
-                                {task.title}
-                              </Typography>
-                            </Grid>
-                            <TrashBasket onAction={() => {}} />
-                          </Grid>
-                        )}
-                      </Draggable>
-                      {providedDropTask.placeholder}
-                    </Box>
-                  )}
-                </Droppable>
-              ))}
+                      {(
+                        providedDropTask: DroppableProvided
+                        // providerDropSnapshot: DroppableStateSnapshot
+                      ) => (
+                        <Box
+                          key={task._id}
+                          ref={providedDropTask.innerRef}
+                          {...providedDropTask.droppableProps}
+                        >
+                          <Task
+                            key={task._id}
+                            task={task}
+                            loading={isLoading}
+                            onAction={() => {}}
+                          />
+                          {providedDropTask.placeholder}
+                        </Box>
+                      )}
+                    </Droppable>
+                  );
+                })}
           </Box>
+
           <Button
             variant="contained"
             color="secondary"
