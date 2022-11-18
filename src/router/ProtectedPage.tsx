@@ -14,14 +14,18 @@ export const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => 
   rules.forEach((item, i) => {
     checks0[item + '_' + i] = false;
   });
-  const [checks, setChecks] = useState<TChecks>(checks0);
+  const [checks, setChecks] = useState<TChecks>({ ...checks0 });
+  // const checks: TChecks = {};
 
   const rulesElements: React.ReactElement[] = [];
   rules.forEach((item, i) => {
     const key = item + '_' + i;
+    // const checker: TProtectedRuleChecker = (check) => {
+    //   checks[key] = check;
+    // };
     const checker: TProtectedRuleChecker = (check) =>
       setChecks((state: TChecks) => ({ ...state, [key]: check }));
-    if (item == 'user' || item == 'guest')
+    if (item === 'user' || item === 'guest')
       rulesElements.push(<ProtectedRuleAuth key={key} userType={item} setCheck={checker} />);
     // else if (item == 'boardOwner')
     //   rulesElements.push(<ProtectedRuleAuth key="key" userType="guest" setCheck={checker} />);
