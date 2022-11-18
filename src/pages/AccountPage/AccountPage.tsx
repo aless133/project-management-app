@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
 import { useStoreSelector } from 'hooks/store.hooks';
-import { useCheckAccess } from 'hooks/checkAccess';
 import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
@@ -19,7 +18,6 @@ export const AccountPage = () => {
   const [t] = useTranslation();
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
-  useCheckAccess('user');
 
   //TODO
   const [isConfirm, setConfirm] = useState(false);
