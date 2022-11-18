@@ -8,10 +8,9 @@ import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { isErrCheck, setMinMaxLengthError } from 'utils/helpers';
 import { useStoreSelector } from 'hooks/store.hooks';
-import { useCheckAccess } from 'hooks/checkAccess';
 import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
-import { ConfirmModal } from 'components/UI/ConfirmModal';
+import { useAppContext } from 'app.context';
 
 export const AccountPage = () => {
   const { errStack, handleChange, handleSubmitProfile, isUpdateLoad, isDeleteLoad, handleDelete } =
@@ -19,10 +18,11 @@ export const AccountPage = () => {
   const [t] = useTranslation();
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
-  useCheckAccess('user');
+  const { confirm } = useAppContext();
 
-  //TODO
-  const [isConfirm, setConfirm] = useState(false);
+  const handleDeleteAccount = () => {
+    confirm(() => handleDelete(id));
+  };
 
   useEffect(() => {
     if (!isErrCheck(errStack)) {
@@ -38,11 +38,6 @@ export const AccountPage = () => {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onChange={handleChange} onSubmit={handleSubmitProfile}>
-              <ConfirmModal
-                isOpen={isConfirm}
-                onClose={() => setConfirm(false)}
-                onAction={() => handleDelete(id)}
-              />
               <Typography
                 variant="h3"
                 component="h2"
@@ -106,7 +101,7 @@ export const AccountPage = () => {
               fullWidth
               size="large"
               sx={{ mt: 2 }}
-              onClick={() => setConfirm(true)}
+              onClick={handleDeleteAccount}
             >
               {t('Delete account')}
             </LoadingButton>
