@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -15,7 +16,7 @@ export const ErrorPage = ({ isNotFound = true }) => {
   return (
     <main>
       <Grid2 container justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
-        <Grid item xl={8} sx={{ textAlign: 'center' }}>
+        <Grid item xl={8} sx={{ textAlign: 'center', justifyContent:center }}>
           <Typography
             variant="h3"
             component="h3"
@@ -27,12 +28,17 @@ export const ErrorPage = ({ isNotFound = true }) => {
           </Typography>
           <Grid item xl={10}>
             <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>
-              <Link
-                style={{ textDecoration: 'none', color: 'inherit' }}
-                to={Constants.HOME}
-                replace={true}
-              >
+              <Link sx={{ textDecoration: 'none', color: 'inherit' }} href={Constants.HOME}>
                 {t('Back to Home')}
+              </Link>
+            </Button>
+            <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>
+              <Link
+                sx={{ textDecoration: 'none', color: 'inherit' }}
+                href="3"
+                onClick={() => window.location.reload()}
+              >
+                {t('Refresh page')}
               </Link>
             </Button>
           </Grid>
