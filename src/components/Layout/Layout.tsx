@@ -17,6 +17,7 @@ export const Layout = () => {
         <>
           <Header />
           <Outlet />
+          <div className={styles.filler} />
           <Footer />
           <Notifier />
         </>

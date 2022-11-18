@@ -12,3 +12,10 @@
     position: relative;
   }
 }
+.filler {
+  flex-grow: 1;
+  position: relative;
+  main + & {
+    display: none;
+  }
+}
