@@ -32,7 +32,7 @@ const AppRouter = () => {
           element={<ProtectedPage key="main" rules={['user']} component={<MainPage />} />}
         />
         <Route
-          path="board/:id"
+          path="board/:boardId"
           element={<ProtectedPage key="main" rules={['user']} component={<BoardPage />} />}
         />
         <Route path="*" element={<ErrorPage />} />

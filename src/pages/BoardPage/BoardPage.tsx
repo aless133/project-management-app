@@ -31,13 +31,13 @@ import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 export const BoardPage = () => {
   // useCheckAccess('user');
   const [t] = useTranslation();
-  const { id } = useParams();
+  const { boardId } = useParams();
   const {
     data: board,
     isLoading: isBoardLoading,
     isSuccess: isBoardSuccess,
-  } = useGetBoardQuery(id as string);
-  const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
+  } = useGetBoardQuery(boardId as string);
+  const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(boardId as string);
   const [createColumn] = useCreateColumnMutation();
   const [deleteColumn] = useDeleteColumnMutation();
   const dispatch = useStoreDispatch();
@@ -62,11 +62,11 @@ export const BoardPage = () => {
   }, [isBoardSuccess, board, user, navigate]);
 
   const addColumn = (fields: { name: string; login?: string } | undefined) => {
-    if (id && fields?.name) {
+    if (boardId && fields?.name) {
       const order = columns?.length || 0;
       const data = { title: fields?.name, order };
 
-      createColumn({ boardId: id, data })
+      createColumn({ boardId, data })
         .unwrap()
         .then(() => dispatch(alertSuccess()))
         .catch((err) => {
@@ -83,8 +83,8 @@ export const BoardPage = () => {
   };
 
   const handleDeleteColumnConfirmed = async () => {
-    if (id && columnRef.current) {
-      return await deleteColumn({ boardId: id, columnId: columnRef.current }).unwrap();
+    if (boardId && columnRef.current) {
+      return await deleteColumn({ boardId, columnId: columnRef.current }).unwrap();
     }
   };
 
