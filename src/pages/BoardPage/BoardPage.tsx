@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -20,29 +20,18 @@ import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { useCheckAccess } from 'hooks/checkAccess';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
-import { useNavigate } from 'react-router-dom';
-import { useStoreSelector } from 'hooks/store.hooks';
-import { selectUser } from 'store/userSlice';
 import ReplyIcon from '@mui/icons-material/Reply';
 import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 
 export const BoardPage = () => {
-  useCheckAccess('user');
   const [t] = useTranslation();
   const { id } = useParams();
-  const {
-    data: board,
-    isLoading: isBoardLoading,
-    isSuccess: isBoardSuccess,
-  } = useGetBoardQuery(id as string);
+  const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
   const [deleteColumn] = useDeleteColumnMutation();
   const dispatch = useStoreDispatch();
-  const navigate = useNavigate();
-  const user = useStoreSelector(selectUser);
 
   const [isFormModalCol, setFormModalCol] = useState(false);
   const [isConfirm, setConfirm] = useState(false);
@@ -54,12 +43,6 @@ export const BoardPage = () => {
   const isColumns = () => {
     return !!columns && columns.length > 0;
   };
-
-  useEffect(() => {
-    if (!!board && !!user && user.id && board.owner !== user.id) {
-      navigate(Constants.MAIN, { replace: true });
-    }
-  }, [isBoardSuccess, board, user, navigate]);
 
   const addColumn = (fields: { name: string; login?: string } | undefined) => {
     if (id && fields?.name) {
