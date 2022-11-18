@@ -20,13 +20,11 @@ import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-// import { useCheckAccess } from 'hooks/checkAccess';
 import { ConfirmModal } from 'components/UI/ConfirmModal';
 import ReplyIcon from '@mui/icons-material/Reply';
 import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 
 export const BoardPage = () => {
-  // useCheckAccess('user');
   const [t] = useTranslation();
   const { id } = useParams();
   const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
