@@ -16,9 +16,9 @@ export const Layout = () => {
       ) : (
         <>
           <Header />
-          <Notifier />
           <Outlet />
           <Footer />
+          <Notifier />
         </>
       )}
     </div>
