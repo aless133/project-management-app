@@ -12,6 +12,7 @@ import {
   useCreateColumnMutation,
   useDeleteColumnMutation,
   useGetBoardColumnsQuery,
+  useUpdateColumnMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { Column } from 'components/Column';
 import { Spinner } from 'components/Spinner';
@@ -40,6 +41,7 @@ export const BoardPage = () => {
   } = useGetBoardQuery(id as string);
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
+  const [updateColumn] = useUpdateColumnMutation();
   const [deleteColumn] = useDeleteColumnMutation();
   const dispatch = useStoreDispatch();
   const navigate = useNavigate();
@@ -91,8 +93,28 @@ export const BoardPage = () => {
 
   const dragEnd = (result: DropResult) => {
     if (!result.destination) return;
-    console.log(result);
+    if (result.type === 'COLUMN') {
+      const newOrder = result.destination.index;
+      const oldOrder = result.source.index;
+      const columnId = result.draggableId;
+      const moveId = result.destination.droppableId;
+
+      if (newOrder === oldOrder) return;
+
+      const columnDrag = columns && columns.filter((column) => column._id === columnId)[0];
+      const columnMove = columns && columns.filter((column) => column._id === moveId)[0];
+
+      if (id && columnId && columnDrag && columnMove) {
+        const dataDrag = { title: columnDrag.title, order: newOrder };
+        const dataDrop = { title: columnMove.title, order: oldOrder };
+
+        updateColumn({ boardId: id, columnId, data: dataDrag });
+        updateColumn({ boardId: id, columnId: moveId, data: dataDrop });
+      }
+    }
   };
+
+  console.log(columns);
 
   return (
     <Box component="main" className="has-loader">
@@ -159,16 +181,14 @@ export const BoardPage = () => {
             )}
           </Container>
           {isColumns() ? (
-            <Container
-              maxWidth={false}
-              sx={{
-                display: 'flex',
-                overflowX: 'auto',
-              }}
-            >
-              {/* DROPCONTEXT */}
-              <DragDropContext onDragEnd={dragEnd}>
-                {/* dropabble */}
+            <DragDropContext onDragEnd={dragEnd}>
+              <Container
+                maxWidth={false}
+                sx={{
+                  display: 'flex',
+                  overflowX: 'auto',
+                }}
+              >
                 <Box
                   sx={{
                     position: 'relative',
@@ -182,29 +202,32 @@ export const BoardPage = () => {
                     justifyContent: 'center',
                   }}
                 >
-                  {columns!.map((column) => (
-                    <Droppable
-                      key={column._id}
-                      type="COLUMN"
-                      direction="horizontal"
-                      droppableId={column._id}
-                    >
-                      {(providedDropColumn: DroppableProvided) => (
-                        <Box
-                          sx={{ width: 300, flexShrink: 0 }}
-                          ref={providedDropColumn.innerRef}
-                          {...providedDropColumn.droppableProps}
-                        >
-                          <Column
-                            column={column}
-                            onSetColumnId={setColumnId}
-                            loading={isBoardLoading}
-                          />
-                          {providedDropColumn.placeholder}
-                        </Box>
-                      )}
-                    </Droppable>
-                  ))}
+                  {columns!
+                    .slice(0)
+                    .sort((a, b) => a.order - b.order)
+                    .map((column) => (
+                      <Droppable
+                        key={column._id}
+                        type="COLUMN"
+                        direction="horizontal"
+                        droppableId={column._id}
+                      >
+                        {(providedDropColumn: DroppableProvided) => (
+                          <Box
+                            sx={{ width: 300, flexShrink: 0 }}
+                            ref={providedDropColumn.innerRef}
+                            {...providedDropColumn.droppableProps}
+                          >
+                            <Column
+                              column={column}
+                              onSetColumnId={setColumnId}
+                              loading={isBoardLoading}
+                            />
+                            {providedDropColumn.placeholder}
+                          </Box>
+                        )}
+                      </Droppable>
+                    ))}
                   <Box
                     key="column-add"
                     sx={{
@@ -232,8 +255,8 @@ export const BoardPage = () => {
                     </Button>
                   </Box>
                 </Box>
-              </DragDropContext>
-            </Container>
+              </Container>
+            </DragDropContext>
           ) : null}
           <FormModal
             title={t('Add Column')}
