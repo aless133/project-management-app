@@ -92,7 +92,7 @@ export const BoardPage = () => {
   };
 
   const dragEnd = (result: DropResult) => {
-    console.log(columns);
+    console.log(result);
 
     if (!result.destination) return;
 
@@ -214,7 +214,7 @@ export const BoardPage = () => {
                       <Droppable
                         key={column._id}
                         type="COLUMN"
-                        direction="horizontal"
+                        direction="vertical"
                         droppableId={column._id}
                       >
                         {(providedDropColumn: DroppableProvided) => (
