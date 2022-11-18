@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
@@ -15,6 +15,10 @@ import { Constants } from 'utils';
 import { TrashBasket } from 'components/TrashBasket';
 import { useAppContext } from 'app.context';
 import { Spinner } from 'components/Spinner';
+import { Box, IconButton } from '@mui/material';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { flexbox } from '@mui/system';
+import { BoardModal } from 'components/BoardModal';
 
 export const MainPage = () => {
   const [t] = useTranslation();
@@ -23,6 +27,16 @@ export const MainPage = () => {
   const [deleteBoard] = useDeleteBoardMutation();
   const navigate = useNavigate();
   const { confirm } = useAppContext();
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const handleOpenBoardModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseBoardModal = () => {
+    setOpenModal(false);
+  };
 
   const handleDeleteBoard = (id: string) => {
     confirm(async () => {
@@ -37,6 +51,7 @@ export const MainPage = () => {
   return (
     <main>
       <Container maxWidth="xl">
+        <BoardModal parent="board" openModal={openModal} closeModal={handleCloseBoardModal} />
         <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
           {boards && boards.length ? (
             boards.map((board) => (
@@ -45,9 +60,7 @@ export const MainPage = () => {
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    ':hover': { cursor: 'pointer' },
                   }}
-                  onClick={() => navigate(`${Constants.BOARD}/${board._id}`)}
                 >
                   <CardContent>
                     <Typography
@@ -68,13 +81,34 @@ export const MainPage = () => {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <TrashBasket
-                      onAction={(e) => {
-                        e.stopPropagation();
-                        handleDeleteBoard(board._id);
-                      }}
-                    />
-                    <Button size="small">{t('View tasks')}</Button>
+                    <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 1 }}>
+                      <TrashBasket
+                        onAction={(e) => {
+                          e.stopPropagation();
+                          handleDeleteBoard(board._id);
+                        }}
+                      />
+                      <IconButton
+                        onClick={handleOpenBoardModal}
+                        sx={{
+                          color: 'gray',
+                          ':hover': {
+                            color: 'primary.main',
+                            backgroundColor: '#c2eafc',
+                          },
+                          transition: '0.3s',
+                        }}
+                      >
+                        <ModeEditOutlineOutlinedIcon />
+                      </IconButton>
+                    </Box>
+
+                    <Button
+                      size="small"
+                      onClick={() => navigate(`${Constants.BOARD}/${board._id}`)}
+                    >
+                      {t('View tasks')}
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>

@@ -1,12 +1,12 @@
 import { Box, Button, TextField } from '@mui/material';
-import { useCreateBoardMutation } from 'api/boardsApiSlice';
+import { useCreateBoardMutation, useUpdateBoardMutation } from 'api/boardsApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import React, { useState, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { selectUser } from 'store/userSlice';
 import { TErr, TValidator } from 'types';
-import { IBoardData } from 'types/boardTypes';
+import { IBoardData, IBoardParams } from 'types/boardTypes';
 import { Constants } from 'utils';
 import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'utils/helpers';
 import { LoadingButton } from '@mui/lab';
@@ -27,16 +27,19 @@ const err: TErr = {
 interface IBoardModalProps {
   openModal: boolean;
   closeModal: () => void;
+  parent: 'header' | 'board';
+  boardId?: string;
 }
 
 type TFormData = { boardTitle: string };
 
-export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
+export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal, parent, boardId }) => {
   const [errStack, setErrStack] = useState<TErr>(err);
   const [isDisabledSubmitBtn, setIsDisabledSubmitBtn] = useState<boolean>(false);
   const { t } = useTranslation();
   const { id } = useStoreSelector(selectUser);
   const [createBoard] = useCreateBoardMutation();
+  const [updateBoard] = useUpdateBoardMutation();
   const [value, setValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useStoreDispatch();
@@ -82,16 +85,26 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
 
     if (Object.values(err).every((err) => err === '')) {
       try {
-        const dataForm = Object.fromEntries(formData.entries()) as TFormData;
-        const data: IBoardData = {
-          title: dataForm.boardTitle,
-          owner: id as string,
-          users: [],
-        };
-        setIsLoading(true);
-        const answer = await createBoard(data).unwrap();
-        if (answer?._id) {
-          dispatch(setAlert({ type: NotifierType.SUCCESS, text: NotifierText.SUCCESS }));
+        if (parent === 'header') {
+          const dataForm = Object.fromEntries(formData.entries()) as TFormData;
+          const data: IBoardData = {
+            title: dataForm.boardTitle,
+            owner: id as string,
+            users: [],
+          };
+          setIsLoading(true);
+          await createBoard(data).unwrap();
+        } else {
+          const dataForm = Object.fromEntries(formData.entries()) as TFormData;
+          const data: IBoardParams = {
+            boardId: boardId as string,
+            data: {
+              title: dataForm.boardTitle,
+              owner: id as string,
+              users: [],
+            },
+          };
+          await updateBoard(data).unwrap();
         }
       } catch (err) {
         dispatch(setAlert({ type: NotifierType.ERROR, text: NotifierText.ERROR }));
@@ -105,7 +118,11 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
   };
 
   return (
-    <ModalWindow onClose={closeBoardModal} open={openModal} title={t('Create Board')}>
+    <ModalWindow
+      onClose={closeBoardModal}
+      open={openModal}
+      title={parent === 'header' ? t('Create Board') : t('Update Board')}
+    >
       <Box sx={{ width: { lg: '20vw' }, p: { lg: 2 } }}>
         <form onSubmit={handleSubmit} onChange={handleChange}>
           <TextField
@@ -130,7 +147,7 @@ export const BoardModal: FC<IBoardModalProps> = ({ openModal, closeModal }) => {
               disabled={isDisabledSubmitBtn}
               sx={{ mt: 2 }}
             >
-              {t('Create Board')}
+              {parent === 'header' ? t('Create Board') : t('Update Board')}
             </LoadingButton>
             <Button
               type="reset"
