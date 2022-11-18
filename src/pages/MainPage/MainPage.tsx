@@ -27,12 +27,13 @@ export const MainPage = () => {
   const navigate = useNavigate();
   const { confirm } = useAppContext();
   const [boardId, setBoardId] = useState<string>('');
-
+  const [boardTitle, setBoardTitle] = useState<string>('');
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const handleOpenBoardModal = (id: string) => {
+  const handleOpenBoardModal = (id: string, title: string) => {
     setOpenModal(true);
     setBoardId(id);
+    setBoardTitle(title);
   };
 
   const handleCloseBoardModal = () => {
@@ -55,6 +56,7 @@ export const MainPage = () => {
         <BoardModal
           parent="board"
           boardId={boardId}
+          boardTitle={boardTitle}
           openModal={openModal}
           closeModal={handleCloseBoardModal}
         />
@@ -95,7 +97,7 @@ export const MainPage = () => {
                         }}
                       />
                       <IconButton
-                        onClick={() => handleOpenBoardModal(board._id)}
+                        onClick={() => handleOpenBoardModal(board._id, board.title)}
                         sx={{
                           color: 'gray',
                           ':hover': {
