@@ -91,7 +91,7 @@ export const BoardPage = () => {
     }
   };
 
-  const dragEnd = (result: DropResult) => {
+  const dragEnd = async (result: DropResult) => {
     console.log(result);
 
     if (!result.destination) return;
@@ -111,7 +111,10 @@ export const BoardPage = () => {
         const dataDrag = { _id: startId, order: newOrder };
         const dataDrop = { _id: finishId, order: oldOrder };
 
-        updateOrders([dataDrag, dataDrop]);
+        await updateOrders([dataDrag, dataDrop])
+          .unwrap()
+          .then(() => dispatch(alertSuccess()))
+          .catch((err) => dispatch(alertError(getErrorMessage(err))));
       }
     } else if (result.type === 'TASK') {
       console.log(result);
