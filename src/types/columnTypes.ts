@@ -6,6 +6,7 @@ export interface IColumnData {
 export interface IOrderData {
   _id: string;
   order: number;
+  columnId?: string;
 }
 export interface IColumn extends IColumnData {
   _id: string;
