@@ -6,7 +6,14 @@ const userSlice = createSlice({
   name: 'user',
   initialState: () => {
     const ld = localStorage.getItem('userToken');
-    if (ld) return { ...parseToken(ld), isLogged: false, isChecked: false };
+    if (ld) {
+      const parsed = parseToken(ld);
+      if (!parsed.token) {
+        return defaultUser;
+      } else {
+        return { ...parsed, isLogged: false, isChecked: false };
+      }
+    }
     return defaultUser;
   },
   reducers: {
@@ -63,9 +70,11 @@ const parseToken = (token: string) => {
       login: parsed.login,
       exp: parsed.exp * 1000,
     };
-    if (ret.exp <= Date.now()) ret = { isLogged: false, token: '' };
+    if (ret.exp <= Date.now()) {
+      ret = { token: '' };
+    }
   } catch (e) {
-    ret = { isLogged: false, token: '' };
+    ret = { token: '' };
   }
   return ret;
 };

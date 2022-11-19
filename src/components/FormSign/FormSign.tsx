@@ -10,7 +10,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Constants } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
-import { useCheckAccess } from 'hooks/checkAccess';
 
 export const FormSign = ({ isSignUp = true }) => {
   const {
@@ -24,8 +23,6 @@ export const FormSign = ({ isSignUp = true }) => {
   } = useFormSign(isSignUp);
   const [t] = useTranslation();
   // const [inValid, setInValid] = useState<boolean | null>(null);
-
-  useCheckAccess('guest');
 
   // if (navigated) return null;
 

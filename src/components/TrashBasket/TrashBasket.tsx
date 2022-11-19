@@ -11,7 +11,7 @@ export const TrashBasket = ({ onAction }: TrashBasketProps) => {
       sx={{
         borderRadius: '50%',
         color: 'gray',
-        p: 0.5,
+        p: 1,
         ':hover': { backgroundColor: '#f4d8d8', color: '#dc5b5b', cursor: 'pointer' },
         transition: 'background-color .3s',
       }}

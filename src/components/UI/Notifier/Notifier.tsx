@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
-import { clearAlert, selectAlert } from 'store/uiSlice';
+import { hideAlert, selectAlert } from 'store/uiSlice';
 import i18next from 'i18next';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
@@ -33,7 +33,7 @@ export const Notifier = () => {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch(clearAlert());
+    dispatch(hideAlert());
   };
 
   return (

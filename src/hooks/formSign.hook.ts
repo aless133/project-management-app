@@ -121,8 +121,9 @@ export const useFormSign = (isSignUp: boolean) => {
   };
 
   const handleDelete = async (id: string) => {
-    await deleteUser(id).unwrap();
+    const res = await deleteUser(id).unwrap();
     dispatch(clearUser());
+    return res;
   };
 
   return {

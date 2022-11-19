@@ -5,7 +5,7 @@ export interface IUser {
   token?: string;
   exp?: number;
   isLogged?: boolean;
-  isChecked: true;
+  isChecked: boolean;
 }
 
 export interface IUI {
