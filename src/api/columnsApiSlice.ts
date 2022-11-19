@@ -1,5 +1,6 @@
 import { apiSlice } from './apiSlice';
-import { IColumn, IColumnParams, IOrderData } from 'types/columnTypes';
+import { IColumn, IColumnParams } from 'types/columnTypes';
+import { IOrderTaskData } from 'types/taskTypes';
 // import { TApiTag } from 'types';
 // import type { TagDescription } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -31,7 +32,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['BoardColumns'],
     }),
 
-    updateColumnSet: builder.mutation<IColumn[], IOrderData[]>({
+    updateColumnSet: builder.mutation<IColumn[], IOrderTaskData[]>({
       query: (data) => ({
         url: 'columnsSet',
         method: 'PATCH',
