@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import { useTranslation } from 'react-i18next';
+import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Constants } from 'utils';
 
 export const ErrorPage = ({ isNotFound = true }) => {
@@ -14,37 +15,43 @@ export const ErrorPage = ({ isNotFound = true }) => {
 
   return (
     <main>
-      <Grid2 container justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
-        <Grid item xl={8} sx={{ textAlign: 'center' }}>
-          <Typography
-            variant="h3"
-            component="h3"
-            sx={{
-              fontSize: { xs: 22, sm: 34, md: 34, lg: 50 },
-            }}
-          >
-            {isNotFound ? t('Sorry, page not found') : t('Something went wrong')}...
-          </Typography>
-          <Grid item xl={10}>
-            <Button variant="contained" sx={{ mr: 2, mt: { xs: 4 } }}>
-              <Link
-                style={{ textDecoration: 'none', color: 'inherit' }}
-                to={Constants.HOME}
-                replace={true}
-              >
-                {t('Back to Home')}
-              </Link>
+      <Container sx={{ pt: 15, pb: 10 }}>
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{
+            textAlign: 'center',
+            fontSize: { xs: 22, sm: 34, md: 34, lg: 50 },
+          }}
+        >
+          {isNotFound ? t('Sorry, page not found') : t('Something went wrong')}...
+        </Typography>
+        <Grid container justifyContent="center" gap={2} my={4}>
+          <Grid item>
+            <Button component={Link} variant="contained" href={Constants.HOME}>
+              {t('Back to Home')}
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              component={Link}
+              variant="contained"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.reload();
+              }}
+            >
+              {t('Refresh page')}
             </Button>
           </Grid>
         </Grid>
-        <Grid item xl={4}>
-          <img
-            style={{ display: 'block', width: '50%', margin: 'auto' }}
-            src={img}
-            alt="broken robot"
-          />
+        <Grid container justifyContent="center">
+          <Grid item xs={8}>
+            <img style={{ display: 'block', maxWidth: '100%' }} src={img} alt="broken robot" />
+          </Grid>
         </Grid>
-      </Grid2>
+      </Container>
     </main>
   );
 };
