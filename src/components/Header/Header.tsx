@@ -79,7 +79,7 @@ export const Header = () => {
     <>
       {isAuth && (
         <>
-          <BoardModal parent="header" openModal={openModal} closeModal={handleCloseBoardModal} />
+          <BoardModal mode="create" openModal={openModal} closeModal={handleCloseBoardModal} />
         </>
       )}
       <AppBar position="sticky" sx={{ backgroundColor: 'primary.main' }}>

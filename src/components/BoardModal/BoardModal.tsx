@@ -27,7 +27,7 @@ const err: TErr = {
 interface IBoardModalProps {
   openModal: boolean;
   closeModal: () => void;
-  parent: 'header' | 'board';
+  mode: 'update' | 'create';
   boardId?: string;
   boardTitle?: string;
 }
@@ -37,7 +37,7 @@ type TFormData = { boardTitle: string };
 export const BoardModal: FC<IBoardModalProps> = ({
   openModal,
   closeModal,
-  parent,
+  mode,
   boardId,
   boardTitle,
 }) => {
@@ -100,7 +100,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
       try {
         setIsLoading(true);
         const dataForm = Object.fromEntries(formData.entries()) as TFormData;
-        if (parent === 'header') {
+        if (mode === 'create') {
           const data: IBoardData = {
             title: dataForm.boardTitle,
             owner: id as string,
@@ -134,7 +134,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
     <ModalWindow
       onClose={closeBoardModal}
       open={openModal}
-      title={parent === 'header' ? t('Create Board') : t('Update Board')}
+      title={mode === 'create' ? t('Create Board') : t('Update Board')}
     >
       <Box sx={{ width: { lg: '20vw' }, p: { lg: 2 } }}>
         <form onSubmit={handleSubmit} onChange={handleChange}>
@@ -160,7 +160,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
               disabled={isDisabledSubmitBtn}
               sx={{ mt: 2 }}
             >
-              {parent === 'header' ? t('Create Board') : t('Update Board')}
+              {mode === 'create' ? t('Create Board') : t('Update Board')}
             </LoadingButton>
             <Button
               type="reset"

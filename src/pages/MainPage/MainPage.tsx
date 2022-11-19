@@ -54,7 +54,7 @@ export const MainPage = () => {
     <main>
       <Container maxWidth="xl">
         <BoardModal
-          parent="board"
+          mode="update"
           boardId={boardId}
           boardTitle={boardTitle}
           openModal={openModal}
