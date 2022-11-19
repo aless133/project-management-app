@@ -13,10 +13,13 @@ import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 import { Column } from 'components/Column';
 import { Spinner } from 'components/Spinner';
 import { FormModal } from 'components/UI/FormModal';
+import { ConfirmModal } from 'components/UI/ConfirmModal';
+import { Constants } from 'utils';
+import { useUpdateSetTaskMutation } from 'api/tasksApiSlice';
+import { useGetBoardQuery } from 'api/boardsApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { useCheckAccess } from 'hooks/checkAccess';
 import {
   useCreateColumnMutation,
   useDeleteColumnMutation,
@@ -27,10 +30,6 @@ import {
 export const BoardPage = () => {
   const [t] = useTranslation();
   const { id } = useParams();
-  const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
-  const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
-  const [createColumn] = useCreateColumnMutation();
-  const [deleteColumn] = useDeleteColumnMutation();
   const dispatch = useStoreDispatch();
 
   const [isFormModalCol, setFormModalCol] = useState(false);
