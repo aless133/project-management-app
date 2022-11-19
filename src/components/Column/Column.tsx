@@ -11,9 +11,10 @@ import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { Spinner } from 'components/Spinner';
 import { useUpdateColumnMutation } from 'api/columnsApiSlice';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 
 interface IColumnProps {
   column: IColumn;
@@ -32,6 +33,7 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
   });
   const [createTask] = useCreateTaskMutation();
   const [updateColumn] = useUpdateColumnMutation();
+  const [openTextField, setOpenTextField] = useState<boolean>(false);
 
   const addTask = (fields: { name: string; login?: string } | undefined) => {
     if (fields?.name && fields.login) {
@@ -74,8 +76,29 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
 
   return (
     <Paper elevation={3}>
-      <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
-      <TrashBasket onAction={() => onSetColumnId(column._id)} />
+      <InlineTextField
+        label={t('Title')}
+        openTextField={openTextField}
+        value={column.title}
+        handleSave={handleSave}
+      />
+      <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 0.5, pl: 1 }}>
+        <TrashBasket onAction={() => onSetColumnId(column._id)} />
+        <IconButton
+          onClick={() => setOpenTextField(true)}
+          sx={{
+            color: 'gray',
+            ':hover': {
+              color: 'primary.main',
+              backgroundColor: '#c2eafc',
+            },
+            transition: '0.3s',
+          }}
+        >
+          <ModeEditOutlineOutlinedIcon />
+        </IconButton>
+      </Box>
+
       {tasks &&
         tasks.map((task) => (
           <Grid
