@@ -11,7 +11,7 @@ export interface ITaskData {
 export interface IOrderTaskData {
   _id: string;
   order: number;
-  columnId: string;
+  columnId?: string;
 }
 
 export interface ITask extends ITaskData {
