@@ -19,6 +19,7 @@ import {
   DraggableStateSnapshot,
   Droppable,
   DroppableProvided,
+  // DroppableStateSnapshot,
 } from 'react-beautiful-dnd';
 import { Task } from 'components/Task';
 
@@ -53,7 +54,7 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
         order,
         description: fields.login,
         userId: user.id,
-        users: [user.name] as string[],
+        users: [user.id] as string[],
       };
 
       createTask({ boardId: column.boardId, columnId: column._id, data })
@@ -110,14 +111,14 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
               .slice(0)
               .sort((a, b) => a.order - b.order)
               .map((task) => {
-                // console.log('task', task);
+                console.log('task', task);
 
                 return (
                   <Droppable
                     key={task._id}
                     type="TASK"
                     direction="vertical"
-                    droppableId={column._id}
+                    droppableId={`${column._id}:${task._id}`}
                   >
                     {(
                       providedDropTask: DroppableProvided
@@ -127,7 +128,7 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
                         key={task._id}
                         ref={providedDropTask.innerRef}
                         {...providedDropTask.droppableProps}
-                        sx={{ maxHeight: 40 }}
+                        // sx={{ maxHeight: providerDropSnapshot ? 30 : 50 }}
                       >
                         <Task key={task._id} task={task} loading={isLoading} onAction={() => {}} />
                         {providedDropTask.placeholder}
@@ -136,6 +137,25 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
                   </Droppable>
                 );
               })}
+
+          {tasks && !tasks.length && (
+            <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>
+              {(
+                providedDropTask: DroppableProvided
+                // providerDropSnapshot: DroppableStateSnapshot
+              ) => (
+                <Box
+                  ref={providedDropTask.innerRef}
+                  {...providedDropTask.droppableProps}
+                  // sx={{ maxHeight: 40 }}
+                >
+                  {/* //to be able to move tasks to an empty column */}
+                  <div style={{ visibility: 'hidden' }}>plug </div>
+                  {providedDropTask.placeholder}
+                </Box>
+              )}
+            </Droppable>
+          )}
 
           <Button
             variant="contained"
