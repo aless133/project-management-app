@@ -45,6 +45,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useUpdateBoardMutation,
   useCreateBoardMutation,
   useDeleteBoardMutation,
   useGetUserBoardsQuery,
