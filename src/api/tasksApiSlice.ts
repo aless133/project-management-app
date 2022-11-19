@@ -1,3 +1,4 @@
+import { IUpdatedTask } from './../types/taskTypes';
 import { ITask, ITaskParams, IOrderTaskData } from 'types/taskTypes';
 import { apiSlice } from './apiSlice';
 
@@ -28,7 +29,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
-    updateSetTask: builder.mutation<ITask[], IOrderTaskData[]>({
+    updateSetTask: builder.mutation<IUpdatedTask[], IOrderTaskData[]>({
       query: (data) => ({
         url: 'tasksSet',
         method: 'PATCH',

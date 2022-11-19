@@ -110,33 +110,29 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
             tasks
               .slice(0)
               .sort((a, b) => a.order - b.order)
-              .map((task) => {
-                console.log('task', task);
-
-                return (
-                  <Droppable
-                    key={task._id}
-                    type="TASK"
-                    direction="vertical"
-                    droppableId={`${column._id}:${task._id}`}
-                  >
-                    {(
-                      providedDropTask: DroppableProvided
-                      // providerDropSnapshot: DroppableStateSnapshot
-                    ) => (
-                      <Box
-                        key={task._id}
-                        ref={providedDropTask.innerRef}
-                        {...providedDropTask.droppableProps}
-                        // sx={{ maxHeight: providerDropSnapshot ? 30 : 50 }}
-                      >
-                        <Task key={task._id} task={task} loading={isLoading} onAction={() => {}} />
-                        {providedDropTask.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                );
-              })}
+              .map((task) => (
+                <Droppable
+                  key={task._id}
+                  type="TASK"
+                  direction="vertical"
+                  droppableId={`${column._id}:${task._id}`}
+                >
+                  {(
+                    providedDropTask: DroppableProvided
+                    // providerDropSnapshot: DroppableStateSnapshot
+                  ) => (
+                    <Box
+                      key={task._id}
+                      ref={providedDropTask.innerRef}
+                      {...providedDropTask.droppableProps}
+                      // sx={{ maxHeight: providerDropSnapshot ? 30 : 50 }}
+                    >
+                      <Task key={task._id} task={task} loading={isLoading} onAction={() => {}} />
+                      {providedDropTask.placeholder}
+                    </Box>
+                  )}
+                </Droppable>
+              ))}
 
           {tasks && !tasks.length && (
             <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>

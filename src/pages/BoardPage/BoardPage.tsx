@@ -127,8 +127,6 @@ export const BoardPage = () => {
         .unwrap()
         .then(() => {})
         .catch((err) => dispatch(alertError(getErrorMessage(err))));
-
-      console.log(result);
     }
   };
 
