@@ -9,6 +9,7 @@ import { Notifier } from 'components/UI/Notifier';
 
 export const Layout = () => {
   const { isChecking } = useCheckToken();
+  
   return (
     <div className={styles.layout}>
       {isChecking ? (
