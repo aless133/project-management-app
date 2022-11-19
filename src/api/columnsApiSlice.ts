@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice';
-import { IColumn, IColumnParams } from 'types/columnTypes';
+import { IColumn, IColumnParams, IOrderData } from 'types/columnTypes';
 // import { TApiTag } from 'types';
 // import type { TagDescription } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -31,6 +31,15 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['BoardColumns'],
     }),
 
+    updateColumnSet: builder.mutation<IColumn[], IOrderData[]>({
+      query: (data) => ({
+        url: 'columnsSet',
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['BoardColumns'],
+    }),
+
     deleteColumn: builder.mutation<IColumn, IColumnParams>({
       query: ({ boardId, columnId }) => ({
         url: `/boards/${boardId}/columns/${columnId}`,
@@ -46,6 +55,7 @@ export const {
   // useDeleteBoardMutation,
   useDeleteColumnMutation,
   useGetBoardColumnsQuery,
+  useUpdateColumnSetMutation,
   // useGetBoardQuery,
   useUpdateColumnMutation,
 } = extendedApiSlice;

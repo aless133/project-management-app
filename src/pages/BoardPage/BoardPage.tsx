@@ -12,7 +12,7 @@ import {
   useCreateColumnMutation,
   useDeleteColumnMutation,
   useGetBoardColumnsQuery,
-  useUpdateColumnMutation,
+  useUpdateColumnSetMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { Column } from 'components/Column';
 import { Spinner } from 'components/Spinner';
@@ -41,7 +41,7 @@ export const BoardPage = () => {
   } = useGetBoardQuery(id as string);
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
-  const [updateColumn] = useUpdateColumnMutation();
+  const [updateOrders, { isLoading: isOrderLoading }] = useUpdateColumnSetMutation();
   const [deleteColumn] = useDeleteColumnMutation();
   const dispatch = useStoreDispatch();
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ export const BoardPage = () => {
   const columnRef = useRef('');
 
   const isLoading = () => {
-    return isBoardLoading || isColumnsLoading;
+    return isBoardLoading || isColumnsLoading || isOrderLoading;
   };
   const isColumns = () => {
     return !!columns && columns.length > 0;
@@ -99,20 +99,19 @@ export const BoardPage = () => {
     if (result.type === 'COLUMN') {
       const newOrder = result.destination.index;
       const oldOrder = result.source.index;
-      const columnId = result.draggableId;
-      const moveId = result.destination.droppableId;
+      const startId = result.draggableId;
+      const finishId = result.destination.droppableId;
 
       if (newOrder === oldOrder) return;
 
-      const columnDrag = columns && columns.filter((column) => column._id === columnId)[0];
-      const columnMove = columns && columns.filter((column) => column._id === moveId)[0];
+      const columnDrag = columns && columns.filter((column) => column._id === startId)[0];
+      const columnDrop = columns && columns.filter((column) => column._id === finishId)[0];
 
-      if (id && columnId && columnDrag && columnMove) {
-        const dataDrag = { title: columnDrag.title, order: newOrder };
-        const dataDrop = { title: columnMove.title, order: oldOrder };
+      if (id && startId && columnDrag && columnDrop) {
+        const dataDrag = { _id: startId, order: newOrder };
+        const dataDrop = { _id: finishId, order: oldOrder };
 
-        updateColumn({ boardId: id, columnId, data: dataDrag });
-        updateColumn({ boardId: id, columnId: moveId, data: dataDrop });
+        updateOrders([dataDrag, dataDrop]);
       }
     } else if (result.type === 'TASK') {
       console.log(result);
