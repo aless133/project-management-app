@@ -4,6 +4,7 @@ export interface ITaskData {
   description: string;
   userId: string;
   users: string[];
+  columnId?: string;
 }
 
 export interface IUpdatedTask extends ITaskData {
@@ -26,4 +27,13 @@ export interface ITaskParams {
   columnId: string;
   taskId?: string;
   data?: ITaskData;
+}
+
+export interface ITaskPropsData {
+  title: string;
+  description: string;
+  boardId: string;
+  columnId: string;
+  taskId: string;
+  order: number;
 }

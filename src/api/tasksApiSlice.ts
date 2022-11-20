@@ -1,5 +1,4 @@
-import { IUpdatedTask } from './../types/taskTypes';
-import { ITask, ITaskParams, IOrderTaskData } from 'types/taskTypes';
+import { IOrderTaskData, ITask, ITaskParams, IUpdatedTask } from 'types/taskTypes';
 import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
@@ -52,5 +51,6 @@ export const {
   useCreateTaskMutation,
   useGetColumnsTaskQuery,
   useDeleteTaskMutation,
+  useUpdateTaskMutation,
   useUpdateSetTaskMutation,
 } = extendedApiSlice;

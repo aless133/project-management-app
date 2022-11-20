@@ -1,19 +1,22 @@
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 import { useAppContext } from 'app.context';
 import { TrashBasket } from 'components/TrashBasket';
 import React from 'react';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
-import { ITask } from 'types/taskTypes';
+import { ITask, ITaskPropsData } from 'types/taskTypes';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+
 interface ITaskProps {
   task: ITask;
   boardId: string;
   columnId: string;
   loading: boolean;
   onAction: () => void;
+  openTaskModal: (data: ITaskPropsData) => void;
 }
 
-export const Task = ({ task, boardId, columnId, loading }: ITaskProps) => {
+export const Task = ({ task, boardId, columnId, loading, openTaskModal }: ITaskProps) => {
   const { confirm } = useAppContext();
   const [deleteTask] = useDeleteTaskMutation();
 
@@ -26,6 +29,18 @@ export const Task = ({ task, boardId, columnId, loading }: ITaskProps) => {
       };
       return await deleteTask(data).unwrap();
     });
+  };
+
+  const handleOpenTaskModal = () => {
+    const taskData = {
+      title: task.title,
+      description: task.description,
+      boardId,
+      columnId,
+      taskId: task._id,
+      order: task.order,
+    };
+    openTaskModal(taskData);
   };
 
   return (
@@ -44,12 +59,30 @@ export const Task = ({ task, boardId, columnId, loading }: ITaskProps) => {
               {task.title}
             </Typography>
           </Grid>
-          <TrashBasket
-            onAction={(e) => {
-              e.stopPropagation();
-              handleDeleteTask(task._id);
-            }}
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 0.5 }}>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenTaskModal();
+              }}
+              sx={{
+                color: 'gray',
+                ':hover': {
+                  color: 'primary.main',
+                  backgroundColor: '#c2eafc',
+                },
+                transition: '0.3s',
+              }}
+            >
+              <ModeEditOutlineOutlinedIcon />
+            </IconButton>
+            <TrashBasket
+              onAction={(e) => {
+                e.stopPropagation();
+                handleDeleteTask(task._id);
+              }}
+            />
+          </Box>
         </Grid>
       )}
     </Draggable>

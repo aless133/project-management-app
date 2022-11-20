@@ -90,12 +90,6 @@ export const MainPage = () => {
                     }}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 1 }}>
-                      <TrashBasket
-                        onAction={(e) => {
-                          e.stopPropagation();
-                          handleDeleteBoard(board._id);
-                        }}
-                      />
                       <IconButton
                         onClick={() => handleOpenBoardModal(board._id, board.title)}
                         sx={{
@@ -109,6 +103,12 @@ export const MainPage = () => {
                       >
                         <ModeEditOutlineOutlinedIcon />
                       </IconButton>
+                      <TrashBasket
+                        onAction={(e) => {
+                          e.stopPropagation();
+                          handleDeleteBoard(board._id);
+                        }}
+                      />
                     </Box>
 
                     <Button

@@ -24,13 +24,15 @@ import {
 import { Task } from 'components/Task';
 import { DragDrop } from 'utils/constants';
 import { useAppContext } from 'app.context';
+import { ITaskPropsData } from 'types/taskTypes';
 
 interface IColumnProps {
   column: IColumn;
+  openTaskModal: (data: ITaskPropsData) => void;
   loading: boolean;
 }
 
-export const Column: FC<IColumnProps> = ({ column, loading }) => {
+export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
@@ -148,13 +150,13 @@ export const Column: FC<IColumnProps> = ({ column, loading }) => {
                         task={task}
                         loading={isLoading}
                         onAction={() => {}}
+                        openTaskModal={openTaskModal}
                       />
                       {providedDropTask.placeholder}
                     </Box>
                   )}
                 </Droppable>
               ))}
-
           {tasks && !tasks.length && (
             <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>
               {(

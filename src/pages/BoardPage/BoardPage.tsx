@@ -12,17 +12,19 @@ import { Column } from 'components/Column';
 import { Spinner } from 'components/Spinner';
 import { FormModal } from 'components/UI/FormModal';
 import { Constants } from 'utils';
-import { useUpdateSetTaskMutation } from 'api/tasksApiSlice';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
+import { TaskModal } from 'components/TaskModal';
+import { ITaskPropsData } from 'types/taskTypes';
 import {
   useCreateColumnMutation,
   useGetBoardColumnsQuery,
   useUpdateColumnSetMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { DragDrop } from 'utils/constants';
+import { useUpdateSetTaskMutation } from 'api/tasksApiSlice';
 
 export const BoardPage = () => {
   const [t] = useTranslation();
@@ -33,8 +35,25 @@ export const BoardPage = () => {
   const [updateOrdersColumn, { isLoading: isOrderColumnsLoading }] = useUpdateColumnSetMutation();
   const [setTasksOrder, { isLoading: isOrderTasksLoading }] = useUpdateSetTaskMutation();
   const dispatch = useStoreDispatch();
+  const [isOpenTaskModal, setIsOpenTaskModal] = useState<boolean>(false);
+  const [isFormModalCol, setFormModalCol] = useState<boolean>(false);
+  const [taskModalData, setTaskModalData] = useState<ITaskPropsData>({
+    title: '',
+    description: '',
+    boardId: '',
+    columnId: '',
+    taskId: '',
+    order: 0,
+  });
 
-  const [isFormModalCol, setFormModalCol] = useState(false);
+  const openTaskModal = (data: ITaskPropsData) => {
+    setIsOpenTaskModal(true);
+    setTaskModalData(data);
+  };
+
+  const closeTaskModal = () => {
+    setIsOpenTaskModal(false);
+  };
 
   const isLoading = () => {
     return isBoardLoading || isColumnsLoading || isOrderColumnsLoading || isOrderTasksLoading;
@@ -207,7 +226,11 @@ export const BoardPage = () => {
                             ref={providedDropColumn.innerRef}
                             {...providedDropColumn.droppableProps}
                           >
-                            <Column column={column} loading={isBoardLoading} />
+                            <Column
+                              openTaskModal={openTaskModal}
+                              column={column}
+                              loading={isBoardLoading}
+                            />
                             {providedDropColumn.placeholder}
                           </Box>
                         )}
@@ -247,6 +270,11 @@ export const BoardPage = () => {
               isOpen={isFormModalCol}
               onClose={() => setFormModalCol(false)}
               onAction={addColumn}
+            />
+            <TaskModal
+              data={taskModalData}
+              closeTaskModal={closeTaskModal}
+              openModal={isOpenTaskModal}
             />
           </>
         )}
