@@ -52,18 +52,11 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
     }
   }, [data.description, data.title, openModal]);
 
-  const closeModal = () => {
-    closeTaskModal();
-  };
-
   const handleChange: React.ChangeEventHandler<HTMLFormElement> = (e) => {
     const { name, value } = e.target;
-
     if (typeof value === 'string') {
-      console.log(err);
       err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
       setErrStack({ ...err });
-      console.log(errStack);
 
       if (Object.values(err).every((err) => !err)) {
         setIsDisabledSubmitBtn(false);
@@ -101,7 +94,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
         setIsLoading(true);
         await updateTask(taskData).unwrap();
         dispatch(alertSuccess());
-        closeModal();
+        closeTaskModal();
       } catch (err) {
         dispatch(alertError(getErrorMessage(err)));
       } finally {
@@ -113,7 +106,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
   };
 
   return (
-    <ModalWindow onClose={closeModal} open={openModal} title={t('Update task')}>
+    <ModalWindow onClose={closeTaskModal} open={openModal} title={t('Update task')}>
       <Box sx={{ width: { lg: '20vw' }, p: { lg: 2 } }}>
         <form onSubmit={handleSubmit} onChange={handleChange}>
           <TextField
@@ -158,7 +151,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
               variant="outlined"
               fullWidth
               color="error"
-              onClick={closeModal}
+              onClick={closeTaskModal}
             >
               {t('Cancel')}
             </Button>
