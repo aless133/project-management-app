@@ -38,6 +38,15 @@ export const setCreateTitleError = (len: string): string => {
   }
 };
 
+export const setTitleError = (len: string) => {
+  if (len === Constants.REQUIRED_LENGTH) {
+    return i18next.t('This field is required');
+  } else if (+len >= +Constants.MAX_LENGTH) {
+    return i18next.t('Title is too long');
+  }
+  return ' ';
+};
+
 export const getErrorMessage = (err: unknown): string => {
   if ((err as IApiError).data?.message) return (err as IApiError).data?.message;
   if ((err as Error).message) return (err as Error).message;
