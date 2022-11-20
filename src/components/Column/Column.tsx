@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { InlineTextField } from 'components/InlineTextField';
 import { IColumn, IColumnParams } from 'types/columnTypes';
 import { TrashBasket } from 'components/TrashBasket';
-import { useGetColumnsTaskQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
+import {
+  useGetColumnsTaskQuery,
+  useCreateTaskMutation,
+  useDeleteTaskMutation,
+} from 'api/tasksApiSlice';
 import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
@@ -13,14 +17,14 @@ import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { Grid, Typography } from '@mui/material';
 import { Spinner } from 'components/Spinner';
-import { useUpdateColumnMutation } from 'api/columnsApiSlice';
+import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
+import { useAppContext } from 'app.context';
 
 interface IColumnProps {
   column: IColumn;
-  onSetColumnId: (id: string) => void;
 }
 
-export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
+export const Column: FC<IColumnProps> = ({ column }) => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
@@ -32,6 +36,9 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
   });
   const [createTask] = useCreateTaskMutation();
   const [updateColumn] = useUpdateColumnMutation();
+  const [deleteTask] = useDeleteTaskMutation();
+  const { confirm } = useAppContext();
+  const [deleteColumn] = useDeleteColumnMutation();
 
   const addTask = (fields: { name: string; login?: string } | undefined) => {
     if (fields?.name && fields.login) {
@@ -72,10 +79,31 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
     return resp;
   };
 
+  const handleDeleteTask = (taskId: string) => {
+    confirm(async () => {
+      const data = {
+        boardId: column.boardId as string,
+        columnId: column._id as string,
+        taskId,
+      };
+      return await deleteTask(data).unwrap();
+    });
+  };
+
+  const handleDeleteColumn = (columnId: string) => {
+    confirm(async () => {
+      const data = {
+        boardId: column.boardId,
+        columnId,
+      };
+      return await deleteColumn(data).unwrap();
+    });
+  };
+
   return (
     <Paper elevation={3}>
       <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
-      <TrashBasket onAction={() => onSetColumnId(column._id)} />
+      <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
       {tasks &&
         tasks.map((task) => (
           <Grid
@@ -89,7 +117,12 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId }) => {
                 {task.title}
               </Typography>
             </Grid>
-            <TrashBasket onAction={() => {}} />
+            <TrashBasket
+              onAction={(e) => {
+                e.stopPropagation();
+                handleDeleteTask(task._id);
+              }}
+            />
           </Grid>
         ))}
       <Button
