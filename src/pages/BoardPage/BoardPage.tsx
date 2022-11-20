@@ -26,6 +26,7 @@ import {
   useGetBoardColumnsQuery,
   useUpdateColumnSetMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
+import { DragDrop } from 'utils/constants';
 
 export const BoardPage = () => {
   const [t] = useTranslation();
@@ -82,7 +83,7 @@ export const BoardPage = () => {
   const dragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
-    if (result.type === 'COLUMN') {
+    if (result.type === DragDrop.COLUMN) {
       const newOrder = result.destination.index;
       const oldOrder = result.source.index;
       const startId = result.draggableId;
@@ -103,7 +104,7 @@ export const BoardPage = () => {
           .then(() => {})
           .catch((err) => dispatch(alertError(getErrorMessage(err))));
       }
-    } else if (result.type === 'TASK') {
+    } else if (result.type === DragDrop.TASK) {
       const [columnId] = result.destination.droppableId.split(':');
       const startId = result.draggableId;
       const finishId = result.source.droppableId.split(':')[1];
@@ -222,7 +223,7 @@ export const BoardPage = () => {
                     .map((column) => (
                       <Droppable
                         key={column._id}
-                        type="COLUMN"
+                        type={DragDrop.COLUMN}
                         direction="vertical"
                         droppableId={column._id}
                       >

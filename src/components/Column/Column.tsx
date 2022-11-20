@@ -22,6 +22,7 @@ import {
   // DroppableStateSnapshot,
 } from 'react-beautiful-dnd';
 import { Task } from 'components/Task';
+import { DragDrop } from 'utils/constants';
 
 interface IColumnProps {
   column: IColumn;
@@ -113,7 +114,7 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
               .map((task) => (
                 <Droppable
                   key={task._id}
-                  type="TASK"
+                  type={DragDrop.TASK}
                   direction="vertical"
                   droppableId={`${column._id}:${task._id}`}
                 >
