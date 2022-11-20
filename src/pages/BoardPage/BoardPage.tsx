@@ -136,11 +136,6 @@ export const BoardPage = () => {
           <Spinner />
         ) : (
           <>
-            <TaskModal
-              data={taskModalData}
-              closeTaskModal={closeTaskModal}
-              openModal={isOpenTaskModal}
-            />
             <Container maxWidth="xl">
               <Box
                 sx={{
@@ -275,6 +270,11 @@ export const BoardPage = () => {
               isOpen={isFormModalCol}
               onClose={() => setFormModalCol(false)}
               onAction={addColumn}
+            />
+            <TaskModal
+              data={taskModalData}
+              closeTaskModal={closeTaskModal}
+              openModal={isOpenTaskModal}
             />
           </>
         )}
