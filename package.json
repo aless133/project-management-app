@@ -53,10 +53,12 @@
     ]
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.2",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "i18next-scanner": "^4.1.0",
     "i18next-scanner-typescript": "^1.0.6",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "react-beautiful-dnd": "^13.1.1"
   }
 }

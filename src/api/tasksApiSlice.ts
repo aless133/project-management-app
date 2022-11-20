@@ -1,4 +1,4 @@
-import { ITask, ITaskParams } from 'types/taskTypes';
+import { IOrderTaskData, ITask, ITaskParams, IUpdatedTask } from 'types/taskTypes';
 import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
@@ -28,6 +28,14 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
+    updateSetTask: builder.mutation<IUpdatedTask[], IOrderTaskData[]>({
+      query: (data) => ({
+        url: 'tasksSet',
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['ColumnTasks'],
+    }),
 
     deleteTask: builder.mutation<ITask, ITaskParams>({
       query: ({ boardId, columnId, taskId }) => ({
@@ -44,4 +52,5 @@ export const {
   useGetColumnsTaskQuery,
   useDeleteTaskMutation,
   useUpdateTaskMutation,
+  useUpdateSetTaskMutation,
 } = extendedApiSlice;

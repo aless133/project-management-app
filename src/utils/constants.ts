@@ -21,3 +21,8 @@ export enum Languages {
   LANG0 = 'en',
   LANG1 = 'ru',
 }
+
+export enum DragDrop {
+  COLUMN = 'COLUMN',
+  TASK = 'TASK',
+}
