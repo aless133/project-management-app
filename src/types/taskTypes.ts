@@ -6,6 +6,17 @@ export interface ITaskData {
   users: string[];
 }
 
+export interface IUpdatedTask extends ITaskData {
+  boardId: string;
+  columnId: string;
+}
+
+export interface IOrderTaskData {
+  _id: string;
+  order: number;
+  columnId: string;
+}
+
 export interface ITask extends ITaskData {
   _id: string;
 }

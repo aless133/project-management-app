@@ -8,7 +8,7 @@ import { ErrorBoundary } from 'components/ErrorBoundary';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
+  <>
     <Suspense fallback={<h2>Loading...</h2>}>
       <HashRouter>
         <ErrorBoundary>
@@ -16,5 +16,5 @@ root.render(
         </ErrorBoundary>
       </HashRouter>
     </Suspense>
-  </React.StrictMode>
+  </>
 );
