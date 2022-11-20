@@ -15,16 +15,19 @@ import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { Spinner } from 'components/Spinner';
 import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
 import { useAppContext } from 'app.context';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { ITask, ITaskPropsData } from 'types/taskTypes';
 
 interface IColumnProps {
   column: IColumn;
+  openTaskModal: (data: ITaskPropsData) => void;
 }
 
-export const Column: FC<IColumnProps> = ({ column }) => {
+export const Column: FC<IColumnProps> = ({ column, openTaskModal }) => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
@@ -100,6 +103,18 @@ export const Column: FC<IColumnProps> = ({ column }) => {
     });
   };
 
+  const handleOpenTaskModal = (taskData: ITask, columnData: IColumn) => {
+    const data: ITaskPropsData = {
+      title: taskData.title,
+      description: taskData.description,
+      boardId: columnData.boardId,
+      columnId: columnData._id,
+      taskId: taskData._id,
+      order: taskData.order,
+    };
+    openTaskModal(data);
+  };
+
   return (
     <Paper elevation={3}>
       <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
@@ -117,12 +132,30 @@ export const Column: FC<IColumnProps> = ({ column }) => {
                 {task.title}
               </Typography>
             </Grid>
-            <TrashBasket
-              onAction={(e) => {
-                e.stopPropagation();
-                handleDeleteTask(task._id);
-              }}
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 0.5 }}>
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleOpenTaskModal(task, column);
+                }}
+                sx={{
+                  color: 'gray',
+                  ':hover': {
+                    color: 'primary.main',
+                    backgroundColor: '#c2eafc',
+                  },
+                  transition: '0.3s',
+                }}
+              >
+                <ModeEditOutlineOutlinedIcon />
+              </IconButton>
+              <TrashBasket
+                onAction={(e) => {
+                  e.stopPropagation();
+                  handleDeleteTask(task._id);
+                }}
+              />
+            </Box>
           </Grid>
         ))}
       <Button

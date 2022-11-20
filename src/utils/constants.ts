@@ -6,6 +6,8 @@ export enum Constants {
   BOARD_TITLE = 'boardTitle',
   BOARD_DESCRIPTION = 'boardDescription',
   REQUIRED_LENGTH = '0',
+  TASK_TITLE = 'taskTitle',
+  TASK_DESCRIPTION = 'taskDescription',
   //routs
   SIGN_IN = '/signin',
   SIGN_UP = '/signup',

@@ -39,5 +39,9 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreateTaskMutation, useGetColumnsTaskQuery, useDeleteTaskMutation } =
-  extendedApiSlice;
+export const {
+  useCreateTaskMutation,
+  useGetColumnsTaskQuery,
+  useDeleteTaskMutation,
+  useUpdateTaskMutation,
+} = extendedApiSlice;

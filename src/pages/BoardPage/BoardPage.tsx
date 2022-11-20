@@ -16,6 +16,8 @@ import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import ReplyIcon from '@mui/icons-material/Reply';
 import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
+import { TaskModal } from 'components/TaskModal';
+import { ITaskPropsData } from 'types/taskTypes';
 
 export const BoardPage = () => {
   const [t] = useTranslation();
@@ -24,8 +26,25 @@ export const BoardPage = () => {
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
   const dispatch = useStoreDispatch();
+  const [isOpenTaskModal, setIsOpenTaskModal] = useState<boolean>(false);
+  const [isFormModalCol, setFormModalCol] = useState<boolean>(false);
+  const [taskModalData, setTaskModalData] = useState<ITaskPropsData>({
+    title: '',
+    description: '',
+    boardId: '',
+    columnId: '',
+    taskId: '',
+    order: 0,
+  });
 
-  const [isFormModalCol, setFormModalCol] = useState(false);
+  const openTaskModal = (data: ITaskPropsData) => {
+    setIsOpenTaskModal(true);
+    setTaskModalData(data);
+  };
+
+  const closeTaskModal = () => {
+    setIsOpenTaskModal(false);
+  };
 
   const isLoading = () => {
     return isBoardLoading || isColumnsLoading;
@@ -56,6 +75,11 @@ export const BoardPage = () => {
         <Spinner />
       ) : (
         <>
+          <TaskModal
+            data={taskModalData}
+            closeTaskModal={closeTaskModal}
+            openModal={isOpenTaskModal}
+          />
           <Container maxWidth="xl">
             <Box
               sx={{
@@ -132,7 +156,7 @@ export const BoardPage = () => {
               >
                 {columns!.map((column) => (
                   <Box key={column._id} sx={{ width: 300, flexShrink: 0 }}>
-                    <Column column={column} />
+                    <Column openTaskModal={openTaskModal} column={column} />
                   </Box>
                 ))}
                 <Box
