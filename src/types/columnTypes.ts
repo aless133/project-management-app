@@ -2,6 +2,10 @@ export interface IColumnData {
   title: string;
   order: number;
 }
+export interface IOrderColumnData {
+  _id: string;
+  order: number;
+}
 export interface IColumn extends IColumnData {
   _id: string;
   boardId: string;
@@ -9,5 +13,5 @@ export interface IColumn extends IColumnData {
 export interface IColumnParams {
   boardId: string;
   columnId?: string;
-  data?: IColumnData;
+  data?: IColumnData | IColumnData[];
 }
