@@ -13,27 +13,15 @@ interface IInlineTextFieldProps {
   label: string;
   value: string;
   handleSave: (value: string) => Promise<IColumn>;
-  openTextField: boolean;
 }
 
-export const InlineTextField = ({
-  label,
-  value,
-  handleSave,
-  openTextField,
-}: IInlineTextFieldProps) => {
+export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldProps) => {
   const [inputValue, setInputValue] = useState<string>(value);
   const [isEditing, setEditing] = useState<boolean>(false);
   const input = useRef<HTMLInputElement>(null);
   const dispatch = useStoreDispatch();
   const [err, setErr] = useState<string>(' ');
   const [textFieldValue, setTextFieldValue] = useState<string>(inputValue);
-
-  useEffect(() => {
-    if (openTextField) {
-      setEditing(true);
-    }
-  }, [openTextField]);
 
   useEffect(() => {
     if (isEditing && input.current) {
@@ -61,6 +49,12 @@ export const InlineTextField = ({
     } catch (e) {
       dispatch(alertError());
     }
+  };
+
+  const handleOpen = () => {
+    setEditing(true);
+    setTextFieldValue(inputValue);
+    setErr(setTitleError(String(inputValue.length)));
   };
 
   return (
@@ -91,13 +85,16 @@ export const InlineTextField = ({
           variant="h3"
           sx={{
             pt: 1,
-            pl: 2,
-            pr: 2,
+            px: 2,
             fontSize: 28,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            ':hover': {
+              cursor: 'pointer',
+            },
           }}
+          onClick={handleOpen}
         >
           {inputValue}
         </Typography>
