@@ -1,19 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-// import Grid from '@mui/material/Grid';
-// import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import ReplyIcon from '@mui/icons-material/Reply';
 import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 import { Column } from 'components/Column';
 import { Spinner } from 'components/Spinner';
 import { FormModal } from 'components/UI/FormModal';
-import { ConfirmModal } from 'components/UI/ConfirmModal';
 import { Constants } from 'utils';
 import { useUpdateSetTaskMutation } from 'api/tasksApiSlice';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
@@ -22,7 +19,6 @@ import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import {
   useCreateColumnMutation,
-  useDeleteColumnMutation,
   useGetBoardColumnsQuery,
   useUpdateColumnSetMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
@@ -31,20 +27,14 @@ import { DragDrop } from 'utils/constants';
 export const BoardPage = () => {
   const [t] = useTranslation();
   const { id } = useParams();
+  const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
+  const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
+  const [createColumn] = useCreateColumnMutation();
+  const [updateOrdersColumn, { isLoading: isOrderColumnsLoading }] = useUpdateColumnSetMutation();
+  const [setTasksOrder, { isLoading: isOrderTasksLoading }] = useUpdateSetTaskMutation();
   const dispatch = useStoreDispatch();
 
   const [isFormModalCol, setFormModalCol] = useState(false);
-  const [isConfirm, setConfirm] = useState(false);
-  const columnRef = useRef('');
-
-  const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
-  const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
-
-  const [setTasksOrder, { isLoading: isOrderTasksLoading }] = useUpdateSetTaskMutation();
-
-  const [createColumn] = useCreateColumnMutation();
-  const [updateOrdersColumn, { isLoading: isOrderColumnsLoading }] = useUpdateColumnSetMutation();
-  const [deleteColumn] = useDeleteColumnMutation();
 
   const isLoading = () => {
     return isBoardLoading || isColumnsLoading || isOrderColumnsLoading || isOrderTasksLoading;
@@ -66,17 +56,6 @@ export const BoardPage = () => {
         });
 
       setFormModalCol(false);
-    }
-  };
-
-  const setColumnId = (id: string) => {
-    columnRef.current = id;
-    setConfirm(true);
-  };
-
-  const handleDeleteColumnConfirmed = async () => {
-    if (id && columnRef.current) {
-      return await deleteColumn({ boardId: id, columnId: columnRef.current }).unwrap();
     }
   };
 
@@ -139,11 +118,6 @@ export const BoardPage = () => {
         ) : (
           <>
             <Container maxWidth="xl">
-              <ConfirmModal
-                isOpen={isConfirm}
-                onClose={() => setConfirm(false)}
-                onAction={handleDeleteColumnConfirmed}
-              />
               <Box
                 sx={{
                   position: 'relative',
@@ -233,11 +207,7 @@ export const BoardPage = () => {
                             ref={providedDropColumn.innerRef}
                             {...providedDropColumn.droppableProps}
                           >
-                            <Column
-                              column={column}
-                              onSetColumnId={setColumnId}
-                              loading={isBoardLoading}
-                            />
+                            <Column column={column} loading={isBoardLoading} />
                             {providedDropColumn.placeholder}
                           </Box>
                         )}

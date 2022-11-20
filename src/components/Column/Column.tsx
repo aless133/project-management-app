@@ -13,7 +13,7 @@ import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { Box } from '@mui/material';
 import { Spinner } from 'components/Spinner';
-import { useUpdateColumnMutation } from 'api/columnsApiSlice';
+import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
 import {
   Draggable,
   DraggableStateSnapshot,
@@ -23,14 +23,14 @@ import {
 } from 'react-beautiful-dnd';
 import { Task } from 'components/Task';
 import { DragDrop } from 'utils/constants';
+import { useAppContext } from 'app.context';
 
 interface IColumnProps {
   column: IColumn;
-  onSetColumnId: (id: string) => void;
   loading: boolean;
 }
 
-export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => {
+export const Column: FC<IColumnProps> = ({ column, loading }) => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
@@ -46,6 +46,9 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
   });
   const [createTask] = useCreateTaskMutation();
   const [updateColumn] = useUpdateColumnMutation();
+
+  const { confirm } = useAppContext();
+  const [deleteColumn] = useDeleteColumnMutation();
 
   const addTask = (fields: { name: string; login?: string } | undefined) => {
     if (fields?.name && fields.login) {
@@ -67,6 +70,16 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
 
       setFormModal(false);
     }
+  };
+
+  const handleDeleteColumn = (columnId: string) => {
+    confirm(async () => {
+      const data = {
+        boardId: column.boardId,
+        columnId,
+      };
+      return await deleteColumn(data).unwrap();
+    });
   };
 
   if (isFetching) {
@@ -105,7 +118,7 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
           }}
         >
           <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
-          <TrashBasket onAction={() => onSetColumnId(column._id)} />
+          <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
 
           {tasks &&
             tasks
@@ -128,7 +141,14 @@ export const Column: FC<IColumnProps> = ({ column, onSetColumnId, loading }) => 
                       {...providedDropTask.droppableProps}
                       // sx={{ maxHeight: providerDropSnapshot ? 30 : 50 }}
                     >
-                      <Task key={task._id} task={task} loading={isLoading} onAction={() => {}} />
+                      <Task
+                        key={task._id}
+                        boardId={column.boardId}
+                        columnId={column._id}
+                        task={task}
+                        loading={isLoading}
+                        onAction={() => {}}
+                      />
                       {providedDropTask.placeholder}
                     </Box>
                   )}
