@@ -166,9 +166,9 @@ export const BoardPage = () => {
         targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
 
       const reorderedTasks = [
-        ...filteredTasks!.slice(0, newOrder),
+        ...filteredTasks!.slice(0, newOrder === 0 ? 0 : newOrder === 1 ? 1 : newOrder),
         reorderTask,
-        ...filteredTasks!.slice(newOrder),
+        ...filteredTasks!.slice(newOrder === 0 ? 0 : newOrder === 1 ? 1 : newOrder),
       ] as ITask[];
 
       const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
@@ -182,7 +182,10 @@ export const BoardPage = () => {
           columnId: task.columnId!,
         };
       });
-
+      //console.log('newOrder', newOrder);
+      // console.log('tasks', targetTasks);
+      // console.log('reorderedTasks', reorderedTasks);
+      // console.log('data', data);
       await setTasksOrder(data)
         .unwrap()
         .then(() => {})
