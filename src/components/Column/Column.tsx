@@ -19,7 +19,6 @@ import {
   DraggableStateSnapshot,
   Droppable,
   DroppableProvided,
-  // DroppableStateSnapshot,
 } from 'react-beautiful-dnd';
 import { Task } from 'components/Task';
 import { DragDrop } from 'utils/constants';
@@ -120,42 +119,40 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
         >
           <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
           <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
-
-          {tasks &&
-            tasks
-              .slice(0)
-              .sort((a, b) => a.order - b.order)
-              .map((task) => (
-                <Droppable
-                  key={task._id}
-                  type={DragDrop.TASK}
-                  direction="vertical"
-                  droppableId={`${column._id}:${task._id}`}
-                >
-                  {(
-                    providedDropTask: DroppableProvided
-                    // providerDropSnapshot: DroppableStateSnapshot
-                  ) => (
-                    <Box
-                      key={task._id}
-                      ref={providedDropTask.innerRef}
-                      {...providedDropTask.droppableProps}
-                      // sx={{ maxHeight: providerDropSnapshot ? 30 : 50 }}
-                    >
-                      <Task
+          <Box sx={{ maxHeight: '30vh', overflowY: 'auto' }}>
+            {tasks &&
+              tasks
+                .slice(0)
+                .sort((a, b) => a.order - b.order)
+                .map((task) => (
+                  <Droppable
+                    key={task._id}
+                    type={DragDrop.TASK}
+                    direction="vertical"
+                    droppableId={`${column._id}:${task._id}`}
+                  >
+                    {(providedDropTask: DroppableProvided) => (
+                      <Box
                         key={task._id}
-                        boardId={column.boardId}
-                        columnId={column._id}
-                        task={task}
-                        loading={isLoading}
-                        onAction={() => {}}
-                        openTaskModal={openTaskModal}
-                      />
-                      {providedDropTask.placeholder}
-                    </Box>
-                  )}
-                </Droppable>
-              ))}
+                        ref={providedDropTask.innerRef}
+                        {...providedDropTask.droppableProps}
+                      >
+                        <Task
+                          key={task._id}
+                          boardId={column.boardId}
+                          columnId={column._id}
+                          task={task}
+                          loading={isLoading}
+                          onAction={() => {}}
+                          openTaskModal={openTaskModal}
+                        />
+
+                        {providedDropTask.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
+                ))}
+          </Box>
           {tasks && !tasks.length && (
             <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>
               {(
