@@ -8,6 +8,7 @@ export enum Constants {
   REQUIRED_LENGTH = '0',
   TASK_TITLE = 'taskTitle',
   TASK_DESCRIPTION = 'taskDescription',
+  PASSWORD_RULES = '5',
   //routs
   SIGN_IN = '/signin',
   SIGN_UP = '/signup',

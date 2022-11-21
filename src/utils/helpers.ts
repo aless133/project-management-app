@@ -14,16 +14,31 @@ export const validateMinLength =
   (value: string): string =>
     value.length < +len ? len : '';
 
+export const validatePassword =
+  (len: string) =>
+  (value: string): string => {
+    return value.split('').every((el) => /^[a-zA-Z0-9]$/.test(el)) ? '' : len;
+  };
+
+export const validateLogin =
+  (len: string) =>
+  (value: string): string => {
+    return value.split('').every((el) => /^[a-zA-Z0-9-_]$/.test(el)) ? '' : len;
+  };
+
 export const validateRequiredField =
   (len: string) =>
-  (value: string): string =>
-    value.length > +Constants.REQUIRED_LENGTH ? '' : len;
+  (value: string): string => {
+    return value.trim().length > +Constants.REQUIRED_LENGTH ? '' : len;
+  };
 
 export const setMinMaxLengthError = (len: string): string => {
   if (len === Constants.MIN_LENGTH || len === Constants.PASSWORD_LENGTH) {
     return i18next.t('can not be less than {{len}} characters', { len });
   } else if (len === Constants.MAX_LENGTH) {
     return i18next.t('can not be larger than {{len}} characters', { len });
+  } else if (len === Constants.PASSWORD_RULES) {
+    return 'sdfgkjsdjf';
   }
   return ' ';
 };
@@ -33,9 +48,8 @@ export const setCreateTitleError = (len: string): string => {
     return i18next.t('This field is required');
   } else if (len === Constants.MAX_LENGTH) {
     return i18next.t('can not be larger than {{len}} characters', { len });
-  } else {
-    return ' ';
   }
+  return ' ';
 };
 
 export const setTitleError = (len: string) => {
