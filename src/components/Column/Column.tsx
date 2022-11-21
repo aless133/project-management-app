@@ -37,7 +37,6 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
   const dispatch = useStoreDispatch();
-
   const {
     data: tasks,
     isFetching,
@@ -175,7 +174,6 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
               )}
             </Droppable>
           )}
-
           <Button
             variant="contained"
             color="secondary"

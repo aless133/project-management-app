@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { IColumn } from 'types/columnTypes';
+import { setTitleError } from 'utils/helpers';
 
 interface IInlineTextFieldProps {
   label: string;
@@ -19,6 +20,8 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
   const [isEditing, setEditing] = useState<boolean>(false);
   const input = useRef<HTMLInputElement>(null);
   const dispatch = useStoreDispatch();
+  const [err, setErr] = useState<string>(' ');
+  const [textFieldValue, setTextFieldValue] = useState<string>(inputValue);
 
   useEffect(() => {
     if (isEditing && input.current) {
@@ -30,7 +33,13 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
     setInputValue(value);
   }, [value, setInputValue]);
 
+  const handleChange = (value: string) => {
+    setTextFieldValue(value);
+    setErr(setTitleError(String(value.length)));
+  };
+
   const handleOk = async () => {
+    if (err !== ' ') return;
     const value = input.current ? input.current.value : '';
     try {
       await handleSave(value);
@@ -42,6 +51,12 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
     }
   };
 
+  const handleOpen = () => {
+    setEditing(true);
+    setTextFieldValue(inputValue);
+    setErr(setTitleError(String(inputValue.length)));
+  };
+
   return (
     <Box sx={{}}>
       {isEditing ? (
@@ -50,7 +65,12 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
             sx={{ flexGrow: 1 }}
             label={label}
             variant="outlined"
-            defaultValue={inputValue}
+            onChange={(newValue) => {
+              handleChange(newValue.target.value);
+            }}
+            value={textFieldValue}
+            error={err !== ' '}
+            helperText={err}
             inputRef={input}
           />
           <CheckIcon fontSize="large" sx={{ cursor: 'pointer' }} onClick={handleOk} />
@@ -63,16 +83,18 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
       ) : (
         <Typography
           variant="h3"
-          onClick={() => setEditing(true)}
           sx={{
             pt: 1,
-            pl: 2,
-            pr: 2,
+            px: 2,
             fontSize: 28,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            ':hover': {
+              cursor: 'pointer',
+            },
           }}
+          onClick={handleOpen}
         >
           {inputValue}
         </Typography>
