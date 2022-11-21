@@ -137,8 +137,6 @@ export const BoardPage = () => {
       if (columnIdDrop !== columnIdDrag) {
         const oldTasks = id && (await getColumnTasks({ boardId: id, columnId: columnIdDrag })).data;
 
-        console.log(oldTasks);
-
         const reorderTask =
           oldTasks && (oldTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
         const reorderedTasks = [
@@ -152,9 +150,6 @@ export const BoardPage = () => {
           task.order = inx;
           return { _id: task._id, order: task.order, columnId: columnIdDrop };
         });
-
-        console.log('reorderedTasks', reorderedTasks);
-        console.log('data', data);
 
         await setTasksOrder(data)
           .unwrap()
