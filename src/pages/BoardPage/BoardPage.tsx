@@ -166,12 +166,13 @@ export const BoardPage = () => {
         targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
 
       const reorderedTasks = [
-        ...filteredTasks!.slice(0, newOrder === 0 ? 0 : newOrder === 1 ? 1 : newOrder - 1),
+        ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder),
         reorderTask,
-        ...filteredTasks!.slice(newOrder === 0 ? 0 : newOrder === 1 ? 1 : newOrder),
+        ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder),
       ] as ITask[];
 
       const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
+
       const data = copyReorderedTasks.map((task, inx) => {
         if (typeof task !== 'string' && task) {
           task.order = inx;
@@ -182,7 +183,12 @@ export const BoardPage = () => {
           columnId: task.columnId!,
         };
       });
-      //console.log('newOrder', newOrder);
+
+      // console.log('head', ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder));
+
+      // console.log('tail', ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder));
+
+      // console.log('newOrder', newOrder);
       // console.log('tasks', targetTasks);
       // console.log('reorderedTasks', reorderedTasks);
       // console.log('data', data);
