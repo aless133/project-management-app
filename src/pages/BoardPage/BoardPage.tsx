@@ -166,7 +166,7 @@ export const BoardPage = () => {
         targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
 
       const reorderedTasks = [
-        ...filteredTasks!.slice(0, newOrder === 0 ? 0 : newOrder === 1 ? 1 : newOrder),
+        ...filteredTasks!.slice(0, newOrder === 0 ? 0 : newOrder === 1 ? 1 : newOrder - 1),
         reorderTask,
         ...filteredTasks!.slice(newOrder === 0 ? 0 : newOrder === 1 ? 1 : newOrder),
       ] as ITask[];
