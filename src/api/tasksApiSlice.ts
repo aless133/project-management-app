@@ -50,6 +50,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 export const {
   useCreateTaskMutation,
   useGetColumnsTaskQuery,
+  useLazyGetColumnsTaskQuery,
   useDeleteTaskMutation,
   useUpdateTaskMutation,
   useUpdateSetTaskMutation,

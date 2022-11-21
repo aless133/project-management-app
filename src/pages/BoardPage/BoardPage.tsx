@@ -17,14 +17,15 @@ import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { TaskModal } from 'components/TaskModal';
-import { ITaskPropsData } from 'types/taskTypes';
+import { ITask, ITaskPropsData } from 'types/taskTypes';
 import {
   useCreateColumnMutation,
   useGetBoardColumnsQuery,
   useUpdateColumnSetMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { DragDrop } from 'utils/constants';
-import { useUpdateSetTaskMutation } from 'api/tasksApiSlice';
+import { useLazyGetColumnsTaskQuery, useUpdateSetTaskMutation } from 'api/tasksApiSlice';
+import { IColumn, IOrderColumnData } from 'types/columnTypes';
 
 export const BoardPage = () => {
   const [t] = useTranslation();
@@ -45,6 +46,8 @@ export const BoardPage = () => {
     taskId: '',
     order: 0,
   });
+
+  const [getColumnTasks] = useLazyGetColumnsTaskQuery();
 
   const openTaskModal = (data: ITaskPropsData) => {
     setIsOpenTaskModal(true);
@@ -84,43 +87,106 @@ export const BoardPage = () => {
     if (result.type === DragDrop.COLUMN) {
       const newOrder = result.destination.index;
       const oldOrder = result.source.index;
-      const startId = result.draggableId;
-      const [finishId] =
-        result.destination.droppableId.split(':') || result.destination.droppableId;
+      //  const ColumnIdDrop = result.destination.droppableId;
+      const ColumnIdDrag = result.draggableId;
 
       if (newOrder === oldOrder) return;
 
-      const columnDrag = columns && columns.filter((column) => column._id === startId)[0];
-      const columnDrop = columns && columns.filter((column) => column._id === finishId)[0];
+      const reorderColumn = columns && columns.filter((column) => column._id === ColumnIdDrag)[0];
 
-      if (id && startId && columnDrag && columnDrop) {
-        const dataDrag = { _id: startId, order: newOrder };
-        const dataDrop = { _id: finishId, order: oldOrder };
+      const filteredColumns = columns && columns.filter((column) => column._id !== ColumnIdDrag);
 
-        await updateOrdersColumn([dataDrag, dataDrop])
+      const reorderedColumns = [
+        ...filteredColumns!.slice(0, newOrder),
+        reorderColumn,
+        ...filteredColumns!.slice(newOrder),
+      ];
+
+      const copyReorderedColumns = JSON.parse(JSON.stringify(reorderedColumns)) as IColumn[];
+      const data = copyReorderedColumns.map((column, inx) => {
+        if (column) {
+          column.order = inx;
+          return { _id: column._id, order: column!.order };
+        }
+      }) as IOrderColumnData[];
+
+      if (data) {
+        await updateOrdersColumn(data)
           .unwrap()
           .then(() => {})
           .catch((err) => dispatch(alertError(getErrorMessage(err))));
       }
     } else if (result.type === DragDrop.TASK) {
-      const [columnId] = result.destination.droppableId.split(':');
-      const startId = result.draggableId;
-      const finishId = result.source.droppableId.split(':')[1];
+      const [columnIdDrop, TaskIdDrop] = result.destination.droppableId.split(':');
+      const columnIdDrag = result.source.droppableId.split(':')[0];
+      const taskIdDrag = result.draggableId;
       const newOrder = result.destination.index;
-      const oldOrder = result.source.index;
+      const targetTasks =
+        id && (await getColumnTasks({ boardId: id, columnId: columnIdDrop })).data;
 
-      const data = [
-        {
-          _id: startId,
-          order: newOrder,
-          columnId,
-        },
-        {
-          _id: finishId,
-          order: oldOrder,
-          columnId,
-        },
-      ];
+      if (TaskIdDrop === 'empty') {
+        const data = [{ _id: taskIdDrag, order: 0, columnId: columnIdDrop! }];
+        await setTasksOrder(data)
+          .unwrap()
+          .then(() => {})
+          .catch((err) => dispatch(alertError(getErrorMessage(err))));
+
+        return;
+      }
+
+      if (columnIdDrop !== columnIdDrag) {
+        const oldTasks = id && (await getColumnTasks({ boardId: id, columnId: columnIdDrag })).data;
+
+        console.log(oldTasks);
+
+        const reorderTask =
+          oldTasks && (oldTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
+        const reorderedTasks = [
+          ...targetTasks!.slice(0, newOrder),
+          reorderTask,
+          ...targetTasks!.slice(newOrder),
+        ] as ITask[];
+        const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
+
+        const data = copyReorderedTasks.map((task, inx) => {
+          task.order = inx;
+          return { _id: task._id, order: task.order, columnId: columnIdDrop };
+        });
+
+        console.log('reorderedTasks', reorderedTasks);
+        console.log('data', data);
+
+        await setTasksOrder(data)
+          .unwrap()
+          .then(() => {})
+          .catch((err) => dispatch(alertError(getErrorMessage(err))));
+
+        return;
+      }
+
+      const reorderTask =
+        targetTasks && (targetTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
+
+      const filteredTasks =
+        targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
+
+      const reorderedTasks = [
+        ...filteredTasks!.slice(0, newOrder),
+        reorderTask,
+        ...filteredTasks!.slice(newOrder),
+      ] as ITask[];
+
+      const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
+      const data = copyReorderedTasks.map((task, inx) => {
+        if (typeof task !== 'string' && task) {
+          task.order = inx;
+        }
+        return {
+          _id: task._id,
+          order: task.order,
+          columnId: task.columnId!,
+        };
+      });
 
       await setTasksOrder(data)
         .unwrap()
