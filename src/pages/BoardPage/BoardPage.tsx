@@ -184,14 +184,6 @@ export const BoardPage = () => {
         };
       });
 
-      // console.log('head', ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder));
-
-      // console.log('tail', ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder));
-
-      // console.log('newOrder', newOrder);
-      // console.log('tasks', targetTasks);
-      // console.log('reorderedTasks', reorderedTasks);
-      // console.log('data', data);
       await setTasksOrder(data)
         .unwrap()
         .then(() => {})
@@ -200,155 +192,140 @@ export const BoardPage = () => {
   };
 
   return (
-    <DragDropContext onDragEnd={dragEnd}>
-      <Box component="main" className="has-loader">
-        {isLoading() ? (
-          <Spinner />
-        ) : (
-          <>
-            <Container maxWidth="xl">
+    <Box component="main" className="has-loader">
+      {isLoading() ? (
+        <Spinner />
+      ) : (
+        <>
+          <Container maxWidth="xl">
+            <Box
+              sx={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                my: 1,
+              }}
+            >
+              <Button variant="outlined" sx={{ position: 'absolute', left: 0 }}>
+                <Link
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                  to={Constants.MAIN}
+                  replace={true}
+                >
+                  <ReplyIcon sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }} />
+                  <Box
+                    sx={{
+                      display: { xs: 'none', sm: 'none', md: 'block' },
+                    }}
+                  >
+                    {t('Back to main')}
+                  </Box>
+                </Link>
+              </Button>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: { xs: 30, sm: 38 },
+                  maxWidth: { xs: 120, sm: 220, md: 400, lg: 700 },
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {board && board.title}
+              </Typography>
+            </Box>
+            {isColumns() ? null : (
+              <Box sx={{ textAlign: 'center' }}>
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="secondary"
+                  sx={{ my: 4 }}
+                  onClick={() => setFormModalCol(true)}
+                >
+                  {t('Add first column')}
+                </Button>
+              </Box>
+            )}
+          </Container>
+          {isColumns() ? (
+            <Container
+              maxWidth={false}
+              sx={{
+                display: 'flex',
+                overflowX: 'auto',
+              }}
+            >
               <Box
                 sx={{
                   position: 'relative',
+                  margin: 'auto',
                   display: 'flex',
+                  flexWrap: 'nowrap',
+                  gap: 2,
+                  py: 2,
+                  flexDirection: 'row',
+                  alignItems: 'top',
                   justifyContent: 'center',
-                  alignItems: 'center',
-                  my: 1,
                 }}
               >
-                <Button variant="outlined" sx={{ position: 'absolute', left: 0 }}>
-                  <Link
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                    to={Constants.MAIN}
-                    replace={true}
-                  >
-                    <ReplyIcon sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }} />
-                    <Box
-                      sx={{
-                        display: { xs: 'none', sm: 'none', md: 'block' },
-                      }}
-                    >
-                      {t('Back to main')}
-                    </Box>
-                  </Link>
-                </Button>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: { xs: 30, sm: 38 },
-                    maxWidth: { xs: 120, sm: 220, md: 400, lg: 700 },
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {board && board.title}
-                </Typography>
-              </Box>
-              {isColumns() ? null : (
-                <Box sx={{ textAlign: 'center' }}>
-                  <Button
-                    size="large"
-                    variant="contained"
-                    color="secondary"
-                    sx={{ my: 4 }}
-                    onClick={() => setFormModalCol(true)}
-                  >
-                    {t('Add first column')}
-                  </Button>
-                </Box>
-              )}
-            </Container>
-            {isColumns() ? (
-              <Container
-                maxWidth={false}
-                sx={{
-                  display: 'flex',
-                  overflowX: 'auto',
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    margin: 'auto',
-                    display: 'flex',
-                    flexWrap: 'nowrap',
-                    gap: 2,
-                    py: 2,
-                    flexDirection: 'row',
-                    alignItems: 'top',
-                    justifyContent: 'center',
-                  }}
-                >
+                <DragDropContext onDragEnd={dragEnd}>
                   {columns!
                     .slice(0)
                     .sort((a, b) => a.order - b.order)
                     .map((column) => (
-                      <Droppable
+                      <Column
                         key={column._id}
-                        type={DragDrop.COLUMN}
-                        direction="vertical"
-                        droppableId={column._id}
-                      >
-                        {(providedDropColumn: DroppableProvided) => (
-                          <Box
-                            sx={{ width: 300, flexShrink: 0 }}
-                            ref={providedDropColumn.innerRef}
-                            {...providedDropColumn.droppableProps}
-                          >
-                            <Column
-                              openTaskModal={openTaskModal}
-                              column={column}
-                              loading={isBoardLoading}
-                            />
-                            {providedDropColumn.placeholder}
-                          </Box>
-                        )}
-                      </Droppable>
-                    ))}
-                  <Box
-                    key="column-add"
-                    sx={{
-                      position: 'absolute',
-                      left: 'calc(100% + 16px)',
-                    }}
-                  >
-                    <Button
-                      size="large"
-                      variant="contained"
-                      color="secondary"
-                      sx={{
-                        width: { md: 205, lg: 205 },
-                        whiteSpace: 'nowrap',
-                        mr: 2,
-                      }}
-                      onClick={() => setFormModalCol(true)}
-                    >
-                      <AddchartSharpIcon
-                        sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
+                        openTaskModal={openTaskModal}
+                        column={column}
+                        loading={isBoardLoading}
                       />
-                      <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }}>
-                        {t('Add column')}
-                      </Box>
-                    </Button>
-                  </Box>
+                    ))}
+                </DragDropContext>
+                <Box
+                  key="column-add"
+                  sx={{
+                    position: 'absolute',
+                    left: 'calc(100% + 16px)',
+                  }}
+                >
+                  <Button
+                    size="large"
+                    variant="contained"
+                    color="secondary"
+                    sx={{
+                      width: { md: 205, lg: 205 },
+                      whiteSpace: 'nowrap',
+                      mr: 2,
+                    }}
+                    onClick={() => setFormModalCol(true)}
+                  >
+                    <AddchartSharpIcon
+                      sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
+                    />
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }}>
+                      {t('Add column')}
+                    </Box>
+                  </Button>
                 </Box>
-              </Container>
-            ) : null}
-            <FormModal
-              title={t('Add Column')}
-              isOpen={isFormModalCol}
-              onClose={() => setFormModalCol(false)}
-              onAction={addColumn}
-            />
-            <TaskModal
-              data={taskModalData}
-              closeTaskModal={closeTaskModal}
-              openModal={isOpenTaskModal}
-            />
-          </>
-        )}
-      </Box>
-    </DragDropContext>
+              </Box>
+            </Container>
+          ) : null}
+          <FormModal
+            title={t('Add Column')}
+            isOpen={isFormModalCol}
+            onClose={() => setFormModalCol(false)}
+            onAction={addColumn}
+          />
+          <TaskModal
+            data={taskModalData}
+            closeTaskModal={closeTaskModal}
+            openModal={isOpenTaskModal}
+          />
+        </>
+      )}
+    </Box>
   );
 };
