@@ -112,6 +112,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
           <TextField
             name={Constants.TASK_TITLE}
             fullWidth
+            autoFocus
             onChange={(newValue) => {
               setValue1(newValue.target.value);
             }}
