@@ -55,7 +55,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
     if (boardTitle) {
       setValue(boardTitle);
     }
-  }, [boardTitle]);
+  }, [boardTitle, openModal]);
 
   const clearForm = () => {
     setErrStack({
