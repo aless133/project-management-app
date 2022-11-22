@@ -315,6 +315,7 @@ export const BoardPage = () => {
           ) : null}
           <FormModal
             title={t('Add Column')}
+            labelText={t('Column title')}
             isOpen={isFormModalCol}
             onClose={() => setFormModalCol(false)}
             onAction={addColumn}
