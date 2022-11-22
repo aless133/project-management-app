@@ -20,6 +20,8 @@ export interface IOrderTaskData {
 
 export interface ITask extends ITaskData {
   _id: string;
+  boardId: string;
+  columnId: string;  
 }
 
 export interface ITaskParams {

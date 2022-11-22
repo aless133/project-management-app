@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  DroppableProvided,
+  Draggable,
+  DraggableProvided,
+  DraggableStateSnapshot,
+  DropResult,
+} from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -24,6 +32,7 @@ import {
   useUpdateColumnSetMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { DragDrop } from 'utils/constants';
+
 import { useLazyGetColumnsTaskQuery, useUpdateSetTaskMutation } from 'api/tasksApiSlice';
 import { IColumn, IOrderColumnData } from 'types/columnTypes';
 
@@ -82,113 +91,116 @@ export const BoardPage = () => {
   };
 
   const dragEnd = async (result: DropResult) => {
-    if (!result.destination) return;
+    console.log(result);
+    return;
 
-    if (result.type === DragDrop.COLUMN) {
-      const newOrder = result.destination.index;
-      const oldOrder = result.source.index;
-      //  const ColumnIdDrop = result.destination.droppableId;
-      const ColumnIdDrag = result.draggableId;
+    // if (!result.destination) return;
 
-      if (newOrder === oldOrder) return;
+    // if (result.type === DragDrop.COLUMN) {
+    //   const newOrder = result.destination.index;
+    //   const oldOrder = result.source.index;
+    //   //  const ColumnIdDrop = result.destination.droppableId;
+    //   const ColumnIdDrag = result.draggableId;
 
-      const reorderColumn = columns && columns.filter((column) => column._id === ColumnIdDrag)[0];
+    //   if (newOrder === oldOrder) return;
 
-      const filteredColumns = columns && columns.filter((column) => column._id !== ColumnIdDrag);
+    //   const reorderColumn = columns && columns.filter((column) => column._id === ColumnIdDrag)[0];
 
-      const reorderedColumns = [
-        ...filteredColumns!.slice(0, newOrder),
-        reorderColumn,
-        ...filteredColumns!.slice(newOrder),
-      ];
+    //   const filteredColumns = columns && columns.filter((column) => column._id !== ColumnIdDrag);
 
-      const copyReorderedColumns = JSON.parse(JSON.stringify(reorderedColumns)) as IColumn[];
-      const data = copyReorderedColumns.map((column, inx) => {
-        if (column) {
-          column.order = inx;
-          return { _id: column._id, order: column!.order };
-        }
-      }) as IOrderColumnData[];
+    //   const reorderedColumns = [
+    //     ...filteredColumns!.slice(0, newOrder),
+    //     reorderColumn,
+    //     ...filteredColumns!.slice(newOrder),
+    //   ];
 
-      if (data) {
-        await updateOrdersColumn(data)
-          .unwrap()
-          .then(() => {})
-          .catch((err) => dispatch(alertError(getErrorMessage(err))));
-      }
-    } else if (result.type === DragDrop.TASK) {
-      const [columnIdDrop, TaskIdDrop] = result.destination.droppableId.split(':');
-      const columnIdDrag = result.source.droppableId.split(':')[0];
-      const taskIdDrag = result.draggableId;
-      const newOrder = result.destination.index;
-      const targetTasks =
-        id && (await getColumnTasks({ boardId: id, columnId: columnIdDrop })).data;
+    //   const copyReorderedColumns = JSON.parse(JSON.stringify(reorderedColumns)) as IColumn[];
+    //   const data = copyReorderedColumns.map((column, inx) => {
+    //     if (column) {
+    //       column.order = inx;
+    //       return { _id: column._id, order: column!.order };
+    //     }
+    //   }) as IOrderColumnData[];
 
-      if (TaskIdDrop === 'empty') {
-        const data = [{ _id: taskIdDrag, order: 0, columnId: columnIdDrop! }];
-        await setTasksOrder(data)
-          .unwrap()
-          .then(() => {})
-          .catch((err) => dispatch(alertError(getErrorMessage(err))));
+    //   if (data) {
+    //     await updateOrdersColumn(data)
+    //       .unwrap()
+    //       .then(() => {})
+    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
+    //   }
+    // } else if (result.type === DragDrop.TASK) {
+    //   const [columnIdDrop, TaskIdDrop] = result.destination.droppableId.split(':');
+    //   const columnIdDrag = result.source.droppableId.split(':')[0];
+    //   const taskIdDrag = result.draggableId;
+    //   const newOrder = result.destination.index;
+    //   const targetTasks =
+    //     id && (await getColumnTasks({ boardId: id, columnId: columnIdDrop })).data;
 
-        return;
-      }
+    //   if (TaskIdDrop === 'empty') {
+    //     const data = [{ _id: taskIdDrag, order: 0, columnId: columnIdDrop! }];
+    //     await setTasksOrder(data)
+    //       .unwrap()
+    //       .then(() => {})
+    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
 
-      if (columnIdDrop !== columnIdDrag) {
-        const oldTasks = id && (await getColumnTasks({ boardId: id, columnId: columnIdDrag })).data;
+    //     return;
+    //   }
 
-        const reorderTask =
-          oldTasks && (oldTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
-        const reorderedTasks = [
-          ...targetTasks!.slice(0, newOrder),
-          reorderTask,
-          ...targetTasks!.slice(newOrder),
-        ] as ITask[];
-        const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
+    //   if (columnIdDrop !== columnIdDrag) {
+    //     const oldTasks = id && (await getColumnTasks({ boardId: id, columnId: columnIdDrag })).data;
 
-        const data = copyReorderedTasks.map((task, inx) => {
-          task.order = inx;
-          return { _id: task._id, order: task.order, columnId: columnIdDrop };
-        });
+    //     const reorderTask =
+    //       oldTasks && (oldTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
+    //     const reorderedTasks = [
+    //       ...targetTasks!.slice(0, newOrder),
+    //       reorderTask,
+    //       ...targetTasks!.slice(newOrder),
+    //     ] as ITask[];
+    //     const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
 
-        await setTasksOrder(data)
-          .unwrap()
-          .then(() => {})
-          .catch((err) => dispatch(alertError(getErrorMessage(err))));
+    //     const data = copyReorderedTasks.map((task, inx) => {
+    //       task.order = inx;
+    //       return { _id: task._id, order: task.order, columnId: columnIdDrop };
+    //     });
 
-        return;
-      }
+    //     await setTasksOrder(data)
+    //       .unwrap()
+    //       .then(() => {})
+    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
 
-      const reorderTask =
-        targetTasks && (targetTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
+    //     return;
+    //   }
 
-      const filteredTasks =
-        targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
+    //   const reorderTask =
+    //     targetTasks && (targetTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
 
-      const reorderedTasks = [
-        ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder - 1),
-        reorderTask,
-        ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder + 1),
-      ] as ITask[];
+    //   const filteredTasks =
+    //     targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
 
-      const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
+    //   const reorderedTasks = [
+    //     ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder - 1),
+    //     reorderTask,
+    //     ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder + 1),
+    //   ] as ITask[];
 
-      const data = copyReorderedTasks.map((task, inx) => {
-        if (typeof task !== 'string' && task) {
-          task.order = inx;
-        }
-        return {
-          _id: task._id,
-          order: task.order,
-          columnId: task.columnId!,
-        };
-      });
+    //   const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
 
-      await setTasksOrder(data)
-        .unwrap()
-        .then(() => {})
-        .catch((err) => dispatch(alertError(getErrorMessage(err))));
-    }
+    //   const data = copyReorderedTasks.map((task, inx) => {
+    //     if (typeof task !== 'string' && task) {
+    //       task.order = inx;
+    //     }
+    //     return {
+    //       _id: task._id,
+    //       order: task.order,
+    //       columnId: task.columnId!,
+    //     };
+    //   });
+
+    //   await setTasksOrder(data)
+    //     .unwrap()
+    //     .then(() => {})
+    //     .catch((err) => dispatch(alertError(getErrorMessage(err))));
+    // }
   };
 
   return (
@@ -197,6 +209,7 @@ export const BoardPage = () => {
         <Spinner />
       ) : (
         <>
+          {/* boardHeader */}
           <Container maxWidth="xl">
             <Box
               sx={{
@@ -250,6 +263,9 @@ export const BoardPage = () => {
               </Box>
             )}
           </Container>
+          {/* end boardHeader */}
+
+          {/* columns */}
           {isColumns() ? (
             <Container
               maxWidth={false}
@@ -258,6 +274,7 @@ export const BoardPage = () => {
                 overflowX: 'auto',
               }}
             >
+              {/* columns dnd zone*/}
               <Box
                 sx={{
                   position: 'relative',
@@ -272,18 +289,46 @@ export const BoardPage = () => {
                 }}
               >
                 <DragDropContext onDragEnd={dragEnd}>
-                  {columns!
-                    .slice(0)
-                    .sort((a, b) => a.order - b.order)
-                    .map((column) => (
-                      <Column
-                        key={column._id}
-                        openTaskModal={openTaskModal}
-                        column={column}
-                        loading={isBoardLoading}
-                      />
-                    ))}
+                  <Droppable
+                    type={DragDrop.COLUMN}
+                    direction="horizontal"
+                    droppableId={board!._id}
+                    isCombineEnabled={false}
+                  >
+                    {(providedDropColumn: DroppableProvided) => (
+                      <Box
+                        ref={providedDropColumn.innerRef}
+                        {...providedDropColumn.droppableProps}
+                        sx={{
+                          margin: 'auto',
+                          display: 'flex',
+                          flexWrap: 'nowrap',
+                          gap: 2,
+                          py: 2,
+                          flexDirection: 'row',
+                          alignItems: 'top',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {columns!
+                          .slice(0)
+                          .sort((a, b) => a.order - b.order)
+                          .map((column) => (
+                            <Column
+                              key={column._id}
+                              column={column}
+                              loading={isBoardLoading}
+                              openTaskModal={openTaskModal}
+                            />
+                          ))}
+                        {providedDropColumn.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
                 </DragDropContext>
+                {/* end columns dnd zone*/}
+
+                {/* columns additional button */}
                 <Box
                   key="column-add"
                   sx={{
@@ -310,9 +355,13 @@ export const BoardPage = () => {
                     </Box>
                   </Button>
                 </Box>
+                {/* add columns additional button */}
               </Box>
             </Container>
           ) : null}
+          {/* end columns*/}
+
+          {/* common modals */}
           <FormModal
             title={t('Add Column')}
             isOpen={isFormModalCol}
