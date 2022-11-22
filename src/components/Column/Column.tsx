@@ -126,58 +126,34 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
                 {...providedDragColumn.draggableProps}
                 {...providedDragColumn.dragHandleProps}
                 sx={{
-                  backgroundColor: snapshotDragColum.isDragging ? 'lightgray' : 'inherit',
-                  userSelect: 'none',
+                  backgroundColor: snapshotDragColum.isDragging
+                    ? 'rgba(233,255,255,.3)'
+                    : 'inherit',
                 }}
               >
                 <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
                 <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
-                <Box sx={{ maxHeight: '30vh', overflowY: 'auto' }}>
+                <Box sx={{ px: 2, maxHeight: '40vh', overflowY: 'auto' }}>
                   {tasks &&
                     tasks
                       .slice(0)
                       .sort((a, b) => a.order - b.order)
                       .map((task) => (
-                        <Droppable
+                        <Task
                           key={task._id}
-                          type={DragDrop.TASK}
-                          direction="vertical"
-                          droppableId={`${column._id}:${task._id}`}
-                          ignoreContainerClipping={true}
-                        >
-                          {(providedDropTask: DroppableProvided) => (
-                            <Box
-                              key={task._id}
-                              ref={providedDropTask.innerRef}
-                              {...providedDropTask.droppableProps}
-                            >
-                              <Task
-                                key={task._id}
-                                boardId={column.boardId}
-                                columnId={column._id}
-                                task={task}
-                                loading={isLoading}
-                                onAction={() => {}}
-                                openTaskModal={openTaskModal}
-                              />
-
-                              {providedDropTask.placeholder}
-                            </Box>
-                          )}
-                        </Droppable>
+                          boardId={column.boardId}
+                          columnId={column._id}
+                          task={task}
+                          loading={isLoading}
+                          onAction={() => {}}
+                          openTaskModal={openTaskModal}
+                        />
                       ))}
                 </Box>
                 {tasks && !tasks.length && (
                   <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>
-                    {(
-                      providedDropTask: DroppableProvided
-                      // providerDropSnapshot: DroppableStateSnapshot
-                    ) => (
-                      <Box
-                        ref={providedDropTask.innerRef}
-                        {...providedDropTask.droppableProps}
-                        // sx={{ maxHeight: 40 }}
-                      >
+                    {(providedDropTask: DroppableProvided) => (
+                      <Box ref={providedDropTask.innerRef} {...providedDropTask.droppableProps}>
                         {/* //to be able to move tasks to an empty column */}
                         <div style={{ visibility: 'hidden' }}>plug </div>
                         {providedDropTask.placeholder}
