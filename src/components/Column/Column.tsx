@@ -100,43 +100,45 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
   };
 
   return (
-    <Draggable
-      draggableId={column._id}
+    <Droppable
       key={column._id}
-      index={column.order}
-      isDragDisabled={loading}
+      type={DragDrop.COLUMN}
+      direction="vertical"
+      droppableId={column._id}
+      isCombineEnabled={true}
     >
-      {(providedDragColumn, snapshotDragColum: DraggableStateSnapshot) => (
-        <Paper
-          elevation={3}
-          ref={providedDragColumn.innerRef}
-          {...providedDragColumn.draggableProps}
-          {...providedDragColumn.dragHandleProps}
-          sx={{
-            backgroundColor: snapshotDragColum.isDragging ? 'lightgray' : 'inherit',
-            userSelect: 'none',
-          }}
+      {(providedDropColumn: DroppableProvided) => (
+        <Box
+          sx={{ width: 300, flexShrink: 0 }}
+          ref={providedDropColumn.innerRef}
+          {...providedDropColumn.droppableProps}
         >
-          <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
-          <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
-          <Box sx={{ maxHeight: '30vh', overflowY: 'auto' }}>
-            {tasks &&
-              tasks
-                .slice(0)
-                .sort((a, b) => a.order - b.order)
-                .map((task) => (
-                  <Droppable
-                    key={task._id}
-                    type={DragDrop.TASK}
-                    direction="vertical"
-                    droppableId={`${column._id}:${task._id}`}
-                  >
-                    {(providedDropTask: DroppableProvided) => (
-                      <Box
-                        key={task._id}
-                        ref={providedDropTask.innerRef}
-                        {...providedDropTask.droppableProps}
-                      >
+          <Draggable
+            draggableId={column._id}
+            key={column._id}
+            index={column.order}
+            isDragDisabled={loading}
+          >
+            {(providedDragColumn, snapshotDragColum: DraggableStateSnapshot) => (
+              <Paper
+                elevation={3}
+                ref={providedDragColumn.innerRef}
+                {...providedDragColumn.draggableProps}
+                {...providedDragColumn.dragHandleProps}
+                sx={{
+                  backgroundColor: snapshotDragColum.isDragging
+                    ? 'rgba(233,255,255,.3)'
+                    : 'inherit',
+                }}
+              >
+                <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
+                <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
+                <Box sx={{ px: 2, maxHeight: '40vh', overflowY: 'auto' }}>
+                  {tasks &&
+                    tasks
+                      .slice(0)
+                      .sort((a, b) => a.order - b.order)
+                      .map((task) => (
                         <Task
                           key={task._id}
                           boardId={column.boardId}
@@ -146,49 +148,41 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
                           onAction={() => {}}
                           openTaskModal={openTaskModal}
                         />
-
+                      ))}
+                </Box>
+                {tasks && !tasks.length && (
+                  <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>
+                    {(providedDropTask: DroppableProvided) => (
+                      <Box ref={providedDropTask.innerRef} {...providedDropTask.droppableProps}>
+                        {/* //to be able to move tasks to an empty column */}
+                        <div style={{ visibility: 'hidden' }}>plug </div>
                         {providedDropTask.placeholder}
                       </Box>
                     )}
                   </Droppable>
-                ))}
-          </Box>
-          {tasks && !tasks.length && (
-            <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>
-              {(
-                providedDropTask: DroppableProvided
-                // providerDropSnapshot: DroppableStateSnapshot
-              ) => (
-                <Box
-                  ref={providedDropTask.innerRef}
-                  {...providedDropTask.droppableProps}
-                  // sx={{ maxHeight: 40 }}
+                )}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  sx={{ mt: 2 }}
+                  onClick={() => setFormModal(true)}
                 >
-                  {/* //to be able to move tasks to an empty column */}
-                  <div style={{ visibility: 'hidden' }}>plug </div>
-                  {providedDropTask.placeholder}
-                </Box>
-              )}
-            </Droppable>
-          )}
-          <Button
-            variant="contained"
-            color="secondary"
-            fullWidth
-            sx={{ mt: 2 }}
-            onClick={() => setFormModal(true)}
-          >
-            {t('Add task')}
-          </Button>
-          <FormModal
-            title="Add task"
-            isOpen={isFormModal}
-            description={true}
-            onClose={() => setFormModal(false)}
-            onAction={addTask}
-          />
-        </Paper>
+                  {t('Add task')}
+                </Button>
+                <FormModal
+                  title="Add task"
+                  isOpen={isFormModal}
+                  description={true}
+                  onClose={() => setFormModal(false)}
+                  onAction={addTask}
+                />
+              </Paper>
+            )}
+          </Draggable>
+          {providedDropColumn.placeholder}
+        </Box>
       )}
-    </Draggable>
+    </Droppable>
   );
 };
