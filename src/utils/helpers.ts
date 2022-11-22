@@ -1,6 +1,6 @@
 import { Constants } from 'utils';
 import { TErr, IApiError } from 'types';
-import i18next from 'i18next';
+import i18next, { t } from 'i18next';
 
 export const isErrCheck = (err: TErr) => Object.values(err).some((err) => err.length > 0);
 
@@ -14,16 +14,33 @@ export const validateMinLength =
   (value: string): string =>
     value.length < +len ? len : '';
 
+export const validatePassword =
+  (len: string) =>
+  (value: string): string => {
+    return value.split('').every((el) => /^[a-zA-Z0-9]$/.test(el)) ? '' : len;
+  };
+
+export const validateLogin =
+  (len: string) =>
+  (value: string): string => {
+    return value.split('').every((el) => /^[a-zA-Z0-9-_]$/.test(el)) ? '' : len;
+  };
+
 export const validateRequiredField =
   (len: string) =>
-  (value: string): string =>
-    value.length > +Constants.REQUIRED_LENGTH ? '' : len;
+  (value: string): string => {
+    return value.trim().length > +Constants.REQUIRED_LENGTH ? '' : len;
+  };
 
 export const setMinMaxLengthError = (len: string): string => {
   if (len === Constants.MIN_LENGTH || len === Constants.PASSWORD_LENGTH) {
     return i18next.t('can not be less than {{len}} characters', { len });
   } else if (len === Constants.MAX_LENGTH) {
     return i18next.t('can not be larger than {{len}} characters', { len });
+  } else if (len === Constants.PASSWORD_RULE) {
+    return t('The password must contain only a-z, A-Z, 0-9');
+  } else if (len === Constants.LOGIN_RULE) {
+    return t('The login must contain only a-z, A-Z, 0-9, -, _');
   }
   return ' ';
 };
@@ -33,9 +50,8 @@ export const setCreateTitleError = (len: string): string => {
     return i18next.t('This field is required');
   } else if (len === Constants.MAX_LENGTH) {
     return i18next.t('can not be larger than {{len}} characters', { len });
-  } else {
-    return ' ';
   }
+  return ' ';
 };
 
 export const setTitleError = (len: string) => {

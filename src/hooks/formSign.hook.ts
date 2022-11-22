@@ -6,7 +6,7 @@ import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'uti
 import { useState, FormEvent } from 'react';
 import { useDeleteUserMutation, useUpdateUserMutation } from 'api/usersApiSlice';
 import { alertSuccess, alertError } from 'store/uiSlice';
-import { getErrorMessage } from 'utils/helpers';
+import { getErrorMessage, validateLogin, validatePassword } from 'utils/helpers';
 
 const err: TErr = {
   name: '',
@@ -16,8 +16,15 @@ const err: TErr = {
 
 const validator: TValidator = {
   name: [validateMinLength(Constants.MIN_LENGTH), validateMaxLength(Constants.MAX_LENGTH)],
-  login: [validateMinLength(Constants.MIN_LENGTH), validateMaxLength(Constants.MAX_LENGTH)],
-  password: [validateMinLength(Constants.PASSWORD_LENGTH)],
+  login: [
+    validateMinLength(Constants.MIN_LENGTH),
+    validateMaxLength(Constants.MAX_LENGTH),
+    validateLogin(Constants.LOGIN_RULE),
+  ],
+  password: [
+    validateMinLength(Constants.PASSWORD_LENGTH),
+    validatePassword(Constants.PASSWORD_RULE),
+  ],
 };
 
 export const useFormSign = (isSignUp: boolean) => {

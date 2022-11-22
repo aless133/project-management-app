@@ -73,10 +73,10 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
             helperText={err}
             inputRef={input}
           />
-          <CheckIcon fontSize="large" sx={{ cursor: 'pointer' }} onClick={handleOk} />
+          <CheckIcon fontSize="large" sx={{ cursor: 'pointer', mb: 3 }} onClick={handleOk} />
           <CloseIcon
             fontSize="large"
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: 'pointer', mb: 3 }}
             onClick={() => setEditing(false)}
           />
         </Box>
