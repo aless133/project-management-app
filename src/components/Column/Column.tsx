@@ -171,7 +171,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
                   {t('Add task')}
                 </Button>
                 <FormModal
-                  title="Add column"
+                  title="Add task"
                   isOpen={isFormModal}
                   description={true}
                   onClose={() => setFormModal(false)}
