@@ -5,6 +5,9 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getColumnTasks: builder.query<ITask[], ITaskParams>({
       query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
+      transformResponse: (responseData: ITask[]) => {
+        return responseData.sort((a, b) => a.order - b.order);
+      },
       providesTags: (result, err, arg) => [
         { type: 'ColumnTasks', id: arg.columnId },
         ...(result ? result!.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : []),
