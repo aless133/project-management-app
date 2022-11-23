@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import ReplyIcon from '@mui/icons-material/Reply';
 import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
 import { Column } from 'components/Column';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { FormModal } from 'components/UI/FormModal';
 import { Constants } from 'utils';
 import { useGetBoardQuery } from 'api/boardsApiSlice';

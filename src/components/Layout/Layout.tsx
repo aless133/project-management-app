@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { useCheckToken } from 'hooks/checkToken';
 import styles from './layout.module.scss';
 import { Notifier } from 'components/UI/Notifier';

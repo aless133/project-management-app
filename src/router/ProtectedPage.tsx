@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { ProtectedRuleAuth } from './ProtectedRuleAuth';
 import { ProtectedRuleBoardOwner } from './ProtectedRuleBoardOwner';
 import { TProtectedRuleChecker } from 'types/protectedTypes';

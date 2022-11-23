@@ -12,7 +12,7 @@ import { selectUser } from 'store/userSlice';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { Box } from '@mui/material';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
 import {
   Draggable,

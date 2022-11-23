@@ -14,7 +14,7 @@ import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { TrashBasket } from 'components/TrashBasket';
 import { useAppContext } from 'app.context';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { Box, IconButton } from '@mui/material';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { BoardModal } from 'components/BoardModal';
