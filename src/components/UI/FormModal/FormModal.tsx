@@ -35,6 +35,7 @@ export const FormModal = ({
           error={!!errStack.name}
           name="name"
           fullWidth
+          autoFocus
           label={t('Task Title')}
           defaultValue=""
           helperText={setMinMaxLengthError(errStack.name)}

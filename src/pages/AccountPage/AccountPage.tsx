@@ -52,6 +52,7 @@ export const AccountPage = () => {
               <TextField
                 error={!!errStack.name}
                 name="name"
+                autoFocus
                 fullWidth
                 label={t('Name')}
                 defaultValue={name || ''}

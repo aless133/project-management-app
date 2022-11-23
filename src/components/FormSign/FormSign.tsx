@@ -48,6 +48,7 @@ export const FormSign = ({ isSignUp = true }) => {
                   error={!!errStack.name}
                   name="name"
                   fullWidth
+                  autoFocus
                   label={t('Name')}
                   defaultValue=""
                   helperText={setMinMaxLengthError(errStack.name)}
@@ -58,6 +59,7 @@ export const FormSign = ({ isSignUp = true }) => {
                 error={!!errStack.login}
                 name="login"
                 fullWidth
+                autoFocus={isSignUp ? false : true}
                 label={t('Login')}
                 defaultValue=""
                 helperText={setMinMaxLengthError(errStack.login)}
