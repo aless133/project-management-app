@@ -10,7 +10,7 @@ interface IProtectedPageProps {
 }
 type TChecks = Record<string, boolean>;
 
-export const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => {
+const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => {
   const checks0: TChecks = {};
   rules.forEach((item, i) => {
     checks0[item + '_' + i] = false;
@@ -47,3 +47,5 @@ export const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => 
     </>
   );
 };
+
+export default ProtectedPage;

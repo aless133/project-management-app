@@ -1,5 +1,5 @@
-import React, { Component, ReactNode } from 'react';
-import { ErrorPage } from 'pages/ErrorPage';
+import React, { Component, ReactNode, lazy } from 'react';
+const ErrorPage = lazy(() => import('pages/ErrorPage'));
 
 interface Props {
   children?: ReactNode;

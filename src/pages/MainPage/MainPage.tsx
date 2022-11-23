@@ -19,7 +19,7 @@ import { Box, IconButton } from '@mui/material';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { BoardModal } from 'components/BoardModal';
 
-export const MainPage = () => {
+const MainPage = () => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const { data: boards, isFetching } = useGetUserBoardsQuery(user.id as string);
@@ -131,3 +131,5 @@ export const MainPage = () => {
     </main>
   );
 };
+
+export default MainPage;

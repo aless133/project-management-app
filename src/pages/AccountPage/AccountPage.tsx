@@ -12,7 +12,7 @@ import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { useAppContext } from 'app.context';
 
-export const AccountPage = () => {
+const AccountPage = () => {
   const { errStack, handleChange, handleSubmitProfile, isUpdateLoad, isDeleteLoad, handleDelete } =
     useFormSign(false);
   const [t] = useTranslation();
@@ -112,3 +112,5 @@ export const AccountPage = () => {
     </main>
   );
 };
+
+export default AccountPage;

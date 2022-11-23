@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormSign } from 'components/FormSign';
 
-export const SignUpPage = () => {
+const SignUpPage = () => {
   return <FormSign isSignUp={true} />;
 };
+
+export default SignUpPage;

@@ -27,7 +27,7 @@ import { DragDrop } from 'utils/constants';
 import { useLazyGetColumnsTaskQuery, useUpdateSetTaskMutation } from 'api/tasksApiSlice';
 import { IColumn, IOrderColumnData } from 'types/columnTypes';
 
-export const BoardPage = () => {
+const BoardPage = () => {
   const [t] = useTranslation();
   const { id } = useParams();
   const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
@@ -330,3 +330,5 @@ export const BoardPage = () => {
     </Box>
   );
 };
+
+export default BoardPage;

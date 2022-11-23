@@ -7,7 +7,7 @@ import { selectIsLogged } from 'store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { Constants } from 'utils';
 
-export const WelcomePage = () => {
+const WelcomePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const isAuth = useStoreSelector(selectIsLogged);
@@ -316,3 +316,5 @@ export const WelcomePage = () => {
     </main>
   );
 };
+
+export default WelcomePage;

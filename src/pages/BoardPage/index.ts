@@ -1,1 +1,1 @@
-export { BoardPage } from './BoardPage';
+export { default } from './BoardPage';
