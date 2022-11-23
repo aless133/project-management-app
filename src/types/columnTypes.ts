@@ -15,3 +15,8 @@ export interface IColumnParams {
   columnId?: string;
   data?: IColumnData | IColumnData[];
 }
+
+export interface IOrderColumnParams {
+  boardId: string;
+  data: IOrderColumnData[];
+}

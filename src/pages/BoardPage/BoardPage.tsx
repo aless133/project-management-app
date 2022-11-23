@@ -68,7 +68,7 @@ export const BoardPage = () => {
   };
 
   const isLoading = () => {
-    return isBoardLoading || isColumnsLoading || isOrderColumnsLoading || isOrderTasksLoading;
+    return isBoardLoading || isColumnsLoading || isOrderTasksLoading;
   };
   const isColumns = () => {
     return !!columns && columns.length > 0;
@@ -117,7 +117,7 @@ export const BoardPage = () => {
 
       console.log('data', data);
 
-      await updateOrdersColumn(data)
+      await updateOrdersColumn({ boardId: board!._id, data })
         .unwrap()
         .then(() => {})
         .catch((err) => dispatch(alertError(getErrorMessage(err))));
