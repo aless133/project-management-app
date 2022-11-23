@@ -84,9 +84,9 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
     });
   };
 
-  if (isFetching) {
-    return <Spinner />;
-  }
+  // if (isFetching) {
+  //   return <Spinner />;
+  // }
 
   const handleSave = async (value: string) => {
     const requestObj: IColumnParams = {
