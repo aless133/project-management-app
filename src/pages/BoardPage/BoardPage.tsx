@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -21,11 +21,13 @@ import { ITask, ITaskPropsData } from 'types/taskTypes';
 import {
   useCreateColumnMutation,
   useGetBoardColumnsQuery,
-  useUpdateColumnSetMutation,
+  useUpdateColumnsSetMutation,
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { DragDrop } from 'utils/constants';
-import { useLazyGetColumnsTaskQuery, useUpdateSetTaskMutation } from 'api/tasksApiSlice';
-import { IColumn, IOrderColumnData } from 'types/columnTypes';
+
+import { useLazyGetColumnTasksQuery, useUpdateTasksSetMutation } from 'api/tasksApiSlice';
+import { IOrderColumnData } from 'types/columnTypes';
+import { IOrderTaskData } from 'types/taskTypes';
 
 const BoardPage = () => {
   const [t] = useTranslation();
@@ -33,8 +35,8 @@ const BoardPage = () => {
   const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
-  const [updateOrdersColumn, { isLoading: isOrderColumnsLoading }] = useUpdateColumnSetMutation();
-  const [setTasksOrder, { isLoading: isOrderTasksLoading }] = useUpdateSetTaskMutation();
+  const [updateColumnsSet] = useUpdateColumnsSetMutation();
+  const [updateTaskSet, { isLoading: isOrderTasksLoading }] = useUpdateTasksSetMutation();
   const dispatch = useStoreDispatch();
   const [isOpenTaskModal, setIsOpenTaskModal] = useState<boolean>(false);
   const [isFormModalCol, setFormModalCol] = useState<boolean>(false);
@@ -47,7 +49,7 @@ const BoardPage = () => {
     order: 0,
   });
 
-  const [getColumnTasks] = useLazyGetColumnsTaskQuery();
+  const [getColumnTasks] = useLazyGetColumnTasksQuery();
 
   const openTaskModal = (data: ITaskPropsData) => {
     setIsOpenTaskModal(true);
@@ -59,7 +61,7 @@ const BoardPage = () => {
   };
 
   const isLoading = () => {
-    return isBoardLoading || isColumnsLoading || isOrderColumnsLoading || isOrderTasksLoading;
+    return isBoardLoading || isColumnsLoading || isOrderTasksLoading;
   };
   const isColumns = () => {
     return !!columns && columns.length > 0;
@@ -82,113 +84,149 @@ const BoardPage = () => {
   };
 
   const dragEnd = async (result: DropResult) => {
+    console.log(result);
+    // return;
+
     if (!result.destination) return;
 
-    if (result.type === DragDrop.COLUMN) {
-      const newOrder = result.destination.index;
-      const oldOrder = result.source.index;
-      //  const ColumnIdDrop = result.destination.droppableId;
-      const ColumnIdDrag = result.draggableId;
+    const newOrder = result.destination.index;
+    const oldOrder = result.source.index;
+    const newDrop = result.destination.droppableId;
+    const oldDrop = result.source.droppableId;
+    if (newOrder === oldOrder && newDrop === oldDrop) return;
 
-      if (newOrder === oldOrder) return;
+    //////////// DragDrop.COLUMN ///////////
+    if (columns && result.type === DragDrop.COLUMN) {
+      const reorderColumns = Array.from(columns);
+      const reorderColumn = reorderColumns.splice(oldOrder, 1)[0];
+      reorderColumns.splice(newOrder, 0, reorderColumn);
 
-      const reorderColumn = columns && columns.filter((column) => column._id === ColumnIdDrag)[0];
+      const data: IOrderColumnData[] = reorderColumns.map((column, inx) => ({
+        _id: column._id,
+        order: inx,
+      }));
 
-      const filteredColumns = columns && columns.filter((column) => column._id !== ColumnIdDrag);
-
-      const reorderedColumns = [
-        ...filteredColumns!.slice(0, newOrder),
-        reorderColumn,
-        ...filteredColumns!.slice(newOrder),
-      ];
-
-      const copyReorderedColumns = JSON.parse(JSON.stringify(reorderedColumns)) as IColumn[];
-      const data = copyReorderedColumns.map((column, inx) => {
-        if (column) {
-          column.order = inx;
-          return { _id: column._id, order: column!.order };
-        }
-      }) as IOrderColumnData[];
-
-      if (data) {
-        await updateOrdersColumn(data)
-          .unwrap()
-          .then(() => {})
-          .catch((err) => dispatch(alertError(getErrorMessage(err))));
-      }
-    } else if (result.type === DragDrop.TASK) {
-      const [columnIdDrop, TaskIdDrop] = result.destination.droppableId.split(':');
-      const columnIdDrag = result.source.droppableId.split(':')[0];
-      const taskIdDrag = result.draggableId;
-      const newOrder = result.destination.index;
-      const targetTasks =
-        id && (await getColumnTasks({ boardId: id, columnId: columnIdDrop })).data;
-
-      if (TaskIdDrop === 'empty') {
-        const data = [{ _id: taskIdDrag, order: 0, columnId: columnIdDrop! }];
-        await setTasksOrder(data)
-          .unwrap()
-          .then(() => {})
-          .catch((err) => dispatch(alertError(getErrorMessage(err))));
-
-        return;
-      }
-
-      if (columnIdDrop !== columnIdDrag) {
-        const oldTasks = id && (await getColumnTasks({ boardId: id, columnId: columnIdDrag })).data;
-
-        const reorderTask =
-          oldTasks && (oldTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
-        const reorderedTasks = [
-          ...targetTasks!.slice(0, newOrder),
-          reorderTask,
-          ...targetTasks!.slice(newOrder),
-        ] as ITask[];
-        const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
-
-        const data = copyReorderedTasks.map((task, inx) => {
-          task.order = inx;
-          return { _id: task._id, order: task.order, columnId: columnIdDrop };
-        });
-
-        await setTasksOrder(data)
-          .unwrap()
-          .then(() => {})
-          .catch((err) => dispatch(alertError(getErrorMessage(err))));
-
-        return;
-      }
-
-      const reorderTask =
-        targetTasks && (targetTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
-
-      const filteredTasks =
-        targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
-
-      const reorderedTasks = [
-        ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder - 1),
-        reorderTask,
-        ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder + 1),
-      ] as ITask[];
-
-      const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
-
-      const data = copyReorderedTasks.map((task, inx) => {
-        if (typeof task !== 'string' && task) {
-          task.order = inx;
-        }
-        return {
-          _id: task._id,
-          order: task.order,
-          columnId: task.columnId!,
-        };
-      });
-
-      await setTasksOrder(data)
+      await updateColumnsSet({ boardId: board!._id, data })
         .unwrap()
         .then(() => {})
         .catch((err) => dispatch(alertError(getErrorMessage(err))));
+
+      ///////////////  DragDrop.TASK  ////////////
+    } else if (result.type === DragDrop.TASK) {
+      const oldApiTasks = (await getColumnTasks({ boardId: id!, columnId: oldDrop }, true))
+        .data as ITask[];
+      const oldTasks = Array.from(oldApiTasks);
+      const reorderTask = oldTasks.splice(oldOrder, 1)[0];
+
+      if (newDrop === oldDrop) {
+        oldTasks.splice(newOrder, 0, reorderTask);
+      }
+
+      if (oldTasks.length) {
+        const data: IOrderTaskData[] = oldTasks.map((column, inx) => ({
+          _id: column._id,
+          order: inx,
+          columnId: oldDrop,
+        }));
+        await updateTaskSet(data)
+          .unwrap()
+          .then(() => {})
+          .catch((err) => dispatch(alertError(getErrorMessage(err))));
+      }
+
+      if (newDrop !== oldDrop) {
+        const newApiTasks = (await getColumnTasks({ boardId: id!, columnId: newDrop }, true))
+          .data as ITask[];
+        const newTasks = Array.from(newApiTasks);
+        newTasks.splice(oldOrder, 0, reorderTask);
+
+        if (newTasks.length) {
+          const data: IOrderTaskData[] = newTasks.map((column, inx) => ({
+            _id: column._id,
+            order: inx,
+            columnId: newDrop,
+          }));
+          await updateTaskSet(data)
+            .unwrap()
+            .then(() => {})
+            .catch((err) => dispatch(alertError(getErrorMessage(err))));
+        }
+      }
+
+      // const oldTasks = (await getColumnTasks({ boardId: id, columnId: oldDrop })).data;
     }
+    //   const [columnIdDrop, TaskIdDrop] = result.destination.droppableId.split(':');
+    //   const columnIdDrag = result.source.droppableId.split(':')[0];
+    //   const taskIdDrag = result.draggableId;
+    //   const newOrder = result.destination.index;
+    //   const targetTasks =
+    //     id && (await getColumnTasks({ boardId: id, columnId: columnIdDrop })).data;
+
+    //   if (TaskIdDrop === 'empty') {
+    //     const data = [{ _id: taskIdDrag, order: 0, columnId: columnIdDrop! }];
+    //     await setTasksOrder(data)
+    //       .unwrap()
+    //       .then(() => {})
+    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
+
+    //     return;
+    //   }
+
+    //   if (columnIdDrop !== columnIdDrag) {
+    //     const oldTasks = id && (await getColumnTasks({ boardId: id, columnId: columnIdDrag })).data;
+
+    //     const reorderTask =
+    //       oldTasks && (oldTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
+    //     const reorderedTasks = [
+    //       ...targetTasks!.slice(0, newOrder),
+    //       reorderTask,
+    //       ...targetTasks!.slice(newOrder),
+    //     ] as ITask[];
+    //     const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
+
+    //     const data = copyReorderedTasks.map((task, inx) => {
+    //       task.order = inx;
+    //       return { _id: task._id, order: task.order, columnId: columnIdDrop };
+    //     });
+
+    //     await setTasksOrder(data)
+    //       .unwrap()
+    //       .then(() => {})
+    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
+
+    //     return;
+    //   }
+
+    //   const reorderTask =
+    //     targetTasks && (targetTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
+
+    //   const filteredTasks =
+    //     targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
+
+    //   const reorderedTasks = [
+    //     ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder - 1),
+    //     reorderTask,
+    //     ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder + 1),
+    //   ] as ITask[];
+
+    //   const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
+
+    //   const data = copyReorderedTasks.map((task, inx) => {
+    //     if (typeof task !== 'string' && task) {
+    //       task.order = inx;
+    //     }
+    //     return {
+    //       _id: task._id,
+    //       order: task.order,
+    //       columnId: task.columnId!,
+    //     };
+    //   });
+
+    //   await setTasksOrder(data)
+    //     .unwrap()
+    //     .then(() => {})
+    //     .catch((err) => dispatch(alertError(getErrorMessage(err))));
+    // }
   };
 
   return (
@@ -197,6 +235,7 @@ const BoardPage = () => {
         <Spinner />
       ) : (
         <>
+          {/* boardHeader */}
           <Container maxWidth="xl">
             <Box
               sx={{
@@ -250,14 +289,18 @@ const BoardPage = () => {
               </Box>
             )}
           </Container>
+          {/* end boardHeader */}
+
+          {/* columns */}
           {isColumns() ? (
             <Container
               maxWidth={false}
               sx={{
                 display: 'flex',
-                overflowX: 'auto',
+                // overflowX: 'auto',
               }}
             >
+              {/* columns dnd zone*/}
               <Box
                 sx={{
                   position: 'relative',
@@ -265,25 +308,54 @@ const BoardPage = () => {
                   display: 'flex',
                   flexWrap: 'nowrap',
                   gap: 2,
-                  py: 2,
+                  py: 0,
                   flexDirection: 'row',
                   alignItems: 'top',
                   justifyContent: 'center',
                 }}
               >
                 <DragDropContext onDragEnd={dragEnd}>
-                  {columns!
-                    .slice(0)
-                    .sort((a, b) => a.order - b.order)
-                    .map((column) => (
-                      <Column
-                        key={column._id}
-                        openTaskModal={openTaskModal}
-                        column={column}
-                        loading={isBoardLoading}
-                      />
-                    ))}
+                  <Droppable
+                    type={DragDrop.COLUMN}
+                    direction="horizontal"
+                    droppableId={board!._id}
+                    isCombineEnabled={false}
+                  >
+                    {(providedDropColumn: DroppableProvided) => (
+                      <Box
+                        ref={providedDropColumn.innerRef}
+                        {...providedDropColumn.droppableProps}
+                        sx={{
+                          margin: 'auto',
+                          display: 'flex',
+                          flexWrap: 'nowrap',
+                          gap: 2,
+                          py: 0,
+                          flexDirection: 'row',
+                          alignItems: 'top',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {columns!
+                          .slice(0)
+                          .sort((a, b) => a.order - b.order)
+                          .map((column, index) => (
+                            <Column
+                              key={column._id}
+                              column={column}
+                              index={index}
+                              loading={isBoardLoading}
+                              openTaskModal={openTaskModal}
+                            />
+                          ))}
+                        {providedDropColumn.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
                 </DragDropContext>
+                {/* end columns dnd zone*/}
+
+                {/* columns additional button */}
                 <Box
                   key="column-add"
                   sx={{
@@ -310,9 +382,13 @@ const BoardPage = () => {
                     </Box>
                   </Button>
                 </Box>
+                {/* add columns additional button */}
               </Box>
             </Container>
           ) : null}
+          {/* end columns*/}
+
+          {/* common modals */}
           <FormModal
             title={t('Add Column')}
             labelText={t('Column title')}

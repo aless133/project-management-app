@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { InlineTextField } from 'components/InlineTextField';
 import { IColumn, IColumnParams } from 'types/columnTypes';
 import { TrashBasket } from 'components/TrashBasket';
-import { useGetColumnsTaskQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
+import { useGetColumnTasksQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
 import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
@@ -15,10 +15,11 @@ import { Box } from '@mui/material';
 import { Spinner } from 'components/UI/Spinner';
 import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
 import {
-  Draggable,
-  DraggableStateSnapshot,
   Droppable,
   DroppableProvided,
+  Draggable,
+  DraggableProvided,
+  DraggableStateSnapshot,
 } from 'react-beautiful-dnd';
 import { Task } from 'components/Task';
 import { DragDrop } from 'utils/constants';
@@ -29,9 +30,10 @@ interface IColumnProps {
   column: IColumn;
   openTaskModal: (data: ITaskPropsData) => void;
   loading: boolean;
+  index: number; //need this if data from server is incorrect
 }
 
-export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => {
+export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index }) => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
@@ -40,7 +42,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
     data: tasks,
     isFetching,
     isLoading,
-  } = useGetColumnsTaskQuery({
+  } = useGetColumnTasksQuery({
     boardId: column.boardId as string,
     columnId: column._id,
   });
@@ -100,89 +102,76 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
   };
 
   return (
-    <Droppable
-      key={column._id}
-      type={DragDrop.COLUMN}
-      direction="vertical"
-      droppableId={column._id}
-      isCombineEnabled={true}
-    >
-      {(providedDropColumn: DroppableProvided) => (
-        <Box
-          sx={{ width: 300, flexShrink: 0 }}
-          ref={providedDropColumn.innerRef}
-          {...providedDropColumn.droppableProps}
+    <Draggable draggableId={column._id} key={column._id} index={index} isDragDisabled={loading}>
+      {(providedDragColumn: DraggableProvided, snapshotDragColumn: DraggableStateSnapshot) => (
+        <Paper
+          elevation={3}
+          ref={providedDragColumn.innerRef}
+          {...providedDragColumn.draggableProps}
+          {...providedDragColumn.dragHandleProps}
+          sx={{
+            width: 300,
+            flexShrink: 0,
+            backgroundColor: snapshotDragColumn.isDragging ? 'rgba(233,255,255,.3)' : 'inherit',
+          }}
         >
-          <Draggable
-            draggableId={column._id}
+          {/*column title    */}
+          <Box>
+            <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
+            <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
+          </Box>
+
+          {/*column tasks*/}
+          <Droppable
             key={column._id}
-            index={column.order}
-            isDragDisabled={loading}
+            type={DragDrop.TASK}
+            direction="vertical"
+            droppableId={column._id}
+            isCombineEnabled={false}
           >
-            {(providedDragColumn, snapshotDragColum: DraggableStateSnapshot) => (
-              <Paper
-                elevation={3}
-                ref={providedDragColumn.innerRef}
-                {...providedDragColumn.draggableProps}
-                {...providedDragColumn.dragHandleProps}
-                sx={{
-                  backgroundColor: snapshotDragColum.isDragging
-                    ? 'rgba(233,255,255,.3)'
-                    : 'inherit',
-                }}
+            {(providedDropTask: DroppableProvided) => (
+              <Box
+                sx={{ px: 2, overflowY: 'auto', minHeight: 2 }}
+                ref={providedDropTask.innerRef}
+                {...providedDropTask.droppableProps}
               >
-                <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
-                <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
-                <Box sx={{ px: 2, maxHeight: '40vh', overflowY: 'auto' }}>
-                  {tasks &&
-                    tasks
-                      .slice(0)
-                      .sort((a, b) => a.order - b.order)
-                      .map((task) => (
-                        <Task
-                          key={task._id}
-                          boardId={column.boardId}
-                          columnId={column._id}
-                          task={task}
-                          loading={isLoading}
-                          onAction={() => {}}
-                          openTaskModal={openTaskModal}
-                        />
-                      ))}
-                </Box>
-                {tasks && !tasks.length && (
-                  <Droppable type="TASK" direction="vertical" droppableId={`${column._id}:empty`}>
-                    {(providedDropTask: DroppableProvided) => (
-                      <Box ref={providedDropTask.innerRef} {...providedDropTask.droppableProps}>
-                        {/* //to be able to move tasks to an empty column */}
-                        <div style={{ visibility: 'hidden' }}>plug </div>
-                        {providedDropTask.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                )}
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  fullWidth
-                  sx={{ mt: 2 }}
-                  onClick={() => setFormModal(true)}
-                >
-                  {t('Add task')}
-                </Button>
-                <FormModal
-                  title="Add task"
-                  isOpen={isFormModal}
-                  description={true}
-                  onClose={() => setFormModal(false)}
-                  onAction={addTask}
-                />
-              </Paper>
+                {tasks &&
+                  tasks
+                    .slice(0)
+                    .sort((a, b) => a.order - b.order)
+                    .map((task) => (
+                      <Task
+                        key={task._id}
+                        task={task}
+                        loading={isLoading}
+                        openTaskModal={openTaskModal}
+                        onAction={() => {}}
+                      />
+                    ))}
+                {providedDropTask.placeholder}
+              </Box>
             )}
-          </Draggable>
-          {providedDropColumn.placeholder}
-        </Box>
+          </Droppable>
+          {/* end tasks */}
+
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            sx={{ mt: 2 }}
+            onClick={() => setFormModal(true)}
+          >
+            {t('Add task')}
+          </Button>
+          <FormModal
+            title="Add task"
+            isOpen={isFormModal}
+            description={true}
+            onClose={() => setFormModal(false)}
+            onAction={addTask}
+          />
+        </Paper>
       )}
-    </Droppable>
+    </Draggable>
   );
 };

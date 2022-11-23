@@ -3,8 +3,11 @@ import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getColumnsTask: builder.query<ITask[], ITaskParams>({
+    getColumnTasks: builder.query<ITask[], ITaskParams>({
       query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
+      transformResponse: (responseData: ITask[]) => {
+        return responseData.sort((a, b) => a.order - b.order);
+      },
       providesTags: (result, err, arg) => [
         { type: 'ColumnTasks', id: arg.columnId },
         ...(result ? result!.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : []),
@@ -28,7 +31,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
-    updateSetTask: builder.mutation<IUpdatedTask[], IOrderTaskData[]>({
+    updateTasksSet: builder.mutation<IUpdatedTask[], IOrderTaskData[]>({
       query: (data) => ({
         url: 'tasksSet',
         method: 'PATCH',
@@ -49,9 +52,9 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useCreateTaskMutation,
-  useGetColumnsTaskQuery,
-  useLazyGetColumnsTaskQuery,
+  useGetColumnTasksQuery,
+  useLazyGetColumnTasksQuery,
   useDeleteTaskMutation,
   useUpdateTaskMutation,
-  useUpdateSetTaskMutation,
+  useUpdateTasksSetMutation,
 } = extendedApiSlice;
