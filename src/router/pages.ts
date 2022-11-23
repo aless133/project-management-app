@@ -6,10 +6,12 @@ const LazyPage = (path: string) => {
   return Component;
 };
 
-export const AccountPage = LazyPage('AccountPage');
-export const MainPage = LazyPage('MainPage');
-export const SignInPage = LazyPage('SignInPage');
-export const SignUpPage = LazyPage('SignUpPage');
-export const WelcomePage = LazyPage('WelcomePage');
-export const ErrorPage = LazyPage('ErrorPage');
-export const BoardPage = LazyPage('BoardPage');
+const AccountPage = LazyPage('AccountPage');
+const MainPage = LazyPage('MainPage');
+const SignInPage = LazyPage('SignInPage');
+const SignUpPage = LazyPage('SignUpPage');
+const WelcomePage = LazyPage('WelcomePage');
+const ErrorPage = LazyPage('ErrorPage');
+const BoardPage = LazyPage('BoardPage');
+
+export { AccountPage, MainPage, SignInPage, SignUpPage, WelcomePage, ErrorPage, BoardPage };
