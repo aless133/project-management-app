@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice';
-import { IColumn, IColumnParams, IOrderColumnData } from 'types/columnTypes';
+import { IColumn, IColumnParams, IOrderColumnParams } from 'types/columnTypes';
 // import { TApiTag } from 'types';
 // import type { TagDescription } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
@@ -7,6 +7,9 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getBoardColumns: builder.query<IColumn[], string>({
       query: (boardId) => `/boards/${boardId}/columns`,
+      transformResponse: (responseData: IColumn[]) => {
+        return responseData.sort((a, b) => a.order - b.order);
+      },
       providesTags: (result, err, arg) => [
         { type: 'BoardColumns' as const, id: arg },
         ...(result ? result!.map(({ _id }) => ({ type: 'Column' as const, id: _id })) : []),
@@ -31,12 +34,30 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['BoardColumns'],
     }),
 
-    updateColumnSet: builder.mutation<IColumn[], IOrderColumnData[]>({
-      query: (data) => ({
+    updateColumnsSet: builder.mutation<IColumn[], IOrderColumnParams>({
+      query: ({ data }) => ({
         url: 'columnsSet',
         method: 'PATCH',
         body: data,
       }),
+      async onQueryStarted({ boardId, data }, { dispatch, queryFulfilled }) {
+        // `updateQueryData` requires the endpoint name and cache key arguments,
+        // so it knows which piece of cache state to update
+        const patchResult = dispatch(
+          extendedApiSlice.util.updateQueryData('getBoardColumns', boardId, (drafts: IColumn[]) => {
+            data.forEach((columnPatch) => {
+              const draft = drafts.find((column) => column._id === columnPatch._id);
+              if (draft) draft.order = columnPatch.order;
+            });
+            drafts.sort((a, b) => a.order - b.order);
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
       invalidatesTags: ['BoardColumns'],
     }),
 
@@ -55,7 +76,7 @@ export const {
   // useDeleteBoardMutation,
   useDeleteColumnMutation,
   useGetBoardColumnsQuery,
-  useUpdateColumnSetMutation,
+  useUpdateColumnsSetMutation,
   // useGetBoardQuery,
   useUpdateColumnMutation,
 } = extendedApiSlice;
