@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { InlineTextField } from 'components/InlineTextField';
 import { IColumn, IColumnParams } from 'types/columnTypes';
 import { TrashBasket } from 'components/TrashBasket';
-import { useGetColumnsTaskQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
+import { useGetColumnTasksQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
 import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
@@ -41,7 +41,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
     data: tasks,
     isFetching,
     isLoading,
-  } = useGetColumnsTaskQuery({
+  } = useGetColumnTasksQuery({
     boardId: column.boardId as string,
     columnId: column._id,
   });

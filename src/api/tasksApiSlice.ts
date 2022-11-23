@@ -3,7 +3,7 @@ import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getColumnsTask: builder.query<ITask[], ITaskParams>({
+    getColumnTasks: builder.query<ITask[], ITaskParams>({
       query: ({ boardId, columnId }) => `/boards/${boardId}/columns/${columnId}/tasks`,
       providesTags: (result, err, arg) => [
         { type: 'ColumnTasks', id: arg.columnId },
@@ -49,8 +49,8 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useCreateTaskMutation,
-  useGetColumnsTaskQuery,
-  useLazyGetColumnsTaskQuery,
+  useGetColumnTasksQuery,
+  useLazyGetColumnTasksQuery,
   useDeleteTaskMutation,
   useUpdateTaskMutation,
   useUpdateSetTaskMutation,

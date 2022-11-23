@@ -33,7 +33,7 @@ import {
 } from 'api/columnsApiSlice'; //useCreateColumnMutation,
 import { DragDrop } from 'utils/constants';
 
-import { useLazyGetColumnsTaskQuery, useUpdateSetTaskMutation } from 'api/tasksApiSlice';
+import { useLazyGetColumnTasksQuery, useUpdateSetTaskMutation } from 'api/tasksApiSlice';
 import { IColumn, IOrderColumnData } from 'types/columnTypes';
 
 export const BoardPage = () => {
@@ -56,7 +56,7 @@ export const BoardPage = () => {
     order: 0,
   });
 
-  const [getColumnTasks] = useLazyGetColumnsTaskQuery();
+  const [getColumnTasks] = useLazyGetColumnTasksQuery();
 
   const openTaskModal = (data: ITaskPropsData) => {
     setIsOpenTaskModal(true);
