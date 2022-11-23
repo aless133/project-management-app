@@ -12,13 +12,11 @@ interface IProtectedRuleAuth extends IProtectedRuleProps {
 export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }) => {
   const navigate = useNavigate();
   const user = useStoreSelector(selectUser);
-  console.log('ProtectedRuleAuth');
   useEffect(() => {
     if (user.isChecked) {
       if (userType == 'guest') {
         if (user.isLogged) {
           setCheck(false);
-          console.log('ProtectedRuleAuth navigate to main');
           navigate(Constants.MAIN, { replace: true });
         } else {
           setCheck(true);
@@ -26,7 +24,6 @@ export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }
       } else if (userType == 'user') {
         if (!user.isLogged) {
           setCheck(false);
-          console.log('ProtectedRuleAuth navigate to signin');
           navigate(Constants.SIGN_IN, { replace: true });
         } else {
           setCheck(true);

@@ -52,10 +52,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
               extendedApiSlice.util.updateQueryData(
                 'getColumnTasks',
                 { boardId, columnId },
-                (draft: ITask[]) => {
-                  console.log(updateCache[columnId]);
-                  return updateCache[columnId];
-                }
+                (draft: ITask[]) => updateCache[columnId]
               )
             )
           );
