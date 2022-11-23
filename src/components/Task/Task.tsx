@@ -3,16 +3,9 @@ import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 import { useAppContext } from 'app.context';
 import { TrashBasket } from 'components/TrashBasket';
 import React from 'react';
-import {
-  Droppable,
-  DroppableProvided,
-  Draggable,
-  DraggableProvided,
-  DraggableStateSnapshot,
-} from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import { DragDrop } from 'utils/constants';
 
 interface ITaskProps {
   task: ITask;

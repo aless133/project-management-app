@@ -35,7 +35,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
     }),
 
     updateColumnsSet: builder.mutation<IColumn[], IOrderColumnParams>({
-      query: ({ boardId, data }) => ({
+      query: ({ data }) => ({
         url: 'columnsSet',
         method: 'PATCH',
         body: data,

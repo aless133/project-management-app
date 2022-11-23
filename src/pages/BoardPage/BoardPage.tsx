@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  DragDropContext,
-  Droppable,
-  DroppableProvided,
-  Draggable,
-  DraggableProvided,
-  DraggableStateSnapshot,
-  DropResult,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -34,7 +26,7 @@ import {
 import { DragDrop } from 'utils/constants';
 
 import { useLazyGetColumnTasksQuery, useUpdateTasksSetMutation } from 'api/tasksApiSlice';
-import { IColumn, IOrderColumnData } from 'types/columnTypes';
+import { IOrderColumnData } from 'types/columnTypes';
 import { IOrderTaskData } from 'types/taskTypes';
 
 export const BoardPage = () => {
