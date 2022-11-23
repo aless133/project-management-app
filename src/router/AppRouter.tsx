@@ -1,16 +1,16 @@
-import { lazy } from 'react';
 import { Layout } from 'components/Layout';
-const AccountPage = lazy(() => import('pages/AccountPage'));
-const MainPage = lazy(() => import('pages/MainPage'));
-const SignInPage = lazy(() => import('pages/SignInPage'));
-const SignUpPage = lazy(() => import('pages/SignUpPage'));
-const WelcomePage = lazy(() => import('pages/WelcomePage'));
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-const ErrorPage = lazy(() => import('pages/ErrorPage'));
-const BoardPage = lazy(() => import('pages/BoardPage'));
-//const ProtectedPage = lazy(() => import('./ProtectedPage'));
 import ProtectedPage from './ProtectedPage';
+import {
+  AccountPage,
+  BoardPage,
+  ErrorPage,
+  MainPage,
+  SignInPage,
+  SignUpPage,
+  WelcomePage,
+} from './pages';
 
 const AppRouter = () => {
   return (
