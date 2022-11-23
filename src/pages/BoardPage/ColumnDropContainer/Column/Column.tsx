@@ -139,10 +139,11 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
                   tasks
                     .slice(0)
                     .sort((a, b) => a.order - b.order)
-                    .map((task) => (
+                    .map((task, index) => (
                       <Task
                         key={task._id}
                         task={task}
+                        index={index}
                         loading={isLoading}
                         openTaskModal={openTaskModal}
                         onAction={() => {}}
