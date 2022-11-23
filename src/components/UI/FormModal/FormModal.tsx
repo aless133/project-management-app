@@ -12,6 +12,7 @@ interface FormModalProps {
   description?: boolean;
   onClose: () => void;
   onAction: (data: { name: string; login?: string } | undefined) => void;
+  labelText?: string;
 }
 
 export const FormModal = ({
@@ -20,6 +21,7 @@ export const FormModal = ({
   title,
   description = false,
   onAction,
+  labelText,
 }: FormModalProps) => {
   const { errStack, handleChange, getFieldsColumn } = useFormSign(false);
   const [t] = useTranslation();
@@ -35,8 +37,7 @@ export const FormModal = ({
           error={!!errStack.name}
           name="name"
           fullWidth
-          autoFocus
-          label={t('Task Title')}
+          label={labelText ? labelText : t('Task Title')}
           defaultValue=""
           helperText={setMinMaxLengthError(errStack.name)}
           margin="normal"
