@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Constants } from 'utils';
 
-export const ErrorPage = ({ isNotFound = true }) => {
+const ErrorPage = ({ isNotFound = true }) => {
   const { t } = useTranslation();
 
   const img = isNotFound ? './not_found.jpg' : './error_image.jpg';
@@ -55,3 +55,5 @@ export const ErrorPage = ({ isNotFound = true }) => {
     </main>
   );
 };
+
+export default ErrorPage;

@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { DragDropContext, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import ReplyIcon from '@mui/icons-material/Reply';
-import AddchartSharpIcon from '@mui/icons-material/AddchartSharp';
-import { Column } from 'components/Column';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { FormModal } from 'components/UI/FormModal';
-import { Constants } from 'utils';
 import { useGetBoardQuery } from 'api/boardsApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { TaskModal } from 'components/TaskModal';
+import { TaskModal } from 'pages/BoardPage/Task/TaskModal';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
 import {
   useCreateColumnMutation,
@@ -28,8 +21,10 @@ import { DragDrop } from 'utils/constants';
 import { useLazyGetColumnTasksQuery, useUpdateTasksSetMutation } from 'api/tasksApiSlice';
 import { IOrderColumnData } from 'types/columnTypes';
 import { IOrderTaskData } from 'types/taskTypes';
+import { BoardHeader } from './BoardHeader';
+import { ColumnDropContainer } from './ColumnDropContainer';
 
-export const BoardPage = () => {
+const BoardPage = () => {
   const [t] = useTranslation();
   const { id } = useParams();
   const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
@@ -235,158 +230,25 @@ export const BoardPage = () => {
         <Spinner />
       ) : (
         <>
-          {/* boardHeader */}
-          <Container maxWidth="xl">
-            <Box
-              sx={{
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                my: 1,
-              }}
-            >
-              <Button variant="outlined" sx={{ position: 'absolute', left: 0 }}>
-                <Link
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                  to={Constants.MAIN}
-                  replace={true}
-                >
-                  <ReplyIcon sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }} />
-                  <Box
-                    sx={{
-                      display: { xs: 'none', sm: 'none', md: 'block' },
-                    }}
-                  >
-                    {t('Back to main')}
-                  </Box>
-                </Link>
-              </Button>
-              <Typography
-                variant="h3"
-                sx={{
-                  fontSize: { xs: 30, sm: 38 },
-                  maxWidth: { xs: 120, sm: 220, md: 400, lg: 700 },
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {board && board.title}
-              </Typography>
-            </Box>
-            {isColumns() ? null : (
-              <Box sx={{ textAlign: 'center' }}>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="secondary"
-                  sx={{ my: 4 }}
-                  onClick={() => setFormModalCol(true)}
-                >
-                  {t('Add first column')}
-                </Button>
-              </Box>
-            )}
-          </Container>
-          {/* end boardHeader */}
+          <BoardHeader
+            title={board && board.title}
+            isColumns={() => isColumns()}
+            onClick={() => setFormModalCol(true)}
+          />
 
-          {/* columns */}
           {isColumns() ? (
-            <Container
-              maxWidth={false}
-              sx={{
-                display: 'flex',
-                // overflowX: 'auto',
-              }}
-            >
-              {/* columns dnd zone*/}
-              <Box
-                sx={{
-                  position: 'relative',
-                  margin: 'auto',
-                  display: 'flex',
-                  flexWrap: 'nowrap',
-                  gap: 2,
-                  py: 0,
-                  flexDirection: 'row',
-                  alignItems: 'top',
-                  justifyContent: 'center',
-                }}
-              >
-                <DragDropContext onDragEnd={dragEnd}>
-                  <Droppable
-                    type={DragDrop.COLUMN}
-                    direction="horizontal"
-                    droppableId={board!._id}
-                    isCombineEnabled={false}
-                  >
-                    {(providedDropColumn: DroppableProvided) => (
-                      <Box
-                        ref={providedDropColumn.innerRef}
-                        {...providedDropColumn.droppableProps}
-                        sx={{
-                          margin: 'auto',
-                          display: 'flex',
-                          flexWrap: 'nowrap',
-                          gap: 2,
-                          py: 0,
-                          flexDirection: 'row',
-                          alignItems: 'top',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        {columns!
-                          .slice(0)
-                          .sort((a, b) => a.order - b.order)
-                          .map((column, index) => (
-                            <Column
-                              key={column._id}
-                              column={column}
-                              index={index}
-                              loading={isBoardLoading}
-                              openTaskModal={openTaskModal}
-                            />
-                          ))}
-                        {providedDropColumn.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-                {/* end columns dnd zone*/}
-
-                {/* columns additional button */}
-                <Box
-                  key="column-add"
-                  sx={{
-                    position: 'absolute',
-                    left: 'calc(100% + 16px)',
-                  }}
-                >
-                  <Button
-                    size="large"
-                    variant="contained"
-                    color="secondary"
-                    sx={{
-                      width: { md: 205, lg: 205 },
-                      whiteSpace: 'nowrap',
-                      mr: 2,
-                    }}
-                    onClick={() => setFormModalCol(true)}
-                  >
-                    <AddchartSharpIcon
-                      sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
-                    />
-                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }}>
-                      {t('Add column')}
-                    </Box>
-                  </Button>
-                </Box>
-                {/* add columns additional button */}
-              </Box>
-            </Container>
+            <DragDropContext onDragEnd={dragEnd}>
+              {board && columns && (
+                <ColumnDropContainer
+                  boardId={board._id}
+                  columns={columns}
+                  loading={isBoardLoading}
+                  openTaskModal={openTaskModal}
+                  onClick={() => setFormModalCol(true)}
+                />
+              )}
+            </DragDropContext>
           ) : null}
-          {/* end columns*/}
 
           {/* common modals */}
           <FormModal
@@ -406,3 +268,5 @@ export const BoardPage = () => {
     </Box>
   );
 };
+
+export default BoardPage;

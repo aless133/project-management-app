@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormSign } from 'components/FormSign';
 
-export const SignInPage = () => {
+const SignInPage = () => {
   return <FormSign isSignUp={false} />;
 };
+
+export default SignInPage;

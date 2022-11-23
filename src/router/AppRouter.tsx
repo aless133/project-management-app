@@ -1,14 +1,16 @@
 import { Layout } from 'components/Layout';
-import { AccountPage } from 'pages/AccountPage';
-import { MainPage } from 'pages/MainPage';
-import { SignInPage } from 'pages/SignInPage';
-import { SignUpPage } from 'pages/SignUpPage';
-import { WelcomePage } from 'pages/WelcomePage';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { ErrorPage } from 'pages/ErrorPage';
-import { BoardPage } from 'pages/BoardPage';
-import { ProtectedPage } from './ProtectedPage';
+import ProtectedPage from './ProtectedPage';
+import {
+  AccountPage,
+  BoardPage,
+  ErrorPage,
+  MainPage,
+  SignInPage,
+  SignUpPage,
+  WelcomePage,
+} from './pages';
 
 const AppRouter = () => {
   return (
@@ -34,7 +36,7 @@ const AppRouter = () => {
         <Route
           path="board/:id"
           element={
-            <ProtectedPage key="main" rules={['user', 'boardOwner']} component={<BoardPage />} />
+            <ProtectedPage key="board" rules={['user', 'boardOwner']} component={<BoardPage />} />
           }
         />
         <Route path="*" element={<ErrorPage />} />

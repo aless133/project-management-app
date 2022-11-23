@@ -2,9 +2,9 @@ import React, { FC, useState } from 'react';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
-import { InlineTextField } from 'components/InlineTextField';
+import { InlineTextField } from 'pages/BoardPage/ColumnDropContainer/Column/InlineTextField';
 import { IColumn, IColumnParams } from 'types/columnTypes';
-import { TrashBasket } from 'components/TrashBasket';
+import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useGetColumnTasksQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
 import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
@@ -12,7 +12,7 @@ import { selectUser } from 'store/userSlice';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { Box } from '@mui/material';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
 import {
   Droppable,
@@ -21,7 +21,7 @@ import {
   DraggableProvided,
   DraggableStateSnapshot,
 } from 'react-beautiful-dnd';
-import { Task } from 'components/Task';
+import { Task } from 'pages/BoardPage/Task';
 import { DragDrop } from 'utils/constants';
 import { useAppContext } from 'app.context';
 import { ITaskPropsData } from 'types/taskTypes';

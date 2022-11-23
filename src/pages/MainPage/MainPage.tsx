@@ -12,14 +12,14 @@ import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlic
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
-import { TrashBasket } from 'components/TrashBasket';
+import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useAppContext } from 'app.context';
-import { Spinner } from 'components/Spinner';
+import { Spinner } from 'components/UI/Spinner';
 import { Box, IconButton } from '@mui/material';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { BoardModal } from 'components/BoardModal';
 
-export const MainPage = () => {
+const MainPage = () => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const { data: boards, isFetching } = useGetUserBoardsQuery(user.id as string);
@@ -131,3 +131,5 @@ export const MainPage = () => {
     </main>
   );
 };
+
+export default MainPage;
