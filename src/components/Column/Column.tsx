@@ -30,9 +30,10 @@ interface IColumnProps {
   column: IColumn;
   openTaskModal: (data: ITaskPropsData) => void;
   loading: boolean;
+  index: number; //need this if data from server is incorrect
 }
 
-export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => {
+export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index }) => {
   const [t] = useTranslation();
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
@@ -101,12 +102,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
   };
 
   return (
-    <Draggable
-      draggableId={column._id}
-      key={column._id}
-      index={column.order}
-      isDragDisabled={loading}
-    >
+    <Draggable draggableId={column._id} key={column._id} index={index} isDragDisabled={loading}>
       {(providedDragColumn: DraggableProvided, snapshotDragColumn: DraggableStateSnapshot) => (
         <Paper
           elevation={3}
@@ -125,7 +121,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
             <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
           </Box>
 
-          {/*column tasks    */}
+          {/*column tasks   
           <Droppable
             key={column._id}
             type={DragDrop.TASK}
@@ -156,6 +152,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal }) => 
               </Box>
             )}
           </Droppable>
+           */}
 
           <Button
             variant="contained"

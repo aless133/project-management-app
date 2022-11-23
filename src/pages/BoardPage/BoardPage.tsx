@@ -92,42 +92,37 @@ export const BoardPage = () => {
 
   const dragEnd = async (result: DropResult) => {
     console.log(result);
-    return;
+    // return;
 
-    // if (!result.destination) return;
+    if (!result.destination) return;
 
-    // if (result.type === DragDrop.COLUMN) {
-    //   const newOrder = result.destination.index;
-    //   const oldOrder = result.source.index;
-    //   //  const ColumnIdDrop = result.destination.droppableId;
-    //   const ColumnIdDrag = result.draggableId;
+    if (columns && result.type === DragDrop.COLUMN) {
+      const newOrder = result.destination.index;
+      const oldOrder = result.source.index;
 
-    //   if (newOrder === oldOrder) return;
+      if (newOrder === oldOrder) return;
 
-    //   const reorderColumn = columns && columns.filter((column) => column._id === ColumnIdDrag)[0];
+      const reorderColumn = columns[oldOrder];
+      const reorderColumns = Array.from(columns);
+      console.log('origin', JSON.stringify(reorderColumns), oldOrder, newOrder);
+      reorderColumns.splice(oldOrder, 1);
+      console.log('delete', JSON.stringify(reorderColumns));
+      reorderColumns.splice(newOrder, 0, reorderColumn);
+      console.log('insert', JSON.stringify(reorderColumns));
 
-    //   const filteredColumns = columns && columns.filter((column) => column._id !== ColumnIdDrag);
+      const data: IOrderColumnData[] = reorderColumns.map((column, inx) => ({
+        _id: column._id,
+        order: inx,
+      }));
 
-    //   const reorderedColumns = [
-    //     ...filteredColumns!.slice(0, newOrder),
-    //     reorderColumn,
-    //     ...filteredColumns!.slice(newOrder),
-    //   ];
+      console.log('data', data);
 
-    //   const copyReorderedColumns = JSON.parse(JSON.stringify(reorderedColumns)) as IColumn[];
-    //   const data = copyReorderedColumns.map((column, inx) => {
-    //     if (column) {
-    //       column.order = inx;
-    //       return { _id: column._id, order: column!.order };
-    //     }
-    //   }) as IOrderColumnData[];
+      await updateOrdersColumn(data)
+        .unwrap()
+        .then(() => {})
+        .catch((err) => dispatch(alertError(getErrorMessage(err))));
+    }
 
-    //   if (data) {
-    //     await updateOrdersColumn(data)
-    //       .unwrap()
-    //       .then(() => {})
-    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
-    //   }
     // } else if (result.type === DragDrop.TASK) {
     //   const [columnIdDrop, TaskIdDrop] = result.destination.droppableId.split(':');
     //   const columnIdDrag = result.source.droppableId.split(':')[0];
@@ -271,7 +266,7 @@ export const BoardPage = () => {
               maxWidth={false}
               sx={{
                 display: 'flex',
-                overflowX: 'auto',
+                // overflowX: 'auto',
               }}
             >
               {/* columns dnd zone*/}
@@ -282,7 +277,7 @@ export const BoardPage = () => {
                   display: 'flex',
                   flexWrap: 'nowrap',
                   gap: 2,
-                  py: 2,
+                  py: 0,
                   flexDirection: 'row',
                   alignItems: 'top',
                   justifyContent: 'center',
@@ -304,7 +299,7 @@ export const BoardPage = () => {
                           display: 'flex',
                           flexWrap: 'nowrap',
                           gap: 2,
-                          py: 2,
+                          py: 0,
                           flexDirection: 'row',
                           alignItems: 'top',
                           justifyContent: 'center',
@@ -313,10 +308,11 @@ export const BoardPage = () => {
                         {columns!
                           .slice(0)
                           .sort((a, b) => a.order - b.order)
-                          .map((column) => (
+                          .map((column, index) => (
                             <Column
                               key={column._id}
                               column={column}
+                              index={index}
                               loading={isBoardLoading}
                               openTaskModal={openTaskModal}
                             />
