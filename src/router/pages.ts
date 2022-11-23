@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 const LazyPage = (path: string) => {
-  const Component = lazy(() => import(`src/pages/${path}`));
+  const Component = lazy(() => import(`/src/pages/${path}`));
 
   return Component;
 };
