@@ -21,7 +21,7 @@ import {
   DraggableProvided,
   DraggableStateSnapshot,
 } from 'react-beautiful-dnd';
-import { Task } from 'components/Task';
+import { Task } from 'pages/BoardPage/Task';
 import { DragDrop } from 'utils/constants';
 import { useAppContext } from 'app.context';
 import { ITaskPropsData } from 'types/taskTypes';
