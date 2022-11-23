@@ -28,6 +28,7 @@ import { DragDrop } from 'utils/constants';
 import { useLazyGetColumnTasksQuery, useUpdateTasksSetMutation } from 'api/tasksApiSlice';
 import { IOrderColumnData } from 'types/columnTypes';
 import { IOrderTaskData } from 'types/taskTypes';
+import { ButtonAddColumn } from './ButtonAddColumn';
 
 const BoardPage = () => {
   const [t] = useTranslation();
@@ -275,19 +276,7 @@ const BoardPage = () => {
                 {board && board.title}
               </Typography>
             </Box>
-            {isColumns() ? null : (
-              <Box sx={{ textAlign: 'center' }}>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="secondary"
-                  sx={{ my: 4 }}
-                  onClick={() => setFormModalCol(true)}
-                >
-                  {t('Add first column')}
-                </Button>
-              </Box>
-            )}
+            {isColumns() ? null : <ButtonAddColumn onClick={() => setFormModalCol(true)} />}
           </Container>
           {/* end boardHeader */}
 
