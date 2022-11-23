@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
 import { InlineTextField } from 'components/InlineTextField';
 import { IColumn, IColumnParams } from 'types/columnTypes';
-import { TrashBasket } from 'components/TrashBasket';
+import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useGetColumnTasksQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
 import { FormModal } from 'components/UI/FormModal';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';

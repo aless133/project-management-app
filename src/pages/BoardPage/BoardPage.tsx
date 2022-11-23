@@ -9,7 +9,7 @@ import { useGetBoardQuery } from 'api/boardsApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { TaskModal } from 'components/TaskModal';
+import { TaskModal } from 'pages/BoardPage/TaskModal';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
 import {
   useCreateColumnMutation,

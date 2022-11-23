@@ -12,7 +12,7 @@ import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlic
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
-import { TrashBasket } from 'components/TrashBasket';
+import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useAppContext } from 'app.context';
 import { Spinner } from 'components/UI/Spinner';
 import { Box, IconButton } from '@mui/material';
