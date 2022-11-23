@@ -31,7 +31,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
-    updateSetTask: builder.mutation<IUpdatedTask[], IOrderTaskData[]>({
+    updateTasksSet: builder.mutation<IUpdatedTask[], IOrderTaskData[]>({
       query: (data) => ({
         url: 'tasksSet',
         method: 'PATCH',
@@ -56,5 +56,5 @@ export const {
   useLazyGetColumnTasksQuery,
   useDeleteTaskMutation,
   useUpdateTaskMutation,
-  useUpdateSetTaskMutation,
+  useUpdateTasksSetMutation,
 } = extendedApiSlice;

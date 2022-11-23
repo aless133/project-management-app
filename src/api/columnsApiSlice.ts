@@ -34,7 +34,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['BoardColumns'],
     }),
 
-    updateColumnSet: builder.mutation<IColumn[], IOrderColumnParams>({
+    updateColumnsSet: builder.mutation<IColumn[], IOrderColumnParams>({
       query: ({ boardId, data }) => ({
         url: 'columnsSet',
         method: 'PATCH',
@@ -76,7 +76,7 @@ export const {
   // useDeleteBoardMutation,
   useDeleteColumnMutation,
   useGetBoardColumnsQuery,
-  useUpdateColumnSetMutation,
+  useUpdateColumnsSetMutation,
   // useGetBoardQuery,
   useUpdateColumnMutation,
 } = extendedApiSlice;

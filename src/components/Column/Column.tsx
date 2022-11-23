@@ -121,7 +121,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
             <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
           </Box>
 
-          {/*column tasks   
+          {/*column tasks*/}
           <Droppable
             key={column._id}
             type={DragDrop.TASK}
@@ -131,7 +131,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
           >
             {(providedDropTask: DroppableProvided) => (
               <Box
-                sx={{ px: 2, overflowY: 'auto' }}
+                sx={{ px: 2, overflowY: 'auto', minHeight: 2 }}
                 ref={providedDropTask.innerRef}
                 {...providedDropTask.droppableProps}
               >
@@ -152,7 +152,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
               </Box>
             )}
           </Droppable>
-           */}
+          {/* end tasks */}
 
           <Button
             variant="contained"

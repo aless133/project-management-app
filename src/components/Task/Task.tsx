@@ -71,7 +71,7 @@ export const Task = ({ task, loading, openTaskModal }: ITaskProps) => {
           {/* textOverflow not work */}
           <Grid item sx={{ maxWidth: '50%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             <Typography variant="h5" component="h5">
-              {task.title}
+              {task.order}.{task.title}
             </Typography>
           </Grid>
           <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 0.5 }}>
