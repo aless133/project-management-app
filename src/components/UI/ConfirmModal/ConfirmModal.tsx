@@ -21,8 +21,11 @@ export const ConfirmModal = ({ isOpen, onAction, onClose }: ConfirmModalProps) =
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent): void => {
       e.stopPropagation();
+
       if (isOpen && e.key === 'Enter') {
         runOnAction();
+      } else if (isOpen && e.key === 'Escape') {
+        onClose();
       }
     };
     document.addEventListener('keydown', handleKeyDown);

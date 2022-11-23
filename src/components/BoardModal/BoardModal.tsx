@@ -141,6 +141,7 @@ export const BoardModal: FC<IBoardModalProps> = ({
           <TextField
             name={Constants.BOARD_TITLE}
             fullWidth
+            autoFocus
             onChange={(newValue) => {
               setValue(newValue.target.value);
             }}

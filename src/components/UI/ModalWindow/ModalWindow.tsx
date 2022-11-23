@@ -23,7 +23,7 @@ export function ModalWindow(props: ModalWindowProps) {
   const { children, onClose, open, title, ...other } = props;
 
   return (
-    <WrapperTheme open={open} onClick={onClose}>
+    <WrapperTheme open={open} onClick={onClose} disableEscapeKeyDown>
       <DialogTitle sx={{ m: 0, p: 2 }} {...other} onClick={(e) => e.stopPropagation()}>
         {title}
         {onClose ? (
