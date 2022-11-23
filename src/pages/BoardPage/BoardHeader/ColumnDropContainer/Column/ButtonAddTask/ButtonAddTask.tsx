@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 
-interface ColumnButtonProps {
+interface ButtonAddTaskProps {
   onClick: () => void;
 }
-export const ColumnButton = ({ onClick }: ColumnButtonProps) => {
+export const ButtonAddTask = ({ onClick }: ButtonAddTaskProps) => {
   const [t] = useTranslation();
 
   return (

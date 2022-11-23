@@ -4,9 +4,10 @@ import Box from '@mui/material/Box';
 import { Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import { DragDrop } from 'utils/constants';
 import { IColumn } from 'types/columnTypes';
-import { Column } from 'pages/BoardPage/Column';
+import { Column } from 'pages/BoardPage/BoardHeader/ColumnDropContainer/Column';
 import { ITaskPropsData } from 'types/taskTypes';
-import { ColumnButton } from 'pages/BoardPage/Column/ColumnButton';
+import { ButtonAddTask } from './Column/ButtonAddTask';
+
 interface ColumnDropContainerProps {
   boardId: string;
   columns: IColumn[];
@@ -84,7 +85,7 @@ export const ColumnDropContainer = ({
 
         {/* end columns dnd zone*/}
 
-        <ColumnButton onClick={onClick} />
+        <ButtonAddTask onClick={onClick} />
       </Box>
     </Container>
   );
