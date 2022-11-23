@@ -9,7 +9,7 @@ import { useGetBoardQuery } from 'api/boardsApiSlice';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { TaskModal } from 'pages/BoardPage/TaskModal';
+import { TaskModal } from 'pages/BoardPage/Task/TaskModal';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
 import {
   useCreateColumnMutation,
@@ -22,7 +22,7 @@ import { useLazyGetColumnTasksQuery, useUpdateTasksSetMutation } from 'api/tasks
 import { IOrderColumnData } from 'types/columnTypes';
 import { IOrderTaskData } from 'types/taskTypes';
 import { BoardHeader } from './BoardHeader';
-import { ColumnDropContainer } from './BoardHeader/ColumnDropContainer';
+import { ColumnDropContainer } from './ColumnDropContainer';
 
 const BoardPage = () => {
   const [t] = useTranslation();

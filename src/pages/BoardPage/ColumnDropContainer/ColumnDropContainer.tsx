@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import { DragDrop } from 'utils/constants';
 import { IColumn } from 'types/columnTypes';
-import { Column } from 'pages/BoardPage/BoardHeader/ColumnDropContainer/Column';
+import { Column } from 'pages/BoardPage/ColumnDropContainer/Column';
 import { ITaskPropsData } from 'types/taskTypes';
 import { ButtonAddTask } from './Column/ButtonAddTask';
 

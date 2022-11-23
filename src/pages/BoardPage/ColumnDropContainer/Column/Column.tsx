@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
-import { InlineTextField } from 'components/InlineTextField';
+import { InlineTextField } from 'pages/BoardPage/ColumnDropContainer/Column/InlineTextField';
 import { IColumn, IColumnParams } from 'types/columnTypes';
 import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useGetColumnTasksQuery, useCreateTaskMutation } from 'api/tasksApiSlice';
