@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Container from '@mui/system/Container';
 import TextField from '@mui/material/TextField';
@@ -10,6 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Constants } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
+import Button from '@mui/material/Button';
 
 export const FormSign = ({ isSignUp = true }) => {
   const {
@@ -22,6 +23,7 @@ export const FormSign = ({ isSignUp = true }) => {
     isSignUpLoad,
   } = useFormSign(isSignUp);
   const [t] = useTranslation();
+  const navigate = useNavigate();
   // const [inValid, setInValid] = useState<boolean | null>(null);
 
   // if (navigated) return null;
@@ -87,6 +89,16 @@ export const FormSign = ({ isSignUp = true }) => {
               >
                 {isSignUp ? t('Sign Up') : t('Sign In')}
               </LoadingButton>
+              <Button
+                color="primary"
+                variant="outlined"
+                fullWidth
+                size="large"
+                sx={{ mt: 2 }}
+                onClick={() => navigate(Constants.HOME, { replace: true })}
+              >
+                {t('Cancel')}
+              </Button>
               <Typography align="center" sx={{ mt: 2 }}>
                 {isSignUp ? (
                   <>
