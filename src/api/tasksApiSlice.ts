@@ -1,4 +1,11 @@
-import { IOrderTaskData, ITask, ITaskParams, IUpdatedTask } from 'types/taskTypes';
+import {
+  IOrderTaskData,
+  ISearchTask,
+  ISearchTaskData,
+  ITask,
+  ITaskParams,
+  IUpdatedTask,
+} from 'types/taskTypes';
 import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
@@ -47,10 +54,16 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
+
+    getTasksSet: builder.query<ISearchTaskData[], ISearchTask>({
+      query: ({ userId, search }) => `/tasksSet?userid=${userId}&search=${search}`,
+      providesTags: ['SearchTask'],
+    }),
   }),
 });
 
 export const {
+  useLazyGetTasksSetQuery,
   useCreateTaskMutation,
   useGetColumnTasksQuery,
   useLazyGetColumnTasksQuery,

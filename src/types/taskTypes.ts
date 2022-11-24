@@ -21,7 +21,7 @@ export interface IOrderTaskData {
 export interface ITask extends ITaskData {
   _id: string;
   boardId: string;
-  columnId: string;  
+  columnId: string;
 }
 
 export interface ITaskParams {
@@ -38,4 +38,20 @@ export interface ITaskPropsData {
   columnId: string;
   taskId: string;
   order: number;
+}
+
+export interface ISearchTask {
+  userId: string;
+  search: string;
+}
+
+export interface ISearchTaskData {
+  _id: string;
+  title: string;
+  order: number;
+  boardId: string;
+  columnId: string;
+  description: string;
+  userId: string;
+  users: string[];
 }

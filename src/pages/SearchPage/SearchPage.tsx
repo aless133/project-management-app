@@ -4,14 +4,31 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useStoreSelector } from 'hooks/store.hooks';
+import { selectUser } from 'store/userSlice';
+import { useLazyGetTasksSetQuery } from 'api/tasksApiSlice';
+import { ISearchTaskData } from 'types/taskTypes';
 
 const SearchPage = () => {
   const [t] = useTranslation();
-  const [value, setValue] = useState<string>();
-  const [tasks, setTasks] = useState([]);
+  const [value, setValue] = useState<string>('');
+  const [tasks, setTasks] = useState<ISearchTaskData[]>([]);
+  const { id } = useStoreSelector(selectUser);
+  const [getTasks] = useLazyGetTasksSetQuery();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    try {
+      if (value) {
+        setIsLoading(true);
+        const res = await getTasks({ userId: id, search: value }).unwrap();
+        res && setTasks(res);
+      }
+    } catch (err) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -36,10 +53,10 @@ const SearchPage = () => {
             />
 
             <LoadingButton
-              // loading={false}
+              loading={isLoading}
               loadingIndicator={<CircularProgress color="primary" size={25} />}
               type="submit"
-              // disabled={}
+              disabled={!!!value}
               variant="contained"
               fullWidth
               size="large"
