@@ -39,3 +39,10 @@ export interface ITaskPropsData {
   taskId: string;
   order: number;
 }
+
+export interface IOrderTaskParams {
+  boardId: string;
+  data: IOrderTaskData[];
+  updateCache: Record<string,ITask[]>;
+  invalidate: string[];
+}

@@ -31,7 +31,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['BoardColumns'],
+      invalidatesTags: (result, error, arg) => [{ type: 'BoardColumns', id: arg.boardId }],
     }),
 
     updateColumnsSet: builder.mutation<IColumn[], IOrderColumnParams>({
@@ -58,7 +58,8 @@ const extendedApiSlice = apiSlice.injectEndpoints({
           patchResult.undo();
         }
       },
-      invalidatesTags: ['BoardColumns'],
+      invalidatesTags: (result, error, arg) => [{ type: 'BoardColumns', id: arg.boardId }],
+      // invalidatesTags: ['BoardColumns'],
     }),
 
     deleteColumn: builder.mutation<IColumn, IColumnParams>({

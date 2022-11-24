@@ -15,7 +15,6 @@ import { getErrorMessage } from 'utils/helpers';
 // }
 
 export const ProtectedRuleBoardOwner: FC<IProtectedRuleProps> = ({ setCheck }) => {
-  console.log('ProtectedRuleBoardOwner');
   const navigate = useNavigate();
   const { id } = useParams();
   const { data: board, isSuccess, isError, error } = useGetBoardQuery(id as string);
@@ -27,7 +26,6 @@ export const ProtectedRuleBoardOwner: FC<IProtectedRuleProps> = ({ setCheck }) =
       //have wait for user
       if (!!user && !!user.id && user.isChecked) {
         if (board.owner !== user.id) {
-          console.log('ProtectedRuleBoardOwner access denied');
           navigate(Constants.MAIN, { replace: true });
         } else {
           setCheck(true);
@@ -35,7 +33,6 @@ export const ProtectedRuleBoardOwner: FC<IProtectedRuleProps> = ({ setCheck }) =
       }
     }
     if (isError) {
-      console.log('ProtectedRuleBoardOwner error');
       navigate(Constants.MAIN, { replace: true });
       dispatch(alertError(getErrorMessage(error)));
     }

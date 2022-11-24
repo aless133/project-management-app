@@ -9,12 +9,13 @@ import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutl
 
 interface ITaskProps {
   task: ITask;
+  index: number;
   loading: boolean;
   onAction: () => void;
   openTaskModal: (data: ITaskPropsData) => void;
 }
 
-export const Task = ({ task, loading, openTaskModal }: ITaskProps) => {
+export const Task = ({ task, index, loading, openTaskModal }: ITaskProps) => {
   const { confirm } = useAppContext();
   const [deleteTask] = useDeleteTaskMutation();
 
@@ -42,7 +43,7 @@ export const Task = ({ task, loading, openTaskModal }: ITaskProps) => {
   };
 
   return (
-    <Draggable draggableId={task._id} key={task._id} index={task.order} isDragDisabled={loading}>
+    <Draggable draggableId={task._id} key={task._id} index={index} isDragDisabled={loading}>
       {(providedDragTask: DraggableProvided, snapshotDragTask: DraggableStateSnapshot) => (
         <Grid
           container

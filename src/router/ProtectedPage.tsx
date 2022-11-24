@@ -21,10 +21,6 @@ const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => {
   const rulesElements: React.ReactElement[] = [];
   rules.forEach((item, i) => {
     const key = item + '_' + i;
-    // const checker: TProtectedRuleChecker = (check) => {
-    //   checks[key] = check;
-    // };
-    // console.log(checks[key]);
     const checker: TProtectedRuleChecker = (check) => {
       setChecks((state: TChecks) => (state[key] === check ? state : { ...state, [key]: check }));
     };
