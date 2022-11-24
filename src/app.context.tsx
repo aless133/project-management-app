@@ -4,6 +4,7 @@ import { TFnVoid } from 'types';
 
 interface IAppContext {
   confirm: (fn: TFnVoid) => void;
+  closeConfirm: () => void;
 }
 
 const AppContext = createContext<IAppContext | undefined>(undefined);
@@ -25,7 +26,11 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
     [setShowConfirm]
   );
 
-  const value = { confirm };
+  const closeConfirm = useCallback(() => {
+    setShowConfirm(false);
+  }, [setShowConfirm]);
+
+  const value = { confirm, closeConfirm };
 
   return (
     <AppContext.Provider value={value}>
