@@ -20,7 +20,7 @@ import { DragDrop } from 'utils/constants';
 
 import { useLazyGetColumnTasksQuery, useUpdateTasksSetMutation } from 'api/tasksApiSlice';
 import { IOrderColumnData } from 'types/columnTypes';
-import { IOrderTaskData, IOrderTaskParams } from 'types/taskTypes';
+import { IOrderTaskParams } from 'types/taskTypes';
 import { BoardHeader } from './BoardHeader';
 import { ColumnDropContainer } from './ColumnDropContainer';
 
@@ -31,7 +31,7 @@ const BoardPage = () => {
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
   const [createColumn] = useCreateColumnMutation();
   const [updateColumnsSet] = useUpdateColumnsSetMutation();
-  const [updateTaskSet, { isLoading: isOrderTasksLoading }] = useUpdateTasksSetMutation();
+  const [updateTaskSet] = useUpdateTasksSetMutation();
   const dispatch = useStoreDispatch();
   const [isOpenTaskModal, setIsOpenTaskModal] = useState<boolean>(false);
   const [isFormModalCol, setFormModalCol] = useState<boolean>(false);
@@ -56,7 +56,7 @@ const BoardPage = () => {
   };
 
   const isLoading = () => {
-    return false; //isBoardLoading || isColumnsLoading;
+    return isBoardLoading || isColumnsLoading;
   };
   const isColumns = () => {
     return !!columns && columns.length > 0;

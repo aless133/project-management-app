@@ -12,7 +12,6 @@ import { selectUser } from 'store/userSlice';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { Box } from '@mui/material';
-import { Spinner } from 'components/UI/Spinner';
 import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
 import {
   Droppable,
@@ -38,11 +37,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
   const dispatch = useStoreDispatch();
-  const {
-    data: tasks,
-    isFetching,
-    isLoading,
-  } = useGetColumnTasksQuery({
+  const { data: tasks, isLoading } = useGetColumnTasksQuery({
     boardId: column.boardId as string,
     columnId: column._id,
   });

@@ -1,10 +1,4 @@
-import {
-  IOrderTaskData,
-  ITask,
-  ITaskParams,
-  IUpdatedTask,
-  IOrderTaskParams,
-} from 'types/taskTypes';
+import { ITask, ITaskParams, IUpdatedTask, IOrderTaskParams } from 'types/taskTypes';
 import { apiSlice } from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
@@ -52,7 +46,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
               extendedApiSlice.util.updateQueryData(
                 'getColumnTasks',
                 { boardId, columnId },
-                (draft: ITask[]) => updateCache[columnId]
+                () => updateCache[columnId]
               )
             )
           );
