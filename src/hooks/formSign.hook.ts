@@ -5,8 +5,9 @@ import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { validateMinLength, Constants, validateMaxLength, isErrCheck } from 'utils';
 import { useState, FormEvent } from 'react';
 import { useDeleteUserMutation, useUpdateUserMutation } from 'api/usersApiSlice';
-import { alertSuccess, alertError } from 'store/uiSlice';
+import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage, validateLogin, validatePassword } from 'utils/helpers';
+import { useNavigate } from 'react-router-dom';
 
 const err: TErr = {
   name: '',
@@ -34,6 +35,7 @@ export const useFormSign = (isSignUp: boolean) => {
   const [updateUserDB, { isLoading: isUpdateLoading }] = useUpdateUserMutation();
   const [deleteUser, { isLoading: isDeleteLoad }] = useDeleteUserMutation();
   const dispatch = useStoreDispatch();
+  const navigate = useNavigate();
 
   //TODO
   const isSignInLoad = isSigninLoading;
@@ -106,6 +108,7 @@ export const useFormSign = (isSignUp: boolean) => {
         const data = Object.fromEntries(formData.entries());
         const newUser = id && (await updateUserDB({ id, data }).unwrap());
         dispatch(updateUser({ ...newUser }));
+        navigate(Constants.MAIN, { replace: true });
         dispatch(alertSuccess());
       }
     } catch (err) {

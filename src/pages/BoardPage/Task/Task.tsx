@@ -85,12 +85,7 @@ export const Task = ({ task, index, loading, openTaskModal }: ITaskProps) => {
             >
               <ModeEditOutlineOutlinedIcon />
             </IconButton>
-            <TrashBasket
-              onAction={(e) => {
-                e.stopPropagation();
-                handleDeleteTask(task._id);
-              }}
-            />
+            <TrashBasket onAction={() => handleDeleteTask(task._id)} />
           </Box>
         </Grid>
       )}

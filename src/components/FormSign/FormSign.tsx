@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+import LinkMUI from '@mui/material/Link';
 import { Constants } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
@@ -22,17 +24,6 @@ export const FormSign = ({ isSignUp = true }) => {
     isSignUpLoad,
   } = useFormSign(isSignUp);
   const [t] = useTranslation();
-  // const [inValid, setInValid] = useState<boolean | null>(null);
-
-  // if (navigated) return null;
-
-  // useEffect(() => {
-  //   if (inValid === null || !isErrCheck(errStack)) {
-  //     setInValid(false);
-  //   } else {
-  //     setInValid(true);
-  //   }
-  // }, [errStack, inValid]);
 
   return (
     <main style={{ display: 'flex', alignItems: 'center' }}>
@@ -87,6 +78,17 @@ export const FormSign = ({ isSignUp = true }) => {
               >
                 {isSignUp ? t('Sign Up') : t('Sign In')}
               </LoadingButton>
+              <Button
+                component={LinkMUI}
+                href="#"
+                color="primary"
+                variant="outlined"
+                fullWidth
+                size="large"
+                sx={{ mt: 2 }}
+              >
+                {t('Cancel')}
+              </Button>
               <Typography align="center" sx={{ mt: 2 }}>
                 {isSignUp ? (
                   <>
