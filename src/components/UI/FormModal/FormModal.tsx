@@ -36,6 +36,7 @@ export const FormModal = ({
         <TextField
           error={!!errStack.name}
           name="name"
+          autoFocus
           fullWidth
           label={labelText ? labelText : t('Task Title')}
           defaultValue=""

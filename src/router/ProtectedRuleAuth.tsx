@@ -4,6 +4,7 @@ import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { IProtectedRuleProps } from 'types/protectedTypes';
 import { Constants } from 'utils/constants';
+import { useAppContext } from 'app.context';
 
 interface IProtectedRuleAuth extends IProtectedRuleProps {
   userType: string;
@@ -12,6 +13,7 @@ interface IProtectedRuleAuth extends IProtectedRuleProps {
 export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }) => {
   const navigate = useNavigate();
   const user = useStoreSelector(selectUser);
+  const { closeConfirm } = useAppContext();
   useEffect(() => {
     if (user.isChecked) {
       if (userType == 'guest') {
@@ -24,6 +26,7 @@ export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }
       } else if (userType == 'user') {
         if (!user.isLogged) {
           setCheck(false);
+          closeConfirm();
           navigate(Constants.SIGN_IN, { replace: true });
         } else {
           setCheck(true);
@@ -32,7 +35,7 @@ export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }
     } else {
       setCheck(false);
     }
-  }, [user.isChecked, user.isLogged, userType, navigate, setCheck]);
+  }, [user.isChecked, user.isLogged, userType, navigate, setCheck, closeConfirm]);
 
   return null;
 };
