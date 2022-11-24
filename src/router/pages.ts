@@ -13,5 +13,15 @@ const SignUpPage = LazyPage('SignUpPage');
 const WelcomePage = LazyPage('WelcomePage');
 const ErrorPage = LazyPage('ErrorPage');
 const BoardPage = LazyPage('BoardPage');
+const SearchPage = LazyPage('SearchPage');
 
-export { AccountPage, MainPage, SignInPage, SignUpPage, WelcomePage, ErrorPage, BoardPage };
+export {
+  AccountPage,
+  MainPage,
+  SignInPage,
+  SignUpPage,
+  WelcomePage,
+  ErrorPage,
+  BoardPage,
+  SearchPage,
+};

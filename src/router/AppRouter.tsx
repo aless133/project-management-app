@@ -10,6 +10,7 @@ import {
   SignInPage,
   SignUpPage,
   WelcomePage,
+  SearchPage,
 } from './pages';
 
 const AppRouter = () => {
@@ -32,6 +33,10 @@ const AppRouter = () => {
         <Route
           path="main"
           element={<ProtectedPage key="main" rules={['user']} component={<MainPage />} />}
+        />
+        <Route
+          path="search"
+          element={<ProtectedPage key="search" rules={['user']} component={<SearchPage />} />}
         />
         <Route
           path="board/:id"

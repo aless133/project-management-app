@@ -23,6 +23,7 @@ import { selectIsLogged, selectUser, clearUser } from 'store/userSlice';
 import { Constants } from 'utils';
 import { LangSwitcher } from 'components/LangSwitcher';
 import { BoardModal } from 'components/BoardModal';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 
 enum HeaderConstants {
   START_TRIGGER = '120',
@@ -96,7 +97,7 @@ export const Header = () => {
           >
             {isAuth ? (
               <>
-                <Box sx={{ width: { md: 390, lg: 390 } }}>
+                <Box sx={{ width: { md: 180, lg: 390 } }}>
                   <Button
                     component={NavLink}
                     sx={{
@@ -118,13 +119,34 @@ export const Header = () => {
                     P.Management
                   </Button>
                 </Box>
-                <Box sx={{ display: { xs: 'none', md: 'block', lb: 'block' } }}>
+                <Box sx={{ display: 'flex', columnGap: 1 }}>
                   <Button
                     sx={{ color: 'secondary.main', fontSize: 14 }}
                     onClick={handleOpenBoardModal}
                   >
                     <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
-                    <Box sx={{ display: { md: 'none', lg: 'block' } }}>{t('Create Board')}</Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
+                      {t('Create Board')}
+                    </Box>
+                  </Button>
+                  <Button
+                    component={NavLink}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      mr: { md: 0, lg: 1 },
+                      color: 'secondary.main',
+                      textDecoration: 'none',
+                      '&.active': {
+                        color: 'secondary.contrastText',
+                      },
+                    }}
+                    to={Constants.SEARCH}
+                  >
+                    <ContentPasteSearchIcon sx={{ mb: 0.5, mr: 1 }} />
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
+                      {t('Search task')}
+                    </Box>
                   </Button>
                 </Box>
 
@@ -133,7 +155,7 @@ export const Header = () => {
                     display: { xs: 'none', md: 'flex', lb: 'flex' },
                     alignItems: 'center',
                     justifyContent: 'end',
-                    width: { md: 390, lg: 390 },
+                    width: { md: 180, lg: 390 },
                     fontSize: 14,
                   }}
                 >
@@ -143,7 +165,7 @@ export const Header = () => {
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
-                      mr: 1,
+                      mr: { md: 0, lg: 1 },
                       color: 'secondary.main',
                       textDecoration: 'none',
                       '&.active': {
@@ -153,7 +175,9 @@ export const Header = () => {
                     to={Constants.MAIN}
                   >
                     <DnsIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    {t('Main')}
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
+                      {t('Main')}
+                    </Box>
                   </Button>
 
                   <Button
@@ -161,7 +185,7 @@ export const Header = () => {
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
-                      mr: 1,
+                      mr: { md: 0, lg: 1 },
                       color: 'secondary.main',
                       textDecoration: 'none',
                       '&.active': {
@@ -179,6 +203,7 @@ export const Header = () => {
                     />
                     <Box
                       sx={{
+                        display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' },
                         maxWidth: 60,
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
@@ -191,7 +216,9 @@ export const Header = () => {
 
                   <Button sx={{ color: 'secondary.main' }} onClick={openExitModal}>
                     <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    {t('Sign Out')}
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
+                      {t('Sign Out')}
+                    </Box>
                   </Button>
                 </Box>
 
