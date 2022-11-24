@@ -12,7 +12,7 @@ import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { useAppContext } from 'app.context';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import { Constants } from 'utils';
 
 const AccountPage = () => {
@@ -22,7 +22,6 @@ const AccountPage = () => {
   const [inValid, setInValid] = useState<boolean>(false);
   const { name, login, id } = useStoreSelector(selectUser);
   const { confirm } = useAppContext();
-  const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
     confirm(() => handleDelete(id));
@@ -97,12 +96,13 @@ const AccountPage = () => {
               </LoadingButton>
             </form>
             <Button
+              component={Link}
+              href={`#${Constants.MAIN}`}
               color="primary"
               variant="outlined"
               fullWidth
               size="large"
               sx={{ mt: 2 }}
-              onClick={() => navigate(Constants.MAIN, { replace: true })}
             >
               {t('Cancel')}
             </Button>
