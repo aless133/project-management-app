@@ -41,6 +41,7 @@ export const Footer = () => {
             <Link
               href="https://github.com/aless133"
               target="_blank"
+              rel="noreferrer"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -57,6 +58,7 @@ export const Footer = () => {
             <Link
               href="https://github.com/PartyZzzan77"
               target="_blank"
+              rel="noreferrer"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -73,6 +75,7 @@ export const Footer = () => {
             <Link
               href="https://github.com/DimaTeniuta"
               target="_blank"
+              rel="noreferrer"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
