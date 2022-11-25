@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
-import LinkMUI from '@mui/material/Link';
 import { Constants } from 'utils';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { useFormSign } from 'hooks/formSign.hook';
@@ -79,8 +78,8 @@ export const FormSign = ({ isSignUp = true }) => {
                 {isSignUp ? t('Sign Up') : t('Sign In')}
               </LoadingButton>
               <Button
-                component={LinkMUI}
-                href="#"
+                component={Link}
+                to={Constants.HOME}
                 color="primary"
                 variant="outlined"
                 fullWidth

@@ -12,8 +12,8 @@ import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { useAppContext } from 'app.context';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import { Constants } from 'utils';
+import { Link } from 'react-router-dom';
 
 const AccountPage = () => {
   const { errStack, handleChange, handleSubmitProfile, isUpdateLoad, isDeleteLoad, handleDelete } =
@@ -97,7 +97,7 @@ const AccountPage = () => {
             </form>
             <Button
               component={Link}
-              href={`#${Constants.MAIN}`}
+              to={Constants.MAIN}
               color="primary"
               variant="outlined"
               fullWidth
