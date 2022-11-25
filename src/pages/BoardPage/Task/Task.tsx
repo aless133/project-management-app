@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 import { useAppContext } from 'app.context';
 import { TrashBasket } from 'pages/BoardPage/TrashBasket';
