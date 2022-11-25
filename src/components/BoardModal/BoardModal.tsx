@@ -12,6 +12,7 @@ import { setCreateTitleError, validateMaxLength, validateRequiredField } from 'u
 import { LoadingButton } from '@mui/lab';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
+import { useKeyDown } from 'hooks/keydown';
 
 const validator: TValidator = {
   [Constants.BOARD_TITLE]: [
@@ -130,18 +131,19 @@ export const BoardModal: FC<IBoardModalProps> = ({
     }
   };
 
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape') {
-        closeBoardModal();
-      }
-    };
-    document.addEventListener('keydown', handleEsc);
+  useKeyDown('Escape', closeBoardModal);
+  // useEffect(() => {
+  //   const handleEsc = (e: KeyboardEvent): void => {
+  //     if (e.key === 'Escape') {
+  //       closeBoardModal();
+  //     }
+  //   };
+  //   document.addEventListener('keydown', handleEsc);
 
-    return () => {
-      document.removeEventListener('keydown', handleEsc);
-    };
-  });
+  //   return () => {
+  //     document.removeEventListener('keydown', handleEsc);
+  //   };
+  // });
 
   return (
     <ModalWindow

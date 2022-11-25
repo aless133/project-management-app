@@ -7,6 +7,7 @@ import { ModalWindow } from '../ModalWindow';
 import { useStoreDispatch } from 'hooks/store.hooks';
 import { alertSuccess, alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
+import { useKeyDown } from 'hooks/keydown';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -18,22 +19,25 @@ export const ConfirmModal = ({ isOpen, onAction, onClose }: ConfirmModalProps) =
   const [t] = useTranslation();
   const dispatch = useStoreDispatch();
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      e.stopPropagation();
+  useKeyDown('Enter', () => (isOpen ? runOnAction() : null));
+  useKeyDown('Escape', () => (isOpen ? onClose() : null));
 
-      if (isOpen && e.key === 'Enter') {
-        runOnAction();
-      } else if (isOpen && e.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
+  // useEffect(() => {
+  //   const handleKeyDown = (e: KeyboardEvent): void => {
+  //     e.stopPropagation();
 
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  });
+  //     if (isOpen && e.key === 'Enter') {
+  //       runOnAction();
+  //     } else if (isOpen && e.key === 'Escape') {
+  //       onClose();
+  //     }
+  //   };
+  //   document.addEventListener('keydown', handleKeyDown);
+
+  //   return () => {
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // });
 
   const runOnAction = async () => {
     try {

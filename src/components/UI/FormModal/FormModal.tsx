@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import { useFormSign } from 'hooks/formSign.hook';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { ModalWindow } from '../ModalWindow';
+import { useKeyDown } from 'hooks/keydown';
 
 interface FormModalProps {
   isOpen: boolean;
@@ -26,18 +27,19 @@ export const FormModal = ({
   const { errStack, handleChange, getFieldsColumn } = useFormSign(false);
   const [t] = useTranslation();
 
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent): void => {
-      if (isOpen && e.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleEsc);
+  useKeyDown('Escape', () => (isOpen ? onClose() : null));
+  // useEffect(() => {
+  //   const handleEsc = (e: KeyboardEvent): void => {
+  //     if (isOpen && e.key === 'Escape') {
+  //       onClose();
+  //     }
+  //   };
+  //   document.addEventListener('keydown', handleEsc);
 
-    return () => {
-      document.removeEventListener('keydown', handleEsc);
-    };
-  });
+  //   return () => {
+  //     document.removeEventListener('keydown', handleEsc);
+  //   };
+  // });
 
   return (
     <ModalWindow onClose={onClose} open={isOpen} title={t(title)}>
