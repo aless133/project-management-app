@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Constants } from 'utils';
-import { ButtonAddColumn } from './ButtonAddColumn';
+import { ButtonAddFirstColumn } from './ButtonAddFirstColumn';
 
 interface BoardHeaderProps {
   title: string | undefined;
@@ -26,7 +26,7 @@ export const BoardHeader = ({ title, isColumns, onClick }: BoardHeaderProps) => 
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          my: 1,
+          py: 1,
         }}
       >
         <Button
@@ -57,7 +57,7 @@ export const BoardHeader = ({ title, isColumns, onClick }: BoardHeaderProps) => 
           {title || 'title'}
         </Typography>
       </Box>
-      {isColumns() ? null : <ButtonAddColumn onClick={onClick} />}
+      {isColumns() ? null : <ButtonAddFirstColumn onClick={onClick} />}
     </Container>
   );
 };

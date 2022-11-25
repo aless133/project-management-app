@@ -6,7 +6,7 @@ import { DragDrop } from 'utils/constants';
 import { IColumn } from 'types/columnTypes';
 import { Column } from 'pages/BoardPage/ColumnDropContainer/Column';
 import { ITaskPropsData } from 'types/taskTypes';
-import { ButtonAddTask } from './Column/ButtonAddTask';
+import { ButtonAddColumn } from './Column/ButtonAddColumn';
 
 interface ColumnDropContainerProps {
   boardId: string;
@@ -25,24 +25,29 @@ export const ColumnDropContainer = ({
 }: ColumnDropContainerProps) => {
   return (
     <Container
+      className="h100-i"
       maxWidth={false}
       sx={{
         display: 'flex',
-        // overflowX: 'auto',
+        overflowX: 'auto',
+        py: 1,
       }}
     >
       {/* columns dnd zone*/}
       <Box
+        className="h100-f"
         sx={{
           position: 'relative',
-          margin: 'auto',
-          display: 'flex',
-          flexWrap: 'nowrap',
-          gap: 2,
-          py: 0,
-          flexDirection: 'row',
-          alignItems: 'top',
-          justifyContent: 'center',
+          mx: 'auto',
+          // display: 'flex',
+          // flexWrap: 'nowrap',
+          // gap: 2,
+          // p: 1,
+          // flexDirection: 'row',
+          // alignItems: 'top',
+          // justifyContent: 'center',
+          // maxWidth: '100%',
+          // overflowX: 'auto',
         }}
       >
         <Droppable
@@ -53,6 +58,7 @@ export const ColumnDropContainer = ({
         >
           {(providedDropColumn: DroppableProvided) => (
             <Box
+              className="h100-i"
               ref={providedDropColumn.innerRef}
               {...providedDropColumn.droppableProps}
               sx={{
@@ -60,10 +66,12 @@ export const ColumnDropContainer = ({
                 display: 'flex',
                 flexWrap: 'nowrap',
                 gap: 2,
-                py: 0,
+                px: 1,
                 flexDirection: 'row',
-                alignItems: 'top',
-                justifyContent: 'center',
+                alignItems: 'stretch',
+                // justifyContent: 'center',
+                // maxWidth: '100%',
+                // overflowX: 'auto',
               }}
             >
               {columns
@@ -85,7 +93,7 @@ export const ColumnDropContainer = ({
 
         {/* end columns dnd zone*/}
 
-        <ButtonAddTask onClick={onClick} />
+        <ButtonAddColumn onClick={onClick} />
       </Box>
     </Container>
   );

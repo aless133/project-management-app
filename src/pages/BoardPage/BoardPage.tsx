@@ -145,85 +145,11 @@ const BoardPage = () => {
         .unwrap()
         .then(() => {})
         .catch((err) => dispatch(alertError(getErrorMessage(err))));
-
-      // const oldTasks = (await getColumnTasks({ boardId: id, columnId: oldDrop })).data;
     }
-    //   const [columnIdDrop, TaskIdDrop] = result.destination.droppableId.split(':');
-    //   const columnIdDrag = result.source.droppableId.split(':')[0];
-    //   const taskIdDrag = result.draggableId;
-    //   const newOrder = result.destination.index;
-    //   const targetTasks =
-    //     id && (await getColumnTasks({ boardId: id, columnId: columnIdDrop })).data;
-
-    //   if (TaskIdDrop === 'empty') {
-    //     const data = [{ _id: taskIdDrag, order: 0, columnId: columnIdDrop! }];
-    //     await setTasksOrder(data)
-    //       .unwrap()
-    //       .then(() => {})
-    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
-
-    //     return;
-    //   }
-
-    //   if (columnIdDrop !== columnIdDrag) {
-    //     const oldTasks = id && (await getColumnTasks({ boardId: id, columnId: columnIdDrag })).data;
-
-    //     const reorderTask =
-    //       oldTasks && (oldTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
-    //     const reorderedTasks = [
-    //       ...targetTasks!.slice(0, newOrder),
-    //       reorderTask,
-    //       ...targetTasks!.slice(newOrder),
-    //     ] as ITask[];
-    //     const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
-
-    //     const data = copyReorderedTasks.map((task, inx) => {
-    //       task.order = inx;
-    //       return { _id: task._id, order: task.order, columnId: columnIdDrop };
-    //     });
-
-    //     await setTasksOrder(data)
-    //       .unwrap()
-    //       .then(() => {})
-    //       .catch((err) => dispatch(alertError(getErrorMessage(err))));
-
-    //     return;
-    //   }
-
-    //   const reorderTask =
-    //     targetTasks && (targetTasks.filter((task) => task._id === taskIdDrag)[0] as ITask);
-
-    //   const filteredTasks =
-    //     targetTasks && (targetTasks.filter((task) => task._id !== taskIdDrag) as ITask[]);
-
-    //   const reorderedTasks = [
-    //     ...filteredTasks!.slice(0, newOrder < 1 ? 0 : newOrder - 1),
-    //     reorderTask,
-    //     ...filteredTasks!.slice(newOrder < 1 ? 0 : newOrder + 1),
-    //   ] as ITask[];
-
-    //   const copyReorderedTasks = JSON.parse(JSON.stringify(reorderedTasks)) as ITask[];
-
-    //   const data = copyReorderedTasks.map((task, inx) => {
-    //     if (typeof task !== 'string' && task) {
-    //       task.order = inx;
-    //     }
-    //     return {
-    //       _id: task._id,
-    //       order: task.order,
-    //       columnId: task.columnId!,
-    //     };
-    //   });
-
-    //   await setTasksOrder(data)
-    //     .unwrap()
-    //     .then(() => {})
-    //     .catch((err) => dispatch(alertError(getErrorMessage(err))));
-    // }
   };
 
   return (
-    <Box component="main" className="has-loader">
+    <Box component="main" className="has-loader h100-f">
       {isLoading() ? (
         <Spinner />
       ) : (
