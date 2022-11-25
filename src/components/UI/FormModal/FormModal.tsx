@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -28,18 +28,6 @@ export const FormModal = ({
   const [t] = useTranslation();
 
   useKeyDown('Escape', () => (isOpen ? onClose() : null));
-  // useEffect(() => {
-  //   const handleEsc = (e: KeyboardEvent): void => {
-  //     if (isOpen && e.key === 'Escape') {
-  //       onClose();
-  //     }
-  //   };
-  //   document.addEventListener('keydown', handleEsc);
-
-  //   return () => {
-  //     document.removeEventListener('keydown', handleEsc);
-  //   };
-  // });
 
   return (
     <ModalWindow onClose={onClose} open={isOpen} title={t(title)}>

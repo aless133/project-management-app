@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -19,25 +19,9 @@ export const ConfirmModal = ({ isOpen, onAction, onClose }: ConfirmModalProps) =
   const [t] = useTranslation();
   const dispatch = useStoreDispatch();
 
+  //     e.stopPropagation();
   useKeyDown('Enter', () => (isOpen ? runOnAction() : null));
   useKeyDown('Escape', () => (isOpen ? onClose() : null));
-
-  // useEffect(() => {
-  //   const handleKeyDown = (e: KeyboardEvent): void => {
-  //     e.stopPropagation();
-
-  //     if (isOpen && e.key === 'Enter') {
-  //       runOnAction();
-  //     } else if (isOpen && e.key === 'Escape') {
-  //       onClose();
-  //     }
-  //   };
-  //   document.addEventListener('keydown', handleKeyDown);
-
-  //   return () => {
-  //     document.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // });
 
   const runOnAction = async () => {
     try {
