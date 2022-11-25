@@ -60,12 +60,13 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
 
       createTask({ boardId: column.boardId, columnId: column._id, data })
         .unwrap()
-        .then(() => dispatch(alertSuccess()))
+        .then(() => {
+          dispatch(alertSuccess());
+          setFormModal(false);
+        })
         .catch((err) => {
           dispatch(alertError(getErrorMessage(err)));
         });
-
-      setFormModal(false);
     }
   };
 

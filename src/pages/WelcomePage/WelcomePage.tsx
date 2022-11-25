@@ -159,6 +159,7 @@ const WelcomePage = () => {
                   <Link
                     href="https://github.com/aless133"
                     target="_blank"
+                    rel="noreferrer"
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -186,6 +187,7 @@ const WelcomePage = () => {
                   <Link
                     href="https://github.com/PartyZzzan77"
                     target="_blank"
+                    rel="noreferrer"
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -213,6 +215,7 @@ const WelcomePage = () => {
                   <Link
                     href="https://github.com/DimaTeniuta"
                     target="_blank"
+                    rel="noreferrer"
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',

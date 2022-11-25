@@ -69,12 +69,13 @@ const BoardPage = () => {
 
       createColumn({ boardId: id, data })
         .unwrap()
-        .then(() => dispatch(alertSuccess()))
+        .then(() => {
+          dispatch(alertSuccess());
+          setFormModalCol(false);
+        })
         .catch((err) => {
           dispatch(alertError(getErrorMessage(err)));
         });
-
-      setFormModalCol(false);
     }
   };
 
