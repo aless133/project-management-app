@@ -72,6 +72,7 @@ const BoardPage = () => {
         .then(() => dispatch(alertSuccess()))
         .catch((err) => {
           dispatch(alertError(getErrorMessage(err)));
+          setFormModalCol(true);
         });
 
       setFormModalCol(false);

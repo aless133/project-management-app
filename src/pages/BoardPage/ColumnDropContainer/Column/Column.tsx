@@ -63,6 +63,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
         .then(() => dispatch(alertSuccess()))
         .catch((err) => {
           dispatch(alertError(getErrorMessage(err)));
+          setFormModal(true);
         });
 
       setFormModal(false);
