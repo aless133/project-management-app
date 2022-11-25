@@ -29,21 +29,20 @@ export const BoardHeader = ({ title, isColumns, onClick }: BoardHeaderProps) => 
           my: 1,
         }}
       >
-        <Button variant="outlined" sx={{ position: 'absolute', left: 0 }}>
-          <Link
-            style={{ textDecoration: 'none', color: 'inherit' }}
-            to={Constants.MAIN}
-            replace={true}
+        <Button
+          component={Link}
+          to={Constants.MAIN}
+          variant="outlined"
+          sx={{ position: 'absolute', left: 0 }}
+        >
+          <ReplyIcon sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }} />
+          <Box
+            sx={{
+              display: { xs: 'none', sm: 'none', md: 'block' },
+            }}
           >
-            <ReplyIcon sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }} />
-            <Box
-              sx={{
-                display: { xs: 'none', sm: 'none', md: 'block' },
-              }}
-            >
-              {t('Back to main')}
-            </Box>
-          </Link>
+            {t('Back to main')}
+          </Box>
         </Button>
         <Typography
           variant="h3"

@@ -103,12 +103,7 @@ const MainPage = () => {
                       >
                         <ModeEditOutlineOutlinedIcon />
                       </IconButton>
-                      <TrashBasket
-                        onAction={(e) => {
-                          e.stopPropagation();
-                          handleDeleteBoard(board._id);
-                        }}
-                      />
+                      <TrashBasket onAction={() => handleDeleteBoard(board._id)} />
                     </Box>
 
                     <Button

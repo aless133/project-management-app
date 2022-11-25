@@ -12,7 +12,6 @@ import { selectUser } from 'store/userSlice';
 import { alertError, alertSuccess } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { Box } from '@mui/material';
-import { Spinner } from 'components/UI/Spinner';
 import { useDeleteColumnMutation, useUpdateColumnMutation } from 'api/columnsApiSlice';
 import {
   Droppable,
@@ -38,11 +37,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
   const dispatch = useStoreDispatch();
-  const {
-    data: tasks,
-    isFetching,
-    isLoading,
-  } = useGetColumnTasksQuery({
+  const { data: tasks, isLoading } = useGetColumnTasksQuery({
     boardId: column.boardId as string,
     columnId: column._id,
   });
@@ -65,12 +60,13 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
 
       createTask({ boardId: column.boardId, columnId: column._id, data })
         .unwrap()
-        .then(() => dispatch(alertSuccess()))
+        .then(() => {
+          dispatch(alertSuccess());
+          setFormModal(false);
+        })
         .catch((err) => {
           dispatch(alertError(getErrorMessage(err)));
         });
-
-      setFormModal(false);
     }
   };
 
@@ -84,9 +80,9 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
     });
   };
 
-  if (isFetching) {
-    return <Spinner />;
-  }
+  // if (isFetching) {
+  //   return <Spinner />;
+  // }
 
   const handleSave = async (value: string) => {
     const requestObj: IColumnParams = {
@@ -139,10 +135,11 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
                   tasks
                     .slice(0)
                     .sort((a, b) => a.order - b.order)
-                    .map((task) => (
+                    .map((task, index) => (
                       <Task
                         key={task._id}
                         task={task}
+                        index={index}
                         loading={isLoading}
                         openTaskModal={openTaskModal}
                         onAction={() => {}}

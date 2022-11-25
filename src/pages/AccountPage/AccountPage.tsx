@@ -11,6 +11,9 @@ import { useStoreSelector } from 'hooks/store.hooks';
 import { useFormSign } from 'hooks/formSign.hook';
 import { selectUser } from 'store/userSlice';
 import { useAppContext } from 'app.context';
+import Button from '@mui/material/Button';
+import { Constants } from 'utils';
+import { Link } from 'react-router-dom';
 
 const AccountPage = () => {
   const { errStack, handleChange, handleSubmitProfile, isUpdateLoad, isDeleteLoad, handleDelete } =
@@ -92,6 +95,17 @@ const AccountPage = () => {
                 {t('Save')}
               </LoadingButton>
             </form>
+            <Button
+              component={Link}
+              to={Constants.MAIN}
+              color="primary"
+              variant="outlined"
+              fullWidth
+              size="large"
+              sx={{ mt: 2 }}
+            >
+              {t('Cancel')}
+            </Button>
             <LoadingButton
               loading={isDeleteLoad}
               loadingIndicator={<CircularProgress color="primary" size={25} />}

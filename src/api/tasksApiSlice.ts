@@ -1,5 +1,5 @@
 import {
-  IOrderTaskData,
+  IOrderTaskParams,
   ISearchTask,
   ISearchTaskData,
   ITask,
@@ -38,13 +38,33 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
-    updateTasksSet: builder.mutation<IUpdatedTask[], IOrderTaskData[]>({
-      query: (data) => ({
+
+    updateTasksSet: builder.mutation<IUpdatedTask[], IOrderTaskParams>({
+      query: ({ data }) => ({
         url: 'tasksSet',
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['ColumnTasks'],
+      async onQueryStarted({ boardId, updateCache }, { dispatch, queryFulfilled }) {
+        const patchResults = [];
+        for (const columnId in updateCache)
+          patchResults.push(
+            dispatch(
+              extendedApiSlice.util.updateQueryData(
+                'getColumnTasks',
+                { boardId, columnId },
+                () => updateCache[columnId]
+              )
+            )
+          );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResults.forEach((pr) => pr.undo());
+        }
+      },
+      invalidatesTags: (result, error, arg) =>
+        arg.invalidate.map((columnId) => ({ type: 'ColumnTasks' as const, id: columnId })),
     }),
 
     deleteTask: builder.mutation<ITask, ITaskParams>({

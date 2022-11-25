@@ -61,8 +61,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data }) => {
             <ModeEditOutlineOutlinedIcon />
           </IconButton>
           <TrashBasket
-            onAction={(e) => {
-              e.stopPropagation();
+            onAction={() => {
               console.log('delete');
             }}
           />

@@ -130,6 +130,19 @@ export const BoardModal: FC<IBoardModalProps> = ({
     }
   };
 
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') {
+        closeBoardModal();
+      }
+    };
+    document.addEventListener('keydown', handleEsc);
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
+  });
+
   return (
     <ModalWindow
       onClose={closeBoardModal}

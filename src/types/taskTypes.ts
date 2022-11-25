@@ -55,3 +55,10 @@ export interface ISearchTaskData {
   userId: string;
   users: string[];
 }
+
+export interface IOrderTaskParams {
+  boardId: string;
+  data: IOrderTaskData[];
+  updateCache: Record<string, ITask[]>;
+  invalidate: string[];
+}
