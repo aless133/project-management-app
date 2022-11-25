@@ -54,5 +54,8 @@
   "Update task": "Изменить задачу",
   "The password must contain only a-z, A-Z, 0-9": "Пароль должен состоять из a-z, A-Z, 0-9",
   "The login must contain only a-z, A-Z, 0-9, -, _": "Логин должен состоять из a-z, A-Z, 0-9, -, _",
-  "Column title": "Название колонки"
+  "Column title": "Название колонки",
+  "Search task": "Найти задачу",
+  "Nothing found": "Ничего не найдено",
+  "View in project": "Посмотреть в проекте"
 }

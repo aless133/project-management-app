@@ -97,14 +97,15 @@ export const Header = () => {
           >
             {isAuth ? (
               <>
-                <Box sx={{ width: { md: 180, lg: 390 } }}>
+                <Box sx={{ width: { xs: 40, sm: 120, md: 180, lg: 390 } }}>
                   <Button
                     component={NavLink}
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
                       color: 'secondary.main',
-                      width: 145,
+                      width: { xs: 40, sm: 120, md: 120, lg: 145 },
+                      p: { xs: 0, sm: 0, md: 0 },
                       fontSize: 14,
                       textDecoration: 'none',
                       '&.active': {
@@ -116,15 +117,22 @@ export const Header = () => {
                     <SvgIcon viewBox="0 0 123 110" sx={{ mr: 1 }}>
                       <path d="M0 52.88L22.68 52.58C31.6035 57.7167 39.5079 64.4483 46 72.44C62.129 45.4464 82.2196 21.0275 105.6 0L122.88 0C92.9226 33.1829 67.344 70.0704 46.77 109.76C36 86.69 21 67.27 0 52.88Z" />
                     </SvgIcon>
-                    P.Management
+                    <Box sx={{ display: { xs: 'none', sm: 'block', md: 'block', lg: 'block' } }}>
+                      P.Management
+                    </Box>
                   </Button>
                 </Box>
-                <Box sx={{ display: 'flex', columnGap: 1 }}>
+                <Box sx={{ display: 'flex', columnGap: 2 }}>
                   <Button
-                    sx={{ color: 'secondary.main', fontSize: 14 }}
+                    sx={{
+                      color: 'secondary.main',
+                      fontSize: 14,
+                      minWidth: 40,
+                      p: { xs: 0, sm: 0, md: 0 },
+                    }}
                     onClick={handleOpenBoardModal}
                   >
-                    <DashboardCustomizeIcon sx={{ mb: 0.5, mr: 1 }} />
+                    <DashboardCustomizeIcon sx={{ mb: 0.5, mr: { xs: 0, sm: 0, md: 0, lg: 1 } }} />
                     <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
                       {t('Create Board')}
                     </Box>
@@ -134,7 +142,9 @@ export const Header = () => {
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
+                      minWidth: 40,
                       mr: { md: 0, lg: 1 },
+                      p: { xs: 0, sm: 0, md: 0 },
                       color: 'secondary.main',
                       textDecoration: 'none',
                       '&.active': {
@@ -143,7 +153,7 @@ export const Header = () => {
                     }}
                     to={Constants.SEARCH}
                   >
-                    <ContentPasteSearchIcon sx={{ mb: 0.5, mr: 1 }} />
+                    <ContentPasteSearchIcon sx={{ mb: 0.5, mr: { xs: 0, sm: 0, md: 0, lg: 1 } }} />
                     <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
                       {t('Search task')}
                     </Box>
