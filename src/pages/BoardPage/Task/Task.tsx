@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 import { useAppContext } from 'app.context';
-import { TrashBasket } from 'pages/BoardPage/TrashBasket';
+import { TrashBasket } from 'components/UI/TrashBasket';
 import React from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { UpdateButton } from 'components/UI/UpdateButton';
 
 interface ITaskProps {
   task: ITask;
@@ -66,23 +66,7 @@ export const Task = ({ task, index, loading, openTaskModal }: ITaskProps) => {
           <Typography variant="h6" sx={{ flex: '1 1 auto' }}>
             {task.title}
           </Typography>
-          <ModeEditOutlineOutlinedIcon
-            onClick={(e) => {
-              e.stopPropagation();
-              handleOpenTaskModal();
-            }}
-            sx={{
-              p: 1,
-              borderRadius: '50%',
-              color: 'gray',
-              ':hover': {
-                color: 'primary.main',
-                backgroundColor: '#c2eafc',
-                cursor: 'pointer',
-              },
-              transition: '0.3s',
-            }}
-          />
+          <UpdateButton onAction={handleOpenTaskModal} />
           <TrashBasket onAction={() => handleDeleteTask(task._id)} />
         </Box>
       )}

@@ -77,12 +77,16 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 
     getTasksSet: builder.query<ISearchTaskData[], ISearchTask>({
       query: ({ userId, search }) => `/tasksSet?userid=${userId}&search=${search}`,
+      providesTags: (result) => [
+        'Task',
+        ...(result ? result.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : []),
+      ],
     }),
   }),
 });
 
 export const {
-  useLazyGetTasksSetQuery,
+  useGetTasksSetQuery,
   useCreateTaskMutation,
   useGetColumnTasksQuery,
   useLazyGetColumnTasksQuery,
