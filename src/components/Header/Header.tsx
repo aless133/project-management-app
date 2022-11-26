@@ -133,9 +133,7 @@ export const Header = () => {
                     onClick={handleOpenBoardModal}
                   >
                     <DashboardCustomizeIcon sx={{ mb: 0.5, mr: { xs: 0, sm: 0, md: 0, lg: 1 } }} />
-                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
-                      {t('Create Board')}
-                    </Box>
+                    <Box sx={{ display: { xs: 'none', lg: 'block' } }}>{t('Create Board')}</Box>
                   </Button>
                   <Button
                     component={NavLink}
@@ -153,7 +151,7 @@ export const Header = () => {
                     }}
                     to={Constants.SEARCH}
                   >
-                    <ContentPasteSearchIcon sx={{ mb: 0.5, mr: { xs: 0, sm: 0, md: 0, lg: 1 } }} />
+                    <ContentPasteSearchIcon sx={{ mb: 0.5, mr: { xs: 0, lg: 1 } }} />
                     <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
                       {t('Search task')}
                     </Box>
@@ -213,7 +211,7 @@ export const Header = () => {
                     />
                     <Box
                       sx={{
-                        display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' },
+                        display: { xs: 'none', lg: 'block' },
                         maxWidth: 60,
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
@@ -226,9 +224,7 @@ export const Header = () => {
 
                   <Button sx={{ color: 'secondary.main' }} onClick={openExitModal}>
                     <LogoutIcon sx={{ mb: 0.3, mr: 0.5 }} />
-                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
-                      {t('Sign Out')}
-                    </Box>
+                    <Box sx={{ display: { xs: 'none', lg: 'block' } }}>{t('Sign Out')}</Box>
                   </Button>
                 </Box>
 

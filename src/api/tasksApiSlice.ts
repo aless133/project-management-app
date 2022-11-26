@@ -77,7 +77,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 
     getTasksSet: builder.query<ISearchTaskData[], ISearchTask>({
       query: ({ userId, search }) => `/tasksSet?userid=${userId}&search=${search}`,
-      providesTags: ['SearchTask'],
     }),
   }),
 });

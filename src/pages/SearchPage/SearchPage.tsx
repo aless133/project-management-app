@@ -47,7 +47,7 @@ const SearchPage = () => {
             <Typography variant="h4" component="h2" align="center">
               {t('Search task')}
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'stretch', columnGap: 2 }}>
               <TextField
                 name="Search task"
                 value={value}
@@ -70,7 +70,8 @@ const SearchPage = () => {
                 size="large"
                 sx={{
                   maxWidth: { xs: 50, sm: 100, md: 100, lg: 100 },
-                  mt: 0.5,
+                  mt: '16px',
+                  mb: '8px',
                 }}
               >
                 <SearchIcon />
