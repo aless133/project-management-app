@@ -4,6 +4,8 @@ import { ISearchTaskData } from 'types/taskTypes';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useTranslation } from 'react-i18next';
+import { useAppContext } from 'app.context';
+import { useDeleteSearchTaskMutation } from 'api/tasksApiSlice';
 
 interface ISearchTaskProps {
   data: ISearchTaskData;
@@ -11,6 +13,19 @@ interface ISearchTaskProps {
 
 export const SearchTask: FC<ISearchTaskProps> = ({ data }) => {
   const [t] = useTranslation();
+  const { confirm } = useAppContext();
+  const [deleteTask] = useDeleteSearchTaskMutation();
+
+  const handleDeleteBoard = () => {
+    confirm(async () => {
+      const requestData = {
+        boardId: data.boardId as string,
+        columnId: data.columnId as string,
+        taskId: data._id,
+      };
+      return await deleteTask(requestData).unwrap();
+    });
+  };
 
   return (
     <Box
@@ -62,7 +77,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data }) => {
           </IconButton>
           <TrashBasket
             onAction={() => {
-              console.log('delete');
+              handleDeleteBoard();
             }}
           />
         </Box>

@@ -1,13 +1,12 @@
 import { Box, TextField, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
-import { useLazyGetTasksSetQuery } from 'api/tasksApiSlice';
-import { ISearchTaskData } from 'types/taskTypes';
+import { useGetTasksSetQuery } from 'api/tasksApiSlice';
 import { SearchTask } from './SearchTask';
 import SearchIcon from '@mui/icons-material/Search';
 import { alertError } from 'store/uiSlice';
@@ -16,26 +15,23 @@ import { getErrorMessage } from 'utils/helpers';
 const SearchPage = () => {
   const [t] = useTranslation();
   const [value, setValue] = useState<string>('');
-  const [tasks, setTasks] = useState<ISearchTaskData[]>([]);
   const { id } = useStoreSelector(selectUser);
-  const [getTasks] = useLazyGetTasksSetQuery();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isSearch, setIsSearch] = useState<boolean>(false);
   const dispatch = useStoreDispatch();
+  const [skip, setSkip] = useState<boolean>(true);
+  const [dataRequest, setDataRequest] = useState({ userId: id, search: value });
+  const { data, isLoading } = useGetTasksSetQuery(dataRequest, { skip });
+  const [isSearch, setIsSearch] = useState<boolean>(false);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
       if (value) {
-        setIsLoading(true);
-        const res = await getTasks({ userId: id, search: value }).unwrap();
+        setDataRequest({ userId: id, search: value });
         setIsSearch(true);
-        res && setTasks(res);
+        setSkip(false);
       }
     } catch (err) {
       dispatch(alertError(getErrorMessage(err)));
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -84,8 +80,8 @@ const SearchPage = () => {
           sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2, mt: 3 }}
         >
           {isSearch ? (
-            tasks.length ? (
-              tasks.map((task) => <SearchTask key={task._id} data={task} />)
+            data?.length ? (
+              data.map((task) => <SearchTask key={task._id} data={task} />)
             ) : (
               <Box sx={{ fontSize: 22 }}>{t('Nothing found')}</Box>
             )
