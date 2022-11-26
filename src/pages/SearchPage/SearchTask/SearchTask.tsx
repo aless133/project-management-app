@@ -4,10 +4,10 @@ import { ISearchTaskData, ITaskPropsData } from 'types/taskTypes';
 import { TrashBasket } from 'components/UI/TrashBasket';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from 'app.context';
-import { useDeleteSearchTaskMutation } from 'api/tasksApiSlice';
 import { Constants } from 'utils';
 import { useNavigate } from 'react-router-dom';
 import { UpdateButton } from 'components/UI/UpdateButton';
+import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 
 interface ISearchTaskProps {
   data: ISearchTaskData;
@@ -17,7 +17,7 @@ interface ISearchTaskProps {
 export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
   const [t] = useTranslation();
   const { confirm } = useAppContext();
-  const [deleteTask] = useDeleteSearchTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
   const navigate = useNavigate();
 
   const handleDeleteBoard = () => {

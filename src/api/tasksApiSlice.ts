@@ -78,33 +78,14 @@ const extendedApiSlice = apiSlice.injectEndpoints({
     getTasksSet: builder.query<ISearchTaskData[], ISearchTask>({
       query: ({ userId, search }) => `/tasksSet?userid=${userId}&search=${search}`,
       providesTags: (result) => [
-        'SearchTask',
-        ...(result ? result.map(({ _id }) => ({ type: 'SearchTask' as const, id: _id })) : []),
+        'Task',
+        ...(result ? result.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : []),
       ],
-    }),
-
-    deleteSearchTask: builder.mutation<ITask, ITaskParams>({
-      query: ({ boardId, columnId, taskId }) => ({
-        url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: (result, error, arg) => [{ type: 'SearchTask' as const, id: arg.taskId }],
-    }),
-
-    updateSearchTask: builder.mutation<ITask, ITaskParams>({
-      query: ({ boardId, columnId, taskId, data }) => ({
-        url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
-        method: 'PUT',
-        body: data,
-      }),
-      invalidatesTags: (result, error, arg) => [{ type: 'SearchTask' as const, id: arg.taskId }],
     }),
   }),
 });
 
 export const {
-  useUpdateSearchTaskMutation,
-  useDeleteSearchTaskMutation,
   useGetTasksSetQuery,
   useCreateTaskMutation,
   useGetColumnTasksQuery,

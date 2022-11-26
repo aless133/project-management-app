@@ -110,7 +110,6 @@ const SearchPage = () => {
           )}
         </Container>
         <TaskModal
-          mode="search"
           data={taskModalData}
           closeTaskModal={closeTaskModal}
           openModal={isOpenTaskModal}
