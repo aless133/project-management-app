@@ -12,12 +12,12 @@ import { useDeleteBoardMutation, useGetUserBoardsQuery } from 'api/boardsApiSlic
 import { useStoreSelector } from 'hooks/store.hooks';
 import { selectUser } from 'store/userSlice';
 import { Constants } from 'utils';
-import { TrashBasket } from 'pages/BoardPage/TrashBasket';
+import { TrashBasket } from 'components/UI/TrashBasket';
 import { useAppContext } from 'app.context';
 import { Spinner } from 'components/UI/Spinner';
-import { Box, IconButton } from '@mui/material';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { Box } from '@mui/material';
 import { BoardModal } from 'components/BoardModal';
+import { UpdateButton } from 'components/UI/UpdateButton';
 
 const MainPage = () => {
   const [t] = useTranslation();
@@ -90,19 +90,7 @@ const MainPage = () => {
                     }}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 1 }}>
-                      <IconButton
-                        onClick={() => handleOpenBoardModal(board._id, board.title)}
-                        sx={{
-                          color: 'gray',
-                          ':hover': {
-                            color: 'primary.main',
-                            backgroundColor: '#c2eafc',
-                          },
-                          transition: '0.3s',
-                        }}
-                      >
-                        <ModeEditOutlineOutlinedIcon />
-                      </IconButton>
+                      <UpdateButton onAction={() => handleOpenBoardModal(board._id, board.title)} />
                       <TrashBasket onAction={() => handleDeleteBoard(board._id)} />
                     </Box>
 

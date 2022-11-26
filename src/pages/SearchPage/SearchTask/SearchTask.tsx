@@ -1,13 +1,13 @@
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React, { FC } from 'react';
 import { ISearchTaskData, ITaskPropsData } from 'types/taskTypes';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import { TrashBasket } from 'pages/BoardPage/TrashBasket';
+import { TrashBasket } from 'components/UI/TrashBasket';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from 'app.context';
 import { useDeleteSearchTaskMutation } from 'api/tasksApiSlice';
 import { Constants } from 'utils';
 import { useNavigate } from 'react-router-dom';
+import { UpdateButton } from 'components/UI/UpdateButton';
 
 interface ISearchTaskProps {
   data: ISearchTaskData;
@@ -78,19 +78,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 1 }}>
-          <IconButton
-            onClick={handleOpenTaskModal}
-            sx={{
-              color: 'gray',
-              ':hover': {
-                color: 'primary.main',
-                backgroundColor: '#c2eafc',
-              },
-              transition: '0.3s',
-            }}
-          >
-            <ModeEditOutlineOutlinedIcon />
-          </IconButton>
+          <UpdateButton onAction={handleOpenTaskModal} />
           <TrashBasket
             onAction={() => {
               handleDeleteBoard();
