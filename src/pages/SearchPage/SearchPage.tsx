@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -11,6 +11,8 @@ import { SearchTask } from './SearchTask';
 import SearchIcon from '@mui/icons-material/Search';
 import { alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
+import { TaskModal } from 'pages/BoardPage/Task/TaskModal';
+import { ITaskPropsData } from 'types/taskTypes';
 
 const SearchPage = () => {
   const [t] = useTranslation();
@@ -21,6 +23,24 @@ const SearchPage = () => {
   const [dataRequest, setDataRequest] = useState({ userId: id, search: value });
   const { data, isLoading } = useGetTasksSetQuery(dataRequest, { skip });
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [isOpenTaskModal, setIsOpenTaskModal] = useState<boolean>(false);
+  const [taskModalData, setTaskModalData] = useState<ITaskPropsData>({
+    title: '',
+    description: '',
+    boardId: '',
+    columnId: '',
+    taskId: '',
+    order: 0,
+  });
+
+  const openTaskModal = (data: ITaskPropsData) => {
+    setIsOpenTaskModal(true);
+    setTaskModalData(data);
+  };
+
+  const closeTaskModal = () => {
+    setIsOpenTaskModal(false);
+  };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -81,7 +101,9 @@ const SearchPage = () => {
         >
           {isSearch ? (
             data?.length ? (
-              data.map((task) => <SearchTask key={task._id} data={task} />)
+              data.map((task) => (
+                <SearchTask key={task._id} data={task} openTaskModal={openTaskModal} />
+              ))
             ) : (
               <Box sx={{ fontSize: 22 }}>{t('Nothing found')}</Box>
             )
@@ -89,6 +111,12 @@ const SearchPage = () => {
             ''
           )}
         </Container>
+        <TaskModal
+          mode="search"
+          data={taskModalData}
+          closeTaskModal={closeTaskModal}
+          openModal={isOpenTaskModal}
+        />
       </Container>
     </main>
   );

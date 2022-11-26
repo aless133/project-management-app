@@ -90,10 +90,20 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'SearchTask' as const, id: arg.taskId }],
     }),
+
+    updateSearchTask: builder.mutation<ITask, ITaskParams>({
+      query: ({ boardId, columnId, taskId, data }) => ({
+        url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: 'SearchTask' as const, id: arg.taskId }],
+    }),
   }),
 });
 
 export const {
+  useUpdateSearchTaskMutation,
   useDeleteSearchTaskMutation,
   useGetTasksSetQuery,
   useCreateTaskMutation,

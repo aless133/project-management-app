@@ -1,6 +1,6 @@
 import { Box, Button, IconButton } from '@mui/material';
 import React, { FC } from 'react';
-import { ISearchTaskData } from 'types/taskTypes';
+import { ISearchTaskData, ITaskPropsData } from 'types/taskTypes';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useTranslation } from 'react-i18next';
@@ -9,9 +9,10 @@ import { useDeleteSearchTaskMutation } from 'api/tasksApiSlice';
 
 interface ISearchTaskProps {
   data: ISearchTaskData;
+  openTaskModal: (data: ITaskPropsData) => void;
 }
 
-export const SearchTask: FC<ISearchTaskProps> = ({ data }) => {
+export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
   const [t] = useTranslation();
   const { confirm } = useAppContext();
   const [deleteTask] = useDeleteSearchTaskMutation();
@@ -25,6 +26,18 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data }) => {
       };
       return await deleteTask(requestData).unwrap();
     });
+  };
+
+  const handleOpenTaskModal = () => {
+    const taskData = {
+      title: data.title,
+      description: data.description,
+      boardId: data.boardId,
+      columnId: data.columnId,
+      taskId: data._id,
+      order: data.order,
+    };
+    openTaskModal(taskData);
   };
 
   return (
@@ -63,7 +76,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data }) => {
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 1 }}>
           <IconButton
-            onClick={() => console.log('rewrite')}
+            onClick={handleOpenTaskModal}
             sx={{
               color: 'gray',
               ':hover': {

@@ -183,6 +183,7 @@ const BoardPage = () => {
             onAction={addColumn}
           />
           <TaskModal
+            mode="column"
             data={taskModalData}
             closeTaskModal={closeTaskModal}
             openModal={isOpenTaskModal}

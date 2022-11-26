@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, TextField } from '@mui/material';
-import { useUpdateTaskMutation } from 'api/tasksApiSlice';
+import { useUpdateSearchTaskMutation, useUpdateTaskMutation } from 'api/tasksApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';
 import React, { FC, useState, useEffect } from 'react';
@@ -32,9 +32,10 @@ interface ITaskModal {
   openModal: boolean;
   closeTaskModal: () => void;
   data: ITaskPropsData;
+  mode: 'column' | 'search';
 }
 
-export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) => {
+export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data, mode }) => {
   const [errStack, setErrStack] = useState<TErr>(err);
   const { t } = useTranslation();
   const [value1, setValue1] = useState<string>('');
@@ -43,6 +44,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
   const [isDisabledSubmitBtn, setIsDisabledSubmitBtn] = useState<boolean>(false);
   const dispatch = useStoreDispatch();
   const [updateTask] = useUpdateTaskMutation();
+  const [updateSearchTask] = useUpdateSearchTaskMutation();
   const { id } = useStoreSelector(selectUser);
 
   useEffect(() => {
@@ -92,7 +94,11 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
           },
         };
         setIsLoading(true);
-        await updateTask(taskData).unwrap();
+        if (mode === 'column') {
+          await updateTask(taskData).unwrap();
+        } else {
+          await updateSearchTask(taskData).unwrap();
+        }
         dispatch(alertSuccess());
         closeTaskModal();
       } catch (err) {
