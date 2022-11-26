@@ -58,7 +58,7 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
   };
 
   return (
-    <Box sx={{}}>
+    <Box sx={{ flex: ' 1 1 auto' }}>
       {isEditing ? (
         <Box sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
           <TextField
@@ -82,14 +82,13 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
         </Box>
       ) : (
         <Typography
-          variant="h3"
+          variant="h5"
           sx={{
-            pt: 1,
-            px: 2,
-            fontSize: 28,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
+            p: 1,
+            // fontSize: 28,
+            // whiteSpace: 'nowrap',
+            // overflow: 'hidden',
+            // textOverflow: 'ellipsis',
             ':hover': {
               cursor: 'pointer',
             },

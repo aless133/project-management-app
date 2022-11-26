@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-interface ButtonAddColumnProps {
+interface ButtonAddFirstColumnProps {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const ButtonAddColumn = ({ onClick }: ButtonAddColumnProps) => {
+export const ButtonAddFirstColumn = ({ onClick }: ButtonAddFirstColumnProps) => {
   const [t] = useTranslation();
   return (
     <Box sx={{ textAlign: 'center' }}>

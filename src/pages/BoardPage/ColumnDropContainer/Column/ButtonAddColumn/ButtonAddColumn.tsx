@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 
-interface ButtonAddTaskProps {
+interface ButtonAddColumnProps {
   onClick: () => void;
 }
-export const ButtonAddTask = ({ onClick }: ButtonAddTaskProps) => {
+export const ButtonAddColumn = ({ onClick }: ButtonAddColumnProps) => {
   const [t] = useTranslation();
 
   return (
@@ -15,7 +15,8 @@ export const ButtonAddTask = ({ onClick }: ButtonAddTaskProps) => {
       key="column-add"
       sx={{
         position: 'absolute',
-        left: 'calc(100% + 16px)',
+        left: 'calc(100% + 8px)',
+        top: 0,
       }}
     >
       <Button

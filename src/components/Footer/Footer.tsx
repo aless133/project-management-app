@@ -5,7 +5,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 export const Footer = () => {
   return (
-    <Paper component="footer" sx={{ backgroundColor: 'primary.main', mt: 5, borderRadius: 0 }}>
+    <Paper component="footer" sx={{ backgroundColor: 'primary.main', /* mt: 5,*/ borderRadius: 0 }}>
       <Container maxWidth={'xl'}>
         <Box
           sx={{

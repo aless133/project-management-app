@@ -101,6 +101,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
     <Draggable draggableId={column._id} key={column._id} index={index} isDragDisabled={loading}>
       {(providedDragColumn: DraggableProvided, snapshotDragColumn: DraggableStateSnapshot) => (
         <Paper
+          className="h100-f"
           elevation={3}
           ref={providedDragColumn.innerRef}
           {...providedDragColumn.draggableProps}
@@ -108,11 +109,12 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
           sx={{
             width: 300,
             flexShrink: 0,
+            overflow: 'hidden',
             backgroundColor: snapshotDragColumn.isDragging ? 'rgba(233,255,255,.3)' : 'inherit',
           }}
         >
           {/*column title    */}
-          <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', px: 1, backgroundColor: '#ddd' }}>
             <InlineTextField label={t('Title')} value={column.title} handleSave={handleSave} />
             <TrashBasket onAction={() => handleDeleteColumn(column._id)} />
           </Box>
@@ -127,7 +129,8 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
           >
             {(providedDropTask: DroppableProvided) => (
               <Box
-                sx={{ px: 2, overflowY: 'auto', minHeight: 2 }}
+                className="h100-i"
+                sx={{ px: 1, overflowY: 'auto', minHeight: 2 }}
                 ref={providedDropTask.innerRef}
                 {...providedDropTask.droppableProps}
               >

@@ -9,7 +9,9 @@
   }
   main {
     flex-grow: 1;
+    flex-shrink: 1;
     position: relative;
+    overflow: hidden;
   }
 }
 .filler {
@@ -19,3 +21,14 @@
     display: none;
   }
 }
+
+.h100 {
+   height: 100%;
+}
+
+//   main {
+//     flex-shrink: 1;
+//     overflow: hidden;
+//   //   flex-grow: 0;
+//   }
+// }
