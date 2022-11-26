@@ -11,7 +11,7 @@ import { SearchTask } from './SearchTask';
 import SearchIcon from '@mui/icons-material/Search';
 import { alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
-import { TaskModal } from 'pages/BoardPage/Task/TaskModal';
+import { TaskModal } from 'components/UI/TaskModal';
 import { ITaskPropsData } from 'types/taskTypes';
 
 const SearchPage = () => {
@@ -21,8 +21,7 @@ const SearchPage = () => {
   const dispatch = useStoreDispatch();
   const [skip, setSkip] = useState<boolean>(true);
   const [dataRequest, setDataRequest] = useState({ userId: id, search: value });
-  const { data, isLoading } = useGetTasksSetQuery(dataRequest, { skip });
-  const [isSearch, setIsSearch] = useState<boolean>(false);
+  const { data, isLoading, isSuccess } = useGetTasksSetQuery(dataRequest, { skip });
   const [isOpenTaskModal, setIsOpenTaskModal] = useState<boolean>(false);
   const [taskModalData, setTaskModalData] = useState<ITaskPropsData>({
     title: '',
@@ -47,7 +46,6 @@ const SearchPage = () => {
     try {
       if (value) {
         setDataRequest({ userId: id, search: value });
-        setIsSearch(true);
         setSkip(false);
       }
     } catch (err) {
@@ -99,7 +97,7 @@ const SearchPage = () => {
           maxWidth="xl"
           sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2, mt: 3 }}
         >
-          {isSearch ? (
+          {isSuccess ? (
             data?.length ? (
               data.map((task) => (
                 <SearchTask key={task._id} data={task} openTaskModal={openTaskModal} />

@@ -6,6 +6,8 @@ import { TrashBasket } from 'pages/BoardPage/TrashBasket';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from 'app.context';
 import { useDeleteSearchTaskMutation } from 'api/tasksApiSlice';
+import { Constants } from 'utils';
+import { useNavigate } from 'react-router-dom';
 
 interface ISearchTaskProps {
   data: ISearchTaskData;
@@ -16,6 +18,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
   const [t] = useTranslation();
   const { confirm } = useAppContext();
   const [deleteTask] = useDeleteSearchTaskMutation();
+  const navigate = useNavigate();
 
   const handleDeleteBoard = () => {
     confirm(async () => {
@@ -95,7 +98,11 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
           />
         </Box>
 
-        <Button size="small" sx={{ fontSize: { xs: 12, sm: 14 } }}>
+        <Button
+          size="small"
+          sx={{ fontSize: { xs: 12, sm: 14 } }}
+          onClick={() => navigate(`${Constants.BOARD}/${data.boardId}`)}
+        >
           {t('View in project')}
         </Button>
       </Box>
