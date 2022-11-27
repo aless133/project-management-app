@@ -18,19 +18,19 @@ const userSlice = createSlice({
   },
   reducers: {
     updateUser: (state, action) => {
-      console.log('updateUser',action.payload);
+      console.log('updateUser', action.payload);
       return { ...state, ...action.payload };
     },
     setUser: (state, action) => {
-      console.log('setUser',action.payload);
+      console.log('setUser', action.payload);
       return { ...action.payload };
     },
     setToken: (state, action) => {
-      console.log('setToken',action.payload);
+      console.log('setToken', action.payload);
       return { ...parseToken(action.payload), isLogged: false, isChecked: false };
     },
     setTokenLogged: (state, action) => {
-      console.log('setTokenLogged',action.payload);
+      console.log('setTokenLogged', action.payload);
       return { ...parseToken(action.payload), isLogged: true, isChecked: true };
     },
     clearUser: () => {
