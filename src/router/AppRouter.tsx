@@ -2,16 +2,24 @@ import { Layout } from 'components/Layout';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ProtectedPage from './ProtectedPage';
-import {
-  AccountPage,
-  BoardPage,
-  ErrorPage,
-  MainPage,
-  SignInPage,
-  SignUpPage,
-  WelcomePage,
-  SearchPage,
-} from './pages';
+const AccountPage = React.lazy(() => import('pages/AccountPage'));
+const BoardPage = React.lazy(() => import('pages/BoardPage'));
+const ErrorPage = React.lazy(() => import('pages/ErrorPage'));
+const MainPage = React.lazy(() => import('pages/MainPage'));
+const SignInPage = React.lazy(() => import('pages/SignInPage'));
+const SignUpPage = React.lazy(() => import('pages/SignUpPage'));
+const WelcomePage = React.lazy(() => import('pages/WelcomePage'));
+const SearchPage = React.lazy(() => import('pages/SearchPage'));
+// import {
+//   AccountPage,
+//   BoardPage,
+//   ErrorPage,
+//   MainPage,
+//   SignInPage,
+//   SignUpPage,
+//   WelcomePage,
+//   SearchPage,
+// } from './pages';
 
 const AppRouter = () => {
   return (
