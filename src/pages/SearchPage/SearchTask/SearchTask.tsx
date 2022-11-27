@@ -72,6 +72,8 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
             color: 'gray',
             fontWeight: 200,
             whiteSpace: 'pre-wrap',
+            wordWrap: 'break-word',
+            wordBreak: 'break-word',
           }}
         >
           {data.description}
