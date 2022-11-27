@@ -66,7 +66,7 @@ export const ColumnDropContainer = ({
                 display: 'flex',
                 flexWrap: 'nowrap',
                 gap: 2,
-                px: 1,
+                p: 1,
                 flexDirection: 'row',
                 alignItems: 'stretch',
                 // justifyContent: 'center',

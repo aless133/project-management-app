@@ -16,7 +16,7 @@ export const ButtonAddColumn = ({ onClick }: ButtonAddColumnProps) => {
       sx={{
         position: 'absolute',
         left: 'calc(100% + 8px)',
-        top: 0,
+        top: '8px',
       }}
     >
       <Button
