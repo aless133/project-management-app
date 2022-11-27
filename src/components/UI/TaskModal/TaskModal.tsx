@@ -1,5 +1,7 @@
-import { LoadingButton } from '@mui/lab';
-import { Box, Button, TextField } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { useUpdateTaskMutation } from 'api/tasksApiSlice';
 import { ModalWindow } from 'components/UI/ModalWindow';
 import { useStoreDispatch, useStoreSelector } from 'hooks/store.hooks';

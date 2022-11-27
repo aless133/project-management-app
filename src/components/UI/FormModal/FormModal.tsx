@@ -34,9 +34,6 @@ export const FormModal = ({
 
   useKeyDown('Escape', () => (isOpen ? onClose() : null));
 
-  console.log(errStack);
-  console.log(isErrCheck(errStack));
-
   return (
     <ModalWindow onClose={onClose} open={isOpen} title={t(title)}>
       <form
@@ -73,7 +70,6 @@ export const FormModal = ({
           fullWidth
           size="large"
           sx={{ mt: 2, fontSize: { xs: 12, sm: 16 } }}
-          // disabled={isDisabled}
           loading={loading}
           disabled={isErrCheck(errStack)}
           loadingIndicator={<CircularProgress color="primary" size={25} />}

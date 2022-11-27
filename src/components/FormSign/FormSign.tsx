@@ -30,7 +30,7 @@ export const FormSign = ({ isSignUp = true }) => {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onSubmit={handleSubmit} onChange={handleChange}>
-              <Typography variant="h3" component="h2" align="center">
+              <Typography variant="h3" component="h1" align="center">
                 {isSignUp ? t('Sign Up') : t('Sign In')}
               </Typography>
               {isSignUp && (

@@ -46,6 +46,7 @@ export const BoardHeader = ({ title, isColumns, onClick }: BoardHeaderProps) => 
         </Button>
         <Typography
           variant="h3"
+          component="h1"
           sx={{
             fontSize: { xs: 30, sm: 38 },
             maxWidth: { xs: 120, sm: 220, md: 400, lg: 700 },

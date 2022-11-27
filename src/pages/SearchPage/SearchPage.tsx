@@ -1,5 +1,7 @@
-import { Box, TextField, Typography } from '@mui/material';
-import { Container } from '@mui/system';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/system/Container';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -58,7 +60,7 @@ const SearchPage = () => {
       <Container maxWidth="xl">
         <Box sx={{ maxWidth: 'sm', mx: 'auto', mt: 2 }}>
           <form onSubmit={handleSubmit}>
-            <Typography variant="h4" component="h2" align="center">
+            <Typography variant="h4" component="h1" align="center">
               {t('Search task')}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'stretch', columnGap: 2 }}>
