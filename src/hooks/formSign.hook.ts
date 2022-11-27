@@ -79,6 +79,7 @@ export const useFormSign = (isSignUp: boolean) => {
         try {
           const signinData = await signin(data).unwrap();
           dispatch(setToken(signinData.token));
+          console.log('signin navigate to main');
           navigate(Constants.MAIN, { replace: true });
         } catch (err) {
           const err1 = (err as IApiError).data.message;
