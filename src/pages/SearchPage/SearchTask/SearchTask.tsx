@@ -48,6 +48,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         maxWidth: '300px',
         width: '100%',
         flexShrink: 0,
@@ -76,7 +77,14 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
           {data.description}
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 3 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mt: 3,
+        }}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 1 }}>
           <UpdateButton onAction={handleOpenTaskModal} />
           <TrashBasket
