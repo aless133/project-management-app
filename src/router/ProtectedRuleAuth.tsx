@@ -19,6 +19,7 @@ export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }
       if (userType == 'guest') {
         if (user.isLogged) {
           setCheck(false);
+          console.log('ProtectedRuleAuth navigate to MAIN');
           navigate(Constants.MAIN, { replace: true });
         } else {
           setCheck(true);
@@ -27,6 +28,7 @@ export const ProtectedRuleAuth: FC<IProtectedRuleAuth> = ({ setCheck, userType }
         if (!user.isLogged) {
           setCheck(false);
           closeConfirm();
+          console.log('ProtectedRuleAuth navigate to SIGN_IN');
           navigate(Constants.SIGN_IN, { replace: true });
         } else {
           setCheck(true);
