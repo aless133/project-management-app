@@ -51,7 +51,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
         maxWidth: '300px',
         width: '100%',
         flexShrink: 0,
-        p: { xs: 1, sm: 2, md: 2, lg: 2 },
+        p: { xs: 1, sm: 2 },
         borderRadius: 2,
         border: '.1rem solid #e8e3e3',
       }}
