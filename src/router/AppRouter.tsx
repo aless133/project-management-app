@@ -5,7 +5,7 @@ import ProtectedPage from './ProtectedPage';
 
 // import AccountPage from 'pages/AccountPage';
 // import BoardPage from 'pages/BoardPage';
-// import ErrorPage from 'pages/ErrorPage';
+import ErrorPage from 'pages/ErrorPage';
 // import MainPage from 'pages/MainPage';
 // import SignInPage from 'pages/SignInPage';
 // import SignUpPage from 'pages/SignUpPage';
@@ -14,7 +14,7 @@ import ProtectedPage from './ProtectedPage';
 
 const AccountPage = React.lazy(() => import('pages/AccountPage'));
 const BoardPage = React.lazy(() => import('pages/BoardPage'));
-const ErrorPage = React.lazy(() => import('pages/ErrorPage'));
+// const ErrorPage = React.lazy(() => import('pages/ErrorPage'));
 const MainPage = React.lazy(() => import('pages/MainPage'));
 const SignInPage = React.lazy(() => import('pages/SignInPage'));
 const SignUpPage = React.lazy(() => import('pages/SignUpPage'));
