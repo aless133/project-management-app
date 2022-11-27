@@ -1,5 +1,5 @@
 import { Layout } from 'components/Layout';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ProtectedPage from './ProtectedPage';
 
@@ -20,6 +20,7 @@ const SignInPage = React.lazy(() => import('pages/SignInPage'));
 const SignUpPage = React.lazy(() => import('pages/SignUpPage'));
 const WelcomePage = React.lazy(() => import('pages/WelcomePage'));
 const SearchPage = React.lazy(() => import('pages/SearchPage'));
+import { Spinner } from 'components/UI/Spinner';
 
 // import {
 //   AccountPage,
@@ -36,7 +37,14 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<WelcomePage />} />
+        <Route
+          index
+          element={
+            <Suspense fallback={<Spinner />}>
+              <WelcomePage />
+            </Suspense>
+          }
+        />
         <Route
           path="signin"
           element={<ProtectedPage key="signin" rules={['guest']} component={<SignInPage />} />}
