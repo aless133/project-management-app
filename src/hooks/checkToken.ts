@@ -9,6 +9,7 @@ export const useCheckToken = () => {
   const [trigger] = useLazyGetUserQuery();
   const dispatch = useStoreDispatch();
   useEffect(() => {
+    console.log('useCheckToken', user);
     if (!user.isChecked && user.token) {
       setChecking(true);
       trigger(user.id)

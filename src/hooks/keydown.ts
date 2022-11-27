@@ -7,11 +7,9 @@ export const useKeyDown = (key: string, action: () => void) => {
         action();
       }
     };
-    console.log(key, action.toString());
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      console.log('remove', key, action.toString());
       document.removeEventListener('keydown', handleKeyDown);
     };
   });
