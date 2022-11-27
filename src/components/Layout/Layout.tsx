@@ -10,6 +10,7 @@ import { Notifier } from 'components/UI/Notifier';
 export const Layout = () => {
   const location = useLocation();
   const { isChecking } = useCheckToken();
+  console.log('Layout', isChecking);
 
   return (
     <div
