@@ -37,7 +37,6 @@ export const useFormSign = (isSignUp: boolean) => {
   const dispatch = useStoreDispatch();
   const navigate = useNavigate();
 
-  //TODO
   const isSignInLoad = isSigninLoading;
   const isSignUpLoad = isSignupLoading;
   const isUpdateLoad = isUpdateLoading;
@@ -90,8 +89,13 @@ export const useFormSign = (isSignUp: boolean) => {
 
   const handleChange: React.FormEventHandler<HTMLFormElement> = (e) => {
     const { name, value } = e.target as HTMLInputElement;
+    if (name === Constants.TASK_DESCRIPTION && (!value || value.length < 2)) {
+      setErrStack({ ...err, [Constants.TASK_DESCRIPTION]: '2' });
+    } else {
+      setErrStack({});
+    }
 
-    setErrStack(validateStack(name, value));
+    name !== Constants.TASK_DESCRIPTION && setErrStack(validateStack(name, value));
   };
 
   const handleSubmitProfile: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -122,11 +126,20 @@ export const useFormSign = (isSignUp: boolean) => {
     const formData = new FormData(e.target as HTMLFormElement);
     for (const [name, value] of formData.entries()) {
       if (typeof value === 'string') {
-        setErrStack(validateStack(name, value));
+        if (name === Constants.TASK_DESCRIPTION && (!value || value.length < 2)) {
+          setErrStack({ ...err, [Constants.TASK_DESCRIPTION]: '2' });
+        } else if (name !== Constants.TASK_DESCRIPTION) {
+          setErrStack(validateStack(name, value));
+        }
       }
     }
+
     if (!isErrCheck(err)) {
-      return Object.fromEntries(formData.entries()) as { name: string; login?: string };
+      return Object.fromEntries(formData.entries()) as {
+        name: string;
+        login?: string;
+        taskDescription?: string;
+      };
     }
   };
 

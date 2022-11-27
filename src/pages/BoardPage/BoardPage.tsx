@@ -29,7 +29,7 @@ const BoardPage = () => {
   const { id } = useParams();
   const { data: board, isLoading: isBoardLoading } = useGetBoardQuery(id as string);
   const { data: columns, isLoading: isColumnsLoading } = useGetBoardColumnsQuery(id as string);
-  const [createColumn] = useCreateColumnMutation();
+  const [createColumn, { isLoading: isColumnCreate }] = useCreateColumnMutation();
   const [updateColumnsSet] = useUpdateColumnsSetMutation();
   const [updateTaskSet] = useUpdateTasksSetMutation();
   const dispatch = useStoreDispatch();
@@ -177,6 +177,7 @@ const BoardPage = () => {
           {/* common modals */}
           <FormModal
             title={t('Add Column')}
+            loading={isColumnCreate}
             labelText={t('Column title')}
             isOpen={isFormModalCol}
             onClose={() => setFormModalCol(false)}
