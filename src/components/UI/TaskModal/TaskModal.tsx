@@ -22,10 +22,7 @@ const validator: TValidator = {
     validateMinLength(Constants.MIN_LENGTH),
     validateMaxLength(Constants.MAX_LENGTH),
   ],
-  [Constants.TASK_DESCRIPTION]: [
-    validateMinLength(Constants.MIN_LENGTH),
-    validateMaxLength(Constants.MAX_LENGTH),
-  ],
+  [Constants.TASK_DESCRIPTION]: [validateMinLength(Constants.MIN_LENGTH)],
 };
 
 interface ITaskModal {
@@ -128,6 +125,9 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
             onChange={(newValue) => {
               setValue2(newValue.target.value);
             }}
+            multiline
+            minRows={4}
+            maxRows={4}
             value={value2}
             label={t('Description')}
             error={!!errStack.taskDescription}
