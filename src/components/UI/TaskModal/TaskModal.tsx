@@ -126,6 +126,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
               setValue2(newValue.target.value);
             }}
             multiline
+            minRows={4}
             maxRows={4}
             value={value2}
             label={t('Description')}
