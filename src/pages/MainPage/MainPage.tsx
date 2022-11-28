@@ -15,7 +15,7 @@ import { Constants } from 'utils';
 import { TrashBasket } from 'components/UI/TrashBasket';
 import { useAppContext } from 'app.context';
 import { Spinner } from 'components/UI/Spinner';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { BoardModal } from 'components/BoardModal';
 import { UpdateButton } from 'components/UI/UpdateButton';
 
@@ -73,6 +73,7 @@ const MainPage = () => {
                   <CardContent>
                     <Typography
                       variant="h2"
+                      component="h1"
                       sx={{
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',

@@ -6,6 +6,9 @@ import { useFormSign } from 'hooks/formSign.hook';
 import { setMinMaxLengthError } from 'utils/helpers';
 import { ModalWindow } from '../ModalWindow';
 import { useKeyDown } from 'hooks/keydown';
+import { Constants, isErrCheck } from 'utils';
+import LoadingButton from '@mui/lab/LoadingButton';
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface FormModalProps {
   isOpen: boolean;
@@ -14,6 +17,7 @@ interface FormModalProps {
   onClose: () => void;
   onAction: (data: { name: string; login?: string } | undefined) => void;
   labelText?: string;
+  loading: boolean;
 }
 
 export const FormModal = ({
@@ -23,6 +27,7 @@ export const FormModal = ({
   description = false,
   onAction,
   labelText,
+  loading,
 }: FormModalProps) => {
   const { errStack, handleChange, getFieldsColumn } = useFormSign(false);
   const [t] = useTranslation();
@@ -48,24 +53,29 @@ export const FormModal = ({
         />
         {description && (
           <TextField
-            error={!!errStack.login}
-            name="login"
+            name={Constants.TASK_DESCRIPTION}
             fullWidth
-            label={t('Task Description')}
-            defaultValue=""
-            helperText={setMinMaxLengthError(errStack.login)}
+            multiline
+            minRows={4}
+            maxRows={4}
+            label={t('Description')}
             margin="normal"
+            error={!!errStack.taskDescription}
+            helperText={setMinMaxLengthError(errStack.taskDescription)}
           />
         )}
-        <Button
+        <LoadingButton
           type="submit"
           variant="contained"
           fullWidth
           size="large"
           sx={{ mt: 2, fontSize: { xs: 12, sm: 16 } }}
+          loading={loading}
+          disabled={isErrCheck(errStack)}
+          loadingIndicator={<CircularProgress color="primary" size={25} />}
         >
           {t('Confirm')}
-        </Button>
+        </LoadingButton>
         <Button
           color="error"
           variant="outlined"

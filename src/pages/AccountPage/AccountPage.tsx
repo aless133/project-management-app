@@ -43,7 +43,7 @@ const AccountPage = () => {
             <form onChange={handleChange} onSubmit={handleSubmitProfile}>
               <Typography
                 variant="h3"
-                component="h2"
+                component="h1"
                 align="center"
                 sx={{
                   fontSize: { xs: 22, sm: 34, md: 34, lg: 40 },

@@ -41,19 +41,19 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
     boardId: column.boardId as string,
     columnId: column._id,
   });
-  const [createTask] = useCreateTaskMutation();
+  const [createTask, { isLoading: isTasksLoading }] = useCreateTaskMutation();
   const [updateColumn] = useUpdateColumnMutation();
 
   const { confirm } = useAppContext();
   const [deleteColumn] = useDeleteColumnMutation();
 
-  const addTask = (fields: { name: string; login?: string } | undefined) => {
-    if (fields?.name && fields.login) {
+  const addTask = (fields: { name: string; taskDescription?: string } | undefined) => {
+    if (fields?.name && fields.taskDescription) {
       const order = (tasks && tasks.length) || 0;
       const data = {
         title: fields?.name,
         order,
-        description: fields.login,
+        description: fields.taskDescription,
         userId: user.id,
         users: [user.id] as string[],
       };
@@ -79,10 +79,6 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
       return await deleteColumn(data).unwrap();
     });
   };
-
-  // if (isFetching) {
-  //   return <Spinner />;
-  // }
 
   const handleSave = async (value: string) => {
     const requestObj: IColumnParams = {
@@ -165,6 +161,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
           </Button>
           <FormModal
             title="Add task"
+            loading={isTasksLoading}
             isOpen={isFormModal}
             description={true}
             onClose={() => setFormModal(false)}

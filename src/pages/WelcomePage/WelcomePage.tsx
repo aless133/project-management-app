@@ -1,4 +1,7 @@
-import { Box, Button, Link, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import React from 'react';
 import Container from '@mui/system/Container';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +63,7 @@ const WelcomePage = () => {
                   />
                   <Typography
                     variant="h2"
-                    component="h2"
+                    component="h1"
                     color="primary.main"
                     sx={{
                       textAlign: { xs: 'center', sm: 'center', md: 'start', lg: 'start' },
