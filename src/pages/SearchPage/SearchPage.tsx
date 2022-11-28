@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/system/Container';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -15,10 +15,12 @@ import { alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 import { TaskModal } from 'components/UI/TaskModal';
 import { ITaskPropsData } from 'types/taskTypes';
+import { useSearchParams } from 'react-router-dom';
 
 const SearchPage = () => {
   const [t] = useTranslation();
-  const [value, setValue] = useState<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState<string>(searchParams.get('search') || '');
   const { id } = useStoreSelector(selectUser);
   const dispatch = useStoreDispatch();
   const [skip, setSkip] = useState<boolean>(true);
@@ -34,6 +36,14 @@ const SearchPage = () => {
     order: 0,
   });
 
+  useEffect(() => {
+    if (value) {
+      setDataRequest({ userId: id, search: value });
+      setSearchParams({ search: value });
+      setSkip(false);
+    }
+  }, []);
+
   const openTaskModal = (data: ITaskPropsData) => {
     setIsOpenTaskModal(true);
     setTaskModalData(data);
@@ -48,6 +58,7 @@ const SearchPage = () => {
     try {
       if (value) {
         setDataRequest({ userId: id, search: value });
+        setSearchParams({ search: value });
         setSkip(false);
       }
     } catch (err) {

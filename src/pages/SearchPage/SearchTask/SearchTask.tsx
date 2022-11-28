@@ -5,7 +5,7 @@ import { TrashBasket } from 'components/UI/TrashBasket';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from 'app.context';
 import { Constants } from 'utils';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { UpdateButton } from 'components/UI/UpdateButton';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 
@@ -19,6 +19,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
   const { confirm } = useAppContext();
   const [deleteTask] = useDeleteTaskMutation();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleDeleteBoard = () => {
     confirm(async () => {
@@ -41,6 +42,12 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
       order: data.order,
     };
     openTaskModal(taskData);
+  };
+
+  const routToTask = () => {
+    const searchValue = searchParams.get('search');
+    setSearchParams({ search: searchValue!, taskId: data._id });
+    navigate(`${Constants.BOARD}/${data.boardId}?search=${searchValue}&taskId=${data._id}`);
   };
 
   return (
@@ -97,11 +104,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
           />
         </Box>
 
-        <Button
-          size="small"
-          sx={{ fontSize: { xs: 12, sm: 14 } }}
-          onClick={() => navigate(`${Constants.BOARD}/${data.boardId}`)}
-        >
+        <Button size="small" sx={{ fontSize: { xs: 12, sm: 14 } }} onClick={routToTask}>
           {t('View in project')}
         </Button>
       </Box>
