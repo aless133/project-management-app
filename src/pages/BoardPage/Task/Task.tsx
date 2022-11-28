@@ -81,7 +81,8 @@ export const Task = ({ task, index, loading, openTaskModal }: ITaskProps) => {
             borderRadius: 2,
             border: '.1rem solid #e8e3e3',
             backgroundColor: snapshotDragTask.isDragging ? 'rgba(233,255,255,.3)' : 'inherit',
-            animation: isAnimation ? `${myKeyframe} 2s ease-in-out` : '',
+            animation: isAnimation ? `${myKeyframe} 1.5s ease-in-out` : '',
+            animationIterationCount: 3,
           }}
         >
           <Typography variant="h6" sx={{ flex: '1 1 auto' }}>
