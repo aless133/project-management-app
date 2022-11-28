@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, keyframes, Typography } from '@mui/material';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 import { useAppContext } from 'app.context';
 import { TrashBasket } from 'components/UI/TrashBasket';
@@ -6,6 +6,7 @@ import React from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
 import { UpdateButton } from 'components/UI/UpdateButton';
+import { useSearchParams } from 'react-router-dom';
 
 interface ITaskProps {
   task: ITask;
@@ -29,6 +30,25 @@ export const Task = ({ task, index, loading, openTaskModal }: ITaskProps) => {
       return await deleteTask(data).unwrap();
     });
   };
+
+  const [searchParams] = useSearchParams();
+  const searchTaskId = searchParams.get('taskId');
+  const isAnimation = searchTaskId === task._id;
+  const myKeyframe = keyframes`
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+  10%,
+  30% {
+    transform: rotate(-10deg);
+  }
+  20%,
+  40% {
+    transform: rotate(10deg);
+  }
+`;
 
   const handleOpenTaskModal = () => {
     const taskData = {
@@ -61,6 +81,7 @@ export const Task = ({ task, index, loading, openTaskModal }: ITaskProps) => {
             borderRadius: 2,
             border: '.1rem solid #e8e3e3',
             backgroundColor: snapshotDragTask.isDragging ? 'rgba(233,255,255,.3)' : 'inherit',
+            animation: isAnimation ? `${myKeyframe} 2s ease-in-out` : '',
           }}
         >
           <Typography variant="h6" sx={{ flex: '1 1 auto' }}>
