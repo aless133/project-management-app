@@ -41,14 +41,17 @@ export const Task: FC<ITaskProps> = React.forwardRef(
   50%,
   100% {
     transform: rotate(0deg);
+    background-color: rgba(233,255,255,.6);
   }
   10%,
   30% {
     transform: rotate(-10deg);
+    background-color: rgba(233,255,255,.6);
   }
   20%,
   40% {
     transform: rotate(10deg);
+    background-color: rgba(233,255,255,.6);
   }
 `;
 
@@ -82,7 +85,7 @@ export const Task: FC<ITaskProps> = React.forwardRef(
               pl: 2,
               borderRadius: 2,
               border: '.1rem solid #e8e3e3',
-              backgroundColor: snapshotDragTask.isDragging ? 'rgba(233,255,255,.3)' : 'inherit',
+              backgroundColor: snapshotDragTask.isDragging ? 'rgba(233,255,255,.6)' : 'inherit',
               animation: isAnimation ? `${myKeyframe} 1.5s ease-in-out` : '',
               animationIterationCount: 3,
             }}

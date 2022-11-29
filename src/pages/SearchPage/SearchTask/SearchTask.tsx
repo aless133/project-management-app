@@ -5,7 +5,7 @@ import { TrashBasket } from 'components/UI/TrashBasket';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from 'app.context';
 import { Constants } from 'utils';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UpdateButton } from 'components/UI/UpdateButton';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 
@@ -19,7 +19,6 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
   const { confirm } = useAppContext();
   const [deleteTask] = useDeleteTaskMutation();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleDeleteBoard = () => {
     confirm(async () => {
@@ -45,9 +44,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
   };
 
   const routToTask = () => {
-    const searchValue = searchParams.get('search');
-    setSearchParams({ search: searchValue!, taskId: data._id });
-    navigate(`${Constants.BOARD}/${data.boardId}?search=${searchValue}&taskId=${data._id}`);
+    navigate(`${Constants.BOARD}/${data.boardId}?taskId=${data._id}`);
   };
 
   return (
