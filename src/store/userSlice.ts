@@ -18,23 +18,18 @@ const userSlice = createSlice({
   },
   reducers: {
     updateUser: (state, action) => {
-      console.log('updateUser', action.payload);
       return { ...state, ...action.payload };
     },
     setUser: (state, action) => {
-      console.log('setUser', action.payload);
       return { ...action.payload };
     },
     setToken: (state, action) => {
-      console.log('setToken', action.payload);
       return { ...parseToken(action.payload), isLogged: false, isChecked: false };
     },
     setTokenLogged: (state, action) => {
-      console.log('setTokenLogged', action.payload);
       return { ...parseToken(action.payload), isLogged: true, isChecked: true };
     },
     clearUser: () => {
-      console.log('clearUser');
       return defaultUser;
     },
   },
@@ -42,7 +37,6 @@ const userSlice = createSlice({
 
 // eslint-disable-next-line
 export const userMiddleware: Middleware = (store) => (next) => (action) => {
-  console.log(action);
   if (action.type === 'user/setToken') localStorage.setItem('userToken', action.payload);
   else if (action.type === 'user/setTokenLogged') localStorage.setItem('userToken', action.payload);
   else if (action.type === 'user/clearUser') localStorage.removeItem('userToken');
