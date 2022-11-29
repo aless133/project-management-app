@@ -1,12 +1,13 @@
-import { Box, keyframes, Typography } from '@mui/material';
-import { useDeleteTaskMutation } from 'api/tasksApiSlice';
-import { useAppContext } from 'app.context';
-import { TrashBasket } from 'components/UI/TrashBasket';
-import React, { FC } from 'react';
+import Box from '@mui/material/Box';
+import { keyframes } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import React, { FC, useState } from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
-import { UpdateButton } from 'components/UI/UpdateButton';
 import { useSearchParams } from 'react-router-dom';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { useKeyDown } from 'hooks/keydown';
+import { TaskPanel } from '../TaskPanel';
 
 interface ITaskProps {
   task: ITask;
@@ -19,19 +20,7 @@ interface ITaskProps {
 
 export const Task: FC<ITaskProps> = React.forwardRef(
   ({ task, index, loading, openTaskModal }, ref) => {
-    const { confirm } = useAppContext();
-    const [deleteTask] = useDeleteTaskMutation();
-
-    const handleDeleteTask = (taskId: string) => {
-      confirm(async () => {
-        const data = {
-          boardId: task.boardId as string,
-          columnId: task.columnId as string,
-          taskId,
-        };
-        return await deleteTask(data).unwrap();
-      });
-    };
+    const [isTaskPanel, setTaskPanel] = useState(false);
 
     const [searchParams] = useSearchParams();
     const searchTaskId = searchParams.get('taskId');
@@ -51,18 +40,7 @@ export const Task: FC<ITaskProps> = React.forwardRef(
     background-color: rgba(2, 137, 209, .3);
   }
 `;
-
-    const handleOpenTaskModal = () => {
-      const taskData = {
-        title: task.title,
-        description: task.description,
-        boardId: task.boardId,
-        columnId: task.columnId,
-        taskId: task._id,
-        order: task.order,
-      };
-      openTaskModal(taskData);
-    };
+    useKeyDown('Escape', () => setTaskPanel(false));
 
     return (
       <Draggable draggableId={task._id} key={task._id} index={index} isDragDisabled={loading}>
@@ -89,8 +67,24 @@ export const Task: FC<ITaskProps> = React.forwardRef(
             <Typography ref={ref} variant="h6" sx={{ flex: '1 1 auto' }}>
               {task.title}
             </Typography>
-            <UpdateButton onAction={handleOpenTaskModal} />
-            <TrashBasket onAction={() => handleDeleteTask(task._id)} />
+
+            <MoreHorizIcon
+              sx={{
+                padding: 1,
+                borderRadius: '50%',
+                transition: '.5s',
+                ':hover': {
+                  backgroundColor: '#ddd',
+                },
+              }}
+              onClick={() => setTaskPanel(true)}
+            />
+            <TaskPanel
+              task={task}
+              openTaskModal={openTaskModal}
+              isTaskPanel={isTaskPanel}
+              setTaskPanel={setTaskPanel}
+            />
           </Box>
         )}
       </Draggable>
