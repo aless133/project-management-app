@@ -38,20 +38,17 @@ export const Task: FC<ITaskProps> = React.forwardRef(
     const isAnimation = searchTaskId === task._id;
     const myKeyframe = keyframes`
   0%,
-  50%,
-  100% {
-    transform: rotate(0deg);
-    background-color: rgba(233,255,255,.6);
-  }
   10%,
-  30% {
-    transform: rotate(-10deg);
-    background-color: rgba(233,255,255,.6);
-  }
   20%,
-  40% {
-    transform: rotate(10deg);
-    background-color: rgba(233,255,255,.6);
+  30%,
+  40%,
+  50%,
+  60%,
+  70%,
+  80%,
+  90%,
+  100% {
+    background-color: rgba(2, 137, 209, .3);
   }
 `;
 
@@ -85,9 +82,8 @@ export const Task: FC<ITaskProps> = React.forwardRef(
               pl: 2,
               borderRadius: 2,
               border: '.1rem solid #e8e3e3',
-              backgroundColor: snapshotDragTask.isDragging ? 'rgba(233,255,255,.6)' : 'inherit',
-              animation: isAnimation ? `${myKeyframe} 1.5s ease-in-out` : '',
-              animationIterationCount: 3,
+              backgroundColor: snapshotDragTask.isDragging ? 'rgba(233,255,255,.3)' : 'inherit',
+              animation: isAnimation ? `${myKeyframe} 4s ease-in-out` : '',
             }}
           >
             <Typography ref={ref} variant="h6" sx={{ flex: '1 1 auto' }}>

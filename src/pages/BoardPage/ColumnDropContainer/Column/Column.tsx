@@ -50,23 +50,22 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
 
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTaskId = searchParams.get('taskId');
-  const searchTaskRef = useRef<HTMLButtonElement>(null);
-  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
+  const searchTaskRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     setTimeout(() => {
-      if (searchTaskRef.current && isFirstLoad) {
+      if (searchTaskRef.current) {
         searchTaskRef.current!.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
           inline: 'center',
         });
-        setIsFirstLoad(false);
-        setTimeout(() => {
-          setSearchParams({ taskId: '' });
-        }, 4000);
       }
     }, 300);
+    setTimeout(() => {
+      setSearchParams({});
+    }, 4000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addTask = (fields: { name: string; taskDescription?: string } | undefined) => {
