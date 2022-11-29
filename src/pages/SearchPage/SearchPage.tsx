@@ -42,6 +42,7 @@ const SearchPage = () => {
       setSearchParams({ search: value });
       setSkip(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openTaskModal = (data: ITaskPropsData) => {
