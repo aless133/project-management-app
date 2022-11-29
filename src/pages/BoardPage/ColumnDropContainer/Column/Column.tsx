@@ -38,7 +38,11 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
   const dispatch = useStoreDispatch();
-  const { data: tasks, isLoading } = useGetColumnTasksQuery({
+  const {
+    data: tasks,
+    isLoading,
+    isSuccess,
+  } = useGetColumnTasksQuery({
     boardId: column.boardId as string,
     columnId: column._id,
   });
@@ -53,20 +57,22 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
   const searchTaskRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (searchTaskRef.current) {
+    if (isSuccess && searchTaskRef?.current) {
+      setTimeout(() => {
         searchTaskRef.current!.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
           inline: 'center',
         });
-      }
-    }, 300);
-    setTimeout(() => {
-      setSearchParams({});
-    }, 4000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      }, 100);
+
+      const timeOutId = setTimeout(() => {
+        setSearchParams({});
+      }, 4000);
+
+      return () => clearTimeout(timeOutId);
+    }
+  }, [isSuccess, setSearchParams]);
 
   const addTask = (fields: { name: string; taskDescription?: string } | undefined) => {
     if (fields?.name && fields.taskDescription) {
