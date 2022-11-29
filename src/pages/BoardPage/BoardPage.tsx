@@ -131,7 +131,7 @@ const BoardPage = () => {
           .data as ITask[];
         const newTasks = JSON.parse(JSON.stringify(newApiTasks)) as ITask[];
         reorderTask.columnId = newDrop;
-        newTasks.splice(oldOrder, 0, reorderTask);
+        newTasks.splice(newOrder, 0, reorderTask);
 
         newTasks.forEach((e, i) => {
           e.order = i;
