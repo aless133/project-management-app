@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
@@ -48,19 +48,26 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
   const { confirm } = useAppContext();
   const [deleteColumn] = useDeleteColumnMutation();
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchTaskId = searchParams.get('taskId');
   const searchTaskRef = useRef<HTMLButtonElement>(null);
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
-  setTimeout(() => {
-    if (searchTaskRef.current) {
-      searchTaskRef.current!.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center',
-      });
-    }
-  }, 300);
+  useEffect(() => {
+    setTimeout(() => {
+      if (searchTaskRef.current && isFirstLoad) {
+        searchTaskRef.current!.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center',
+        });
+        setIsFirstLoad(false);
+        setTimeout(() => {
+          setSearchParams({ taskId: '' });
+        }, 4000);
+      }
+    }, 300);
+  }, []);
 
   const addTask = (fields: { name: string; taskDescription?: string } | undefined) => {
     if (fields?.name && fields.taskDescription) {
