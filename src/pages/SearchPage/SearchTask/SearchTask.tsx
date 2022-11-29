@@ -43,6 +43,10 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
     openTaskModal(taskData);
   };
 
+  const routToTask = () => {
+    navigate(`${Constants.BOARD}/${data.boardId}?taskId=${data._id}`);
+  };
+
   return (
     <Box
       sx={{
@@ -97,11 +101,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
           />
         </Box>
 
-        <Button
-          size="small"
-          sx={{ fontSize: { xs: 12, sm: 14 } }}
-          onClick={() => navigate(`${Constants.BOARD}/${data.boardId}`)}
-        >
+        <Button size="small" sx={{ fontSize: { xs: 12, sm: 14 } }} onClick={routToTask}>
           {t('View in project')}
         </Button>
       </Box>

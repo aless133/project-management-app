@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,7 @@ import { Task } from 'pages/BoardPage/Task';
 import { DragDrop } from 'utils/constants';
 import { useAppContext } from 'app.context';
 import { ITaskPropsData } from 'types/taskTypes';
+import { useSearchParams } from 'react-router-dom';
 
 interface IColumnProps {
   column: IColumn;
@@ -37,7 +38,11 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
   const user = useStoreSelector(selectUser);
   const [isFormModal, setFormModal] = useState(false);
   const dispatch = useStoreDispatch();
-  const { data: tasks, isLoading } = useGetColumnTasksQuery({
+  const {
+    data: tasks,
+    isLoading,
+    isSuccess,
+  } = useGetColumnTasksQuery({
     boardId: column.boardId as string,
     columnId: column._id,
   });
@@ -46,6 +51,28 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
 
   const { confirm } = useAppContext();
   const [deleteColumn] = useDeleteColumnMutation();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTaskId = searchParams.get('taskId');
+  const searchTaskRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (isSuccess && searchTaskRef?.current) {
+      setTimeout(() => {
+        searchTaskRef.current!.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center',
+        });
+      }, 100);
+
+      const timeOutId = setTimeout(() => {
+        setSearchParams({});
+      }, 4000);
+
+      return () => clearTimeout(timeOutId);
+    }
+  }, [isSuccess, setSearchParams]);
 
   const addTask = (fields: { name: string; taskDescription?: string } | undefined) => {
     if (fields?.name && fields.taskDescription) {
@@ -134,16 +161,28 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
                   tasks
                     .slice(0)
                     .sort((a, b) => a.order - b.order)
-                    .map((task, index) => (
-                      <Task
-                        key={task._id}
-                        task={task}
-                        index={index}
-                        loading={isLoading}
-                        openTaskModal={openTaskModal}
-                        onAction={() => {}}
-                      />
-                    ))}
+                    .map((task, index) =>
+                      searchTaskId === task._id ? (
+                        <Task
+                          ref={searchTaskRef}
+                          key={task._id}
+                          task={task}
+                          index={index}
+                          loading={isLoading}
+                          openTaskModal={openTaskModal}
+                          onAction={() => {}}
+                        />
+                      ) : (
+                        <Task
+                          key={task._id}
+                          task={task}
+                          index={index}
+                          loading={isLoading}
+                          openTaskModal={openTaskModal}
+                          onAction={() => {}}
+                        />
+                      )
+                    )}
                 {providedDropTask.placeholder}
               </Box>
             )}
