@@ -26,7 +26,8 @@ export const BoardHeader = ({ title, isColumns, onClick }: BoardHeaderProps) => 
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          py: 1,
+          pt: 2,
+          pb: 1,
         }}
       >
         <Button

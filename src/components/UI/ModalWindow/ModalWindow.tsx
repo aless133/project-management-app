@@ -41,7 +41,9 @@ export function ModalWindow(props: ModalWindowProps) {
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent onClick={(e) => e.stopPropagation()}>{children}</DialogContent>
+      <DialogContent sx={{ overflowX: 'hidden' }} onClick={(e) => e.stopPropagation()}>
+        {children}
+      </DialogContent>
     </WrapperTheme>
   );
 }

@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, Suspense } from 'react';
+// import React, { Suspense } from 'react';
 import { Spinner } from 'components/UI/Spinner';
 import { ProtectedRuleAuth } from './ProtectedRuleAuth';
 import { ProtectedRuleBoardOwner } from './ProtectedRuleBoardOwner';
@@ -34,7 +35,7 @@ const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => {
     <>
       {rulesElements}
       {Object.values(checks).every((v) => v) ? (
-        component
+        <Suspense fallback={<Spinner />}>{component}</Suspense>
       ) : (
         <main>
           <Spinner />

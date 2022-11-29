@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import { DragDrop } from 'utils/constants';
 import { IColumn } from 'types/columnTypes';
-import { Column } from 'pages/BoardPage/ColumnDropContainer/Column';
+import { Column } from './Column';
 import { ITaskPropsData } from 'types/taskTypes';
 import { ButtonAddColumn } from './Column/ButtonAddColumn';
 
@@ -66,7 +66,7 @@ export const ColumnDropContainer = ({
                 display: 'flex',
                 flexWrap: 'nowrap',
                 gap: 2,
-                px: 1,
+                p: 1,
                 flexDirection: 'row',
                 alignItems: 'stretch',
                 // justifyContent: 'center',
