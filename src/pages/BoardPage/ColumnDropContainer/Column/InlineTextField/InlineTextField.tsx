@@ -60,9 +60,9 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
   return (
     <Box sx={{ flex: ' 1 1 auto' }}>
       {isEditing ? (
-        <Box sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', mt: 3 }}>
           <TextField
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, mr: 1 }}
             label={label}
             variant="outlined"
             onChange={(newValue) => {
@@ -73,10 +73,32 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
             helperText={err}
             inputRef={input}
           />
-          <CheckIcon fontSize="large" sx={{ cursor: 'pointer', mb: 3 }} onClick={handleOk} />
+          <CheckIcon
+            color="action"
+            sx={{
+              cursor: 'pointer',
+              borderRadius: '50%',
+              mb: 3,
+              p: 1,
+              ':hover': {
+                color: 'primary.main',
+                backgroundColor: '#c2eafc',
+              },
+            }}
+            onClick={handleOk}
+          />
           <CloseIcon
-            fontSize="large"
-            sx={{ cursor: 'pointer', mb: 3 }}
+            color="action"
+            sx={{
+              cursor: 'pointer',
+              mb: 3,
+              p: 1,
+              borderRadius: '50%',
+              ':hover': {
+                color: '#dc5b5b',
+                backgroundColor: '#f4d8d8',
+              },
+            }}
             onClick={() => setEditing(false)}
           />
         </Box>
