@@ -72,6 +72,7 @@ export const Task: FC<ITaskProps> = React.forwardRef(
               sx={{
                 padding: 1,
                 borderRadius: '50%',
+                cursor: 'pointer',
                 transition: '.5s',
                 ':hover': {
                   backgroundColor: '#ddd',

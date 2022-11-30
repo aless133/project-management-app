@@ -64,12 +64,20 @@ export const TaskPanel = ({ task, openTaskModal, isTaskPanel, setTaskPanel }: Ta
           >
             <CloseIcon />
           </IconButton>
-          <Typography sx={{ mb: 2 }}>{t('Task Title')}</Typography>
-          <Typography variant="h5">{task.title}</Typography>
-          <Typography sx={{ my: 2 }}>{t('Task Description')}</Typography>
+          <Typography sx={{ mb: 2 }}>{t('Title')}</Typography>
+          <Typography variant="h5" component="div" sx={{ mb: 4 }}>
+            {task.title}
+          </Typography>
+          <Typography sx={{ mb: 2 }}>{t('Description')}</Typography>
           <Typography
             variant="h5"
-            sx={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word', wordBreak: 'break-word' }}
+            component="div"
+            sx={{
+              mb: 4,
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word',
+              wordBreak: 'break-word',
+            }}
           >
             {task.description}
           </Typography>
