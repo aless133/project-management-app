@@ -1,8 +1,6 @@
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
 import CloseIcon from '@mui/icons-material/Close';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { TrashBasket } from 'components/UI/TrashBasket';
 import { UpdateButton } from 'components/UI/UpdateButton';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
@@ -50,14 +48,9 @@ export const TaskPanel = ({ task, openTaskModal, isTaskPanel, setTaskPanel }: Ta
       anchor="right"
       open={isTaskPanel}
       onClick={() => setTaskPanel(false)}
-      PaperProps={{
-        sx: {
-          backgroundColor: 'rgba(233,255,255,.5)',
-        },
-      }}
       disableEscapeKeyDown
     >
-      <Card sx={{ width: { xs: 300 }, m: { md: 2 }, p: 2 }}>
+      <Card sx={{ width: { xs: 300, lg: 500 }, boxShadow: 'none', pl: 1 }}>
         <CardContent sx={{ mt: 4 }}>
           <IconButton
             aria-label="close"
@@ -71,25 +64,15 @@ export const TaskPanel = ({ task, openTaskModal, isTaskPanel, setTaskPanel }: Ta
           >
             <CloseIcon />
           </IconButton>
+          <Typography sx={{ mb: 2 }}>{t('Task Title')}</Typography>
+          <Typography variant="h5">{task.title}</Typography>
+          <Typography sx={{ my: 2 }}>{t('Task Description')}</Typography>
           <Typography
-            sx={{ mb: 2, p: 1, backgroundColor: '#ddd', borderRadius: 0.6 }}
-            color="text.secondary"
-            gutterBottom
+            variant="h5"
+            sx={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word', wordBreak: 'break-word' }}
           >
-            <TextSnippetIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-            {t('Task Title')}
+            {task.description}
           </Typography>
-          <Typography variant="h5" component="div">
-            {task.title}
-          </Typography>
-          <Typography
-            sx={{ my: 2, p: 1, backgroundColor: '#ddd', borderRadius: 0.6 }}
-            color="text.secondary"
-          >
-            <PlaylistAddCheckIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-            {t('Task Description')}
-          </Typography>
-          <Typography variant="h5">{task.description}</Typography>
         </CardContent>
         <CardActions>
           <UpdateButton onAction={handleOpenTaskModal} />
