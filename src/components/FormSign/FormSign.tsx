@@ -28,7 +28,7 @@ export const FormSign = ({ isSignUp = true }) => {
     <main style={{ display: 'flex', alignItems: 'center' }}>
       <Container maxWidth="xl" sx={{ height: '100%' }}>
         <Grid container direction="row" justifyContent="center" alignItems="center">
-          <Grid item xl={4}>
+          <Grid item xl={3}>
             <form onSubmit={handleSubmit} onChange={handleChange}>
               <Typography variant="h3" component="h1" align="center">
                 {isSignUp ? t('Sign Up') : t('Sign In')}
