@@ -149,7 +149,7 @@ const BoardPage = () => {
   };
 
   return (
-    <Box component="main" className="has-loader h100-f">
+    <Box component="main" className="has-loader h100-f" sx={{ pb: 2 }}>
       {isLoading() ? (
         <Spinner />
       ) : (
