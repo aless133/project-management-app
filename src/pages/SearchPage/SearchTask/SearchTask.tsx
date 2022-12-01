@@ -8,6 +8,7 @@ import { Constants } from 'utils';
 import { useNavigate } from 'react-router-dom';
 import { UpdateButton } from 'components/UI/UpdateButton';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
+import Paper from '@mui/material/Paper';
 
 interface ISearchTaskProps {
   data: ISearchTaskData;
@@ -48,7 +49,8 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
   };
 
   return (
-    <Box
+    <Paper
+      elevation={3}
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -58,7 +60,6 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
         flexShrink: 0,
         p: { xs: 1, sm: 2 },
         borderRadius: 2,
-        border: '.1rem solid #e8e3e3',
       }}
     >
       <Box
@@ -105,6 +106,6 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
           {t('View in project')}
         </Button>
       </Box>
-    </Box>
+    </Paper>
   );
 };
