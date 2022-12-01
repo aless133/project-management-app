@@ -37,9 +37,9 @@ export const setMinMaxLengthError = (len: string): string => {
     return i18next.t('can not be less than {{len}} characters', { len });
   } else if (len === Constants.MAX_LENGTH) {
     return i18next.t('can not be larger than {{len}} characters', { len });
-  } else if (len === Constants.PASSWORD_RULE) {
+  } else if (len && len.includes(Constants.PASSWORD_RULE)) {
     return t('The password must contain only a-z, A-Z, 0-9');
-  } else if (len === Constants.LOGIN_RULE) {
+  } else if (len && len.includes(Constants.LOGIN_RULE)) {
     return t('The login must contain only a-z, A-Z, 0-9, -, _');
   }
   return ' ';
