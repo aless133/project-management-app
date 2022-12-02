@@ -60,7 +60,7 @@ const MainPage = () => {
           openModal={openModal}
           closeModal={handleCloseBoardModal}
         />
-        <Grid container gap={4} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
+        <Grid container spacing={3} justifyContent="center" alignItems="center" sx={{ mt: 8 }}>
           {boards && boards.length ? (
             boards.map((board) => (
               <Grid key={board._id} item xs={12} sm={4} md={3}>
@@ -73,11 +73,12 @@ const MainPage = () => {
                   <CardContent>
                     <Typography
                       variant="h2"
-                      component="h1"
+                      component="h2"
                       sx={{
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
+                        fontSize: { xs: 30, sm: 30, md: 40, lg: 60 },
                       }}
                     >
                       {board.title}
@@ -90,13 +91,16 @@ const MainPage = () => {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 1 }}>
+                    <Box
+                      sx={{ display: 'flex', alignItems: 'center', columnGap: { sm: 0, md: 1 } }}
+                    >
                       <UpdateButton onAction={() => handleOpenBoardModal(board._id, board.title)} />
                       <TrashBasket onAction={() => handleDeleteBoard(board._id)} />
                     </Box>
 
                     <Button
                       size="small"
+                      sx={{ fontSize: { sm: 10, md: 13 } }}
                       onClick={() => navigate(`${Constants.BOARD}/${board._id}`)}
                     >
                       {t('View tasks')}
