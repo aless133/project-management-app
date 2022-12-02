@@ -5,7 +5,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 export const Footer = () => {
   return (
-    <Paper component="footer" sx={{ backgroundColor: 'primary.main', /* mt: 5,*/ borderRadius: 0 }}>
+    <Paper component="footer" sx={{ backgroundColor: 'primary.main', borderRadius: 0 }}>
       <Container maxWidth={'xl'}>
         <Box
           sx={{
@@ -34,8 +34,8 @@ export const Footer = () => {
           <Box
             sx={{
               display: 'flex',
-              gap: { xs: 1, md: 3, lb: 3 },
-              flexDirection: { xs: 'column', md: 'row', lb: 'row' },
+              gap: { xs: 1, sm: 3 },
+              flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
             <Link
@@ -49,8 +49,8 @@ export const Footer = () => {
                 textDecoration: 'none',
               }}
             >
-              <GitHubIcon color="secondary" sx={{ mr: 1 }} />
-              <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
+              <GitHubIcon color="secondary" sx={{ mr: { xs: 0.5, sm: 1 } }} />
+              <Typography variant="h6" component="span" sx={{ fontSize: { xs: 14, sm: 16 } }}>
                 aless133
               </Typography>
             </Link>
@@ -66,8 +66,8 @@ export const Footer = () => {
                 textDecoration: 'none',
               }}
             >
-              <GitHubIcon color="secondary" sx={{ mr: 1 }} />
-              <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
+              <GitHubIcon color="secondary" sx={{ mr: { xs: 0.5, sm: 1 } }} />
+              <Typography variant="h6" component="span" sx={{ fontSize: { xs: 14, sm: 16 } }}>
                 PartyZzzan77
               </Typography>
             </Link>
@@ -83,8 +83,8 @@ export const Footer = () => {
                 textDecoration: 'none',
               }}
             >
-              <GitHubIcon color="secondary" sx={{ mr: 1 }} />
-              <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
+              <GitHubIcon color="secondary" sx={{ mr: { xs: 0.5, sm: 1 } }} />
+              <Typography variant="h6" component="span" sx={{ fontSize: { xs: 14, sm: 16 } }}>
                 DimaTeniuta
               </Typography>
             </Link>
@@ -92,7 +92,7 @@ export const Footer = () => {
 
           <Box sx={{ display: 'flex', alignItems: 'center', columnGap: 4 }}>
             <Typography variant="h6" component="span" sx={{ fontSize: 16 }}>
-              &copy;2022
+              &copy; 2022
             </Typography>
 
             <Box sx={{ display: { xs: 'block', md: 'none', lb: 'none' } }}>

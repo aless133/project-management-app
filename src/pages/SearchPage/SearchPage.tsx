@@ -69,7 +69,7 @@ const SearchPage = () => {
 
   return (
     <main>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ pb: 2 }}>
         <Box sx={{ maxWidth: 'sm', mx: 'auto', mt: 2 }}>
           <form onSubmit={handleSubmit}>
             <Typography variant="h4" component="h1" align="center">
@@ -97,7 +97,7 @@ const SearchPage = () => {
                 fullWidth
                 size="large"
                 sx={{
-                  maxWidth: { xs: 50, sm: 100, md: 100, lg: 100 },
+                  maxWidth: { xs: 50, sm: 100 },
                   mt: '16px',
                   mb: '8px',
                 }}

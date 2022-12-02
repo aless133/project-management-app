@@ -26,7 +26,7 @@ export const FormSign = ({ isSignUp = true }) => {
 
   return (
     <main style={{ display: 'flex', alignItems: 'center' }}>
-      <Container maxWidth="xl" sx={{ height: '100%' }}>
+      <Container maxWidth="xl" sx={{ height: '100%', pb: 2 }}>
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Grid item xl={4}>
             <form onSubmit={handleSubmit} onChange={handleChange}>

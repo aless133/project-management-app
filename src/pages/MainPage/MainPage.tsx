@@ -52,7 +52,7 @@ const MainPage = () => {
 
   return (
     <main>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ pb: 2 }}>
         <BoardModal
           mode="update"
           boardId={boardId}
