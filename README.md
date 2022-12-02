@@ -21,10 +21,6 @@ login: admin;
 password: 12345678;
 ```
 
-### Review video 📺
-
-[![Review video](https://i.postimg.cc/LsBDPTpn/Screenshot-2022-12-02-at-12-50-16.png)](https://youtu.be/tA07nc5kTtc)
-
 ### Team
 
 👨🏻‍🎓 [aless133](https://github.com/aless133) **Team Lead**\
