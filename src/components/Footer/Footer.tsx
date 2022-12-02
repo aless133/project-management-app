@@ -49,7 +49,7 @@ export const Footer = () => {
                 textDecoration: 'none',
               }}
             >
-              <GitHubIcon color="secondary" sx={{ mr: 1 }} />
+              <GitHubIcon color="secondary" sx={{ mr: { xs: 0.5, sm: 1 } }} />
               <Typography variant="h6" component="span" sx={{ fontSize: { xs: 14, sm: 16 } }}>
                 aless133
               </Typography>
@@ -66,7 +66,7 @@ export const Footer = () => {
                 textDecoration: 'none',
               }}
             >
-              <GitHubIcon color="secondary" sx={{ mr: 1 }} />
+              <GitHubIcon color="secondary" sx={{ mr: { xs: 0.5, sm: 1 } }} />
               <Typography variant="h6" component="span" sx={{ fontSize: { xs: 14, sm: 16 } }}>
                 PartyZzzan77
               </Typography>
@@ -83,7 +83,7 @@ export const Footer = () => {
                 textDecoration: 'none',
               }}
             >
-              <GitHubIcon color="secondary" sx={{ mr: 1 }} />
+              <GitHubIcon color="secondary" sx={{ mr: { xs: 0.5, sm: 1 } }} />
               <Typography variant="h6" component="span" sx={{ fontSize: { xs: 14, sm: 16 } }}>
                 DimaTeniuta
               </Typography>
