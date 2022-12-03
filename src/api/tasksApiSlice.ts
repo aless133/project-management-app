@@ -15,7 +15,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       transformResponse: (responseData: ITask[]) => {
         return responseData.sort((a, b) => a.order - b.order);
       },
-      providesTags: (result, err, arg) => [
+      providesTags: (result, _err, arg) => [
         { type: 'ColumnTasks', id: arg.columnId },
         ...(result ? result!.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : []),
       ],
@@ -27,7 +27,9 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'ColumnTasks' as const, id: arg.columnId }],
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'ColumnTasks' as const, id: arg.columnId },
+      ],
     }),
 
     updateTask: builder.mutation<ITask, ITaskParams>({
@@ -36,7 +38,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
 
     updateTasksSet: builder.mutation<IUpdatedTask[], IOrderTaskParams>({
@@ -63,7 +65,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
           patchResults.forEach((pr) => pr.undo());
         }
       },
-      invalidatesTags: (result, error, arg) =>
+      invalidatesTags: (_result, _error, arg) =>
         arg.invalidate.map((columnId) => ({ type: 'ColumnTasks' as const, id: columnId })),
     }),
 
@@ -72,12 +74,14 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
     }),
 
     getTasksSet: builder.query<ISearchTaskData[], ISearchTask>({
       query: ({ userId, search }) =>
-        `/tasksSet?userid=${userId}&search=${encodeURIComponent(search)}`,
+        `/tasksSet?userId=${userId}&search=${encodeURIComponent(search)}`,
+      transformResponse: (response: ISearchTaskData[], _meta, arg) =>
+        response.filter((task) => task.userId === arg.userId),
       providesTags: (result) =>
         result ? result.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : [],
     }),
