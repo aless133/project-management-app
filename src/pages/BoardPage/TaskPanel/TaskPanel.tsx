@@ -74,6 +74,8 @@ export const TaskPanel = ({ task, openTaskModal, isTaskPanel, setTaskPanel }: Ta
             component="div"
             sx={{
               mb: 4,
+              maxHeight: '50vh',
+              overflowY: 'auto',
               whiteSpace: 'pre-wrap',
               wordWrap: 'break-word',
               wordBreak: 'break-word',
