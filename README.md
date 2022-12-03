@@ -4,7 +4,17 @@
 
 **It is a project management tool that helps to visualize tasks, limit the amount of work in progress and achieve maximum efficiency.**
 
-## To start application, do this 💻 👇🏻
+---
+
+### [Deploy](https://rs-pma.netlify.app/)
+
+**Front** 🧙🏻‍♂️ [Netlify](https://www.netlify.com/) **service for publishing and hosting static sites**
+
+**Back** 🪄 [Render](https://pma-back.onrender.com/api-docs/) + 📚 [MongoDB](https://www.mongodb.com/)
+
+---
+
+### To start application, do this 💻 👇🏻
 
 ```js
 git clone git@github.com:aless133/project-management-app.git
@@ -17,8 +27,8 @@ npm start
 ### Test account
 
 ```js
-login: admin;
-password: 12345678;
+login: admin
+password: 12345678
 ```
 
 ### Team
@@ -49,11 +59,19 @@ password: 12345678;
 
 ---
 
+🔎 [i18next-scanner](https://github.com/i18next/i18next-scanner) **Scan your code, extract translation keys/values, and merge them into i18n resource files**
+
+---
+
 ✋🏻 [react-beautiful-dnd](https://egghead.io/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd) **Beautiful and accessible drag and drop for lists with React**
 
 ---
 
 🎨 [Mui/material](https://mui.com/) **Popular library of ready-made components**
+
+---
+
+🎨 [Sass](https://mui.com/) **Sass is the most mature, stable, and powerful professional grade CSS extension language in the world**
 
 ---
 
@@ -66,14 +84,6 @@ password: 12345678;
 ---
 
 🦆 [Typescript](https://www.typescriptlang.org/) **Great solution for stricter typing**
-
----
-
-#### [Deploy](https://rs-pma.netlify.app/)
-
-**Front** 🧙🏻‍♂️ [Netlify](https://www.netlify.com/) **service for publishing and hosting static sites**
-
-**Back** 🪄 [Render](https://pma-back.onrender.com/api-docs/) + 📚 [MongoDB](https://www.mongodb.com/)
 
 ---
 
@@ -96,7 +106,7 @@ password: 12345678;
 
 ### [Develop branch ☘️](https://github.com/aless133/project-management-app/tree/develop)
 
-**Commits ~531**
+**Commits ~533**
 **Pull Requests ~99**
 
 [![Activity](https://i.postimg.cc/LsBDPTpn/Screenshot-2022-12-02-at-12-50-16.png)](https://youtu.be/tA07nc5kTtc)
