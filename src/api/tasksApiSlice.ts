@@ -27,7 +27,10 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'ColumnTasks' as const, id: arg.columnId }],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'ColumnTasks' as const, id: arg.columnId },
+        'TasksSearch',
+      ],
     }),
 
     updateTask: builder.mutation<ITask, ITaskParams>({
@@ -38,7 +41,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: 'Task' as const, id: arg.taskId },
-        { type: 'TasksSearch' as const, id: arg.taskId },
+        'TasksSearch',
       ],
     }),
 
@@ -77,7 +80,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: 'Task' as const, id: arg.taskId },
-        { type: 'TasksSearch' as const, id: arg.taskId },
+        'TasksSearch',
       ],
     }),
 
@@ -91,8 +94,8 @@ const extendedApiSlice = apiSlice.injectEndpoints({
             (task.title.toUpperCase().includes(arg.search.toUpperCase()) ||
               task.description.toUpperCase().includes(arg.search.toUpperCase()))
         ),
-      providesTags: (result) =>
-        result ? result.map(() => ({ type: 'TasksSearch' as const })) : [],
+      providesTags: (result, error, arg) =>
+        result ? [{ type: 'TasksSearch' as const, id: arg.search }] : [],
     }),
   }),
 });
