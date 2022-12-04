@@ -21,7 +21,7 @@ import {
   DraggableStateSnapshot,
 } from 'react-beautiful-dnd';
 import { Task } from 'pages/BoardPage/Task';
-import { Constants, DragDrop } from 'utils/constants';
+import { DragDrop } from 'utils/constants';
 import { useAppContext } from 'app.context';
 import { ITaskPropsData } from 'types/taskTypes';
 import { useSearchParams } from 'react-router-dom';
@@ -80,7 +80,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
       const data = {
         title: fields?.name,
         order,
-        description: fields.taskDescription || Constants.TASK_NO_DESCRIPTION,
+        description: fields.taskDescription || ' ',
         userId: user.id,
         users: [user.id] as string[],
       };

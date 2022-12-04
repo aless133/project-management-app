@@ -82,7 +82,7 @@ export const SearchTask: FC<ISearchTaskProps> = ({ data, openTaskModal }) => {
             wordBreak: 'break-word',
           }}
         >
-          {t(data.description)}
+          {data.description}
         </Box>
       </Box>
       <Box

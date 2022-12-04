@@ -4,10 +4,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TrashBasket } from 'components/UI/TrashBasket';
 import { UpdateButton } from 'components/UI/UpdateButton';
 import { ITask, ITaskPropsData } from 'types/taskTypes';
-import { Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import { useDeleteTaskMutation } from 'api/tasksApiSlice';
 import { useAppContext } from 'app.context';
 import { useTranslation } from 'react-i18next';
+import { Constants } from 'utils';
 
 interface TaskPanelProps {
   task: ITask;
@@ -81,7 +86,16 @@ export const TaskPanel = ({ task, openTaskModal, isTaskPanel, setTaskPanel }: Ta
               wordBreak: 'break-word',
             }}
           >
-            {t(task.description)}
+            {task.description === ' ' ? (
+              <Typography
+                component="div"
+                sx={{ opacity: '0.7', fontSize: '.9rem', fontStyle: 'italic' }}
+              >
+                {t(Constants.TASK_NO_DESCRIPTION)}
+              </Typography>
+            ) : (
+              task.description
+            )}
           </Typography>
         </CardContent>
         <CardActions>
