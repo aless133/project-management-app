@@ -82,7 +82,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
           data: {
             title: value1,
             order: data.order,
-            description: value2 || 'No description provided',
+            description: value2 || Constants.TASK_NO_DESCRIPTION,
             columnId: data.columnId,
             userId: id,
             users: [],

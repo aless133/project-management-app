@@ -8,6 +8,7 @@ export enum Constants {
   REQUIRED_LENGTH = '0',
   TASK_TITLE = 'taskTitle',
   TASK_DESCRIPTION = 'taskDescription',
+  TASK_NO_DESCRIPTION = 'No description provided',
   PASSWORD_RULE = 'password',
   LOGIN_RULE = 'login',
   //routs
