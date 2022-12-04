@@ -27,8 +27,8 @@ npm start
 ### Test account
 
 ```js
-login: admin;
-password: 12345678;
+login: admin
+password: 12345678
 ```
 
 ### Team
