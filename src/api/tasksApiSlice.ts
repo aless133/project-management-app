@@ -36,7 +36,10 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Task' as const, id: arg.taskId },
+        { type: 'TasksSearch' as const, id: arg.taskId },
+      ],
     }),
 
     updateTasksSet: builder.mutation<IUpdatedTask[], IOrderTaskParams>({
@@ -72,14 +75,24 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Task' as const, id: arg.taskId }],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Task' as const, id: arg.taskId },
+        { type: 'TasksSearch' as const, id: arg.taskId },
+      ],
     }),
 
     getTasksSet: builder.query<ISearchTaskData[], ISearchTask>({
       query: ({ userId, search }) =>
-        `/tasksSet?userid=${userId}&search=${encodeURIComponent(search)}`,
+        `/tasksSet?userId=${userId}&search=${encodeURIComponent(search)}`,
+      transformResponse: (response: ISearchTaskData[], meta, arg) =>
+        response.filter(
+          (task) =>
+            task.userId === arg.userId &&
+            (task.title.toUpperCase().includes(arg.search.toUpperCase()) ||
+              task.description.toUpperCase().includes(arg.search.toUpperCase()))
+        ),
       providesTags: (result) =>
-        result ? result.map(({ _id }) => ({ type: 'Task' as const, id: _id })) : [],
+        result ? result.map(() => ({ type: 'TasksSearch' as const })) : [],
     }),
   }),
 });
