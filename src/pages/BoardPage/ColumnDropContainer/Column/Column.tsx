@@ -75,12 +75,12 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
   }, [isSuccess, setSearchParams]);
 
   const addTask = (fields: { name: string; taskDescription?: string } | undefined) => {
-    if (fields?.name && fields.taskDescription) {
+    if (fields?.name) {
       const order = (tasks && tasks.length) || 0;
       const data = {
         title: fields?.name,
         order,
-        description: fields.taskDescription,
+        description: fields.taskDescription || ' ',
         userId: user.id,
         users: [user.id] as string[],
       };
