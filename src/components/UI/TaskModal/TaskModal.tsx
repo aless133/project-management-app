@@ -16,7 +16,6 @@ import { getErrorMessage, setMinMaxLengthError } from 'utils/helpers';
 
 const err: TErr = {
   [Constants.TASK_TITLE]: '',
-  //  [Constants.TASK_DESCRIPTION]: '',
 };
 
 const validator: TValidator = {
@@ -24,7 +23,6 @@ const validator: TValidator = {
     validateMinLength(Constants.MIN_LENGTH),
     validateMaxLength(Constants.MAX_LENGTH),
   ],
-  //  [Constants.TASK_DESCRIPTION]: [validateMinLength(Constants.MIN_LENGTH)],
 };
 
 interface ITaskModal {
@@ -84,7 +82,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
           data: {
             title: value1,
             order: data.order,
-            description: value2 || t('No description provided'),
+            description: value2 || 'No description provided',
             columnId: data.columnId,
             userId: id,
             users: [],
@@ -122,7 +120,6 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
             margin="normal"
           />
           <TextField
-            // name={Constants.TASK_DESCRIPTION}
             fullWidth
             onChange={(newValue) => {
               setValue2(newValue.target.value);
@@ -130,10 +127,8 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
             multiline
             minRows={4}
             maxRows={4}
-            value={value2}
+            value={t(value2)}
             label={t('Description')}
-            // error={!!errStack.taskDescription}
-            // helperText={setMinMaxLengthError(errStack.taskDescription)}
             margin="normal"
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: 2 }}>

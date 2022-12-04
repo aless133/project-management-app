@@ -81,7 +81,7 @@ export const TaskPanel = ({ task, openTaskModal, isTaskPanel, setTaskPanel }: Ta
               wordBreak: 'break-word',
             }}
           >
-            {task.description}
+            {t(task.description)}
           </Typography>
         </CardContent>
         <CardActions>

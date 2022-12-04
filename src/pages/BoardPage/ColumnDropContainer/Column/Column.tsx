@@ -80,7 +80,7 @@ export const Column: FC<IColumnProps> = ({ column, loading, openTaskModal, index
       const data = {
         title: fields?.name,
         order,
-        description: fields.taskDescription || (t('No description provided') as string),
+        description: fields.taskDescription || 'No description provided',
         userId: user.id,
         users: [user.id] as string[],
       };
