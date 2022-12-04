@@ -60,8 +60,8 @@ export const FormModal = ({
             maxRows={4}
             label={t('Description')}
             margin="normal"
-            error={!!errStack.taskDescription}
-            helperText={setMinMaxLengthError(errStack.taskDescription)}
+            // error={!!errStack.taskDescription}
+            // helperText={setMinMaxLengthError(errStack.taskDescription)}
           />
         )}
         <LoadingButton

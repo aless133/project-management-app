@@ -89,11 +89,6 @@ export const useFormSign = (isSignUp: boolean) => {
 
   const handleChange: React.FormEventHandler<HTMLFormElement> = (e) => {
     const { name, value } = e.target as HTMLInputElement;
-    if (name === Constants.TASK_DESCRIPTION && (!value || value.length < 2)) {
-      setErrStack({ ...err, [Constants.TASK_DESCRIPTION]: '2' });
-    } else {
-      setErrStack({});
-    }
 
     name !== Constants.TASK_DESCRIPTION && setErrStack(validateStack(name, value));
   };
@@ -126,11 +121,7 @@ export const useFormSign = (isSignUp: boolean) => {
     const formData = new FormData(e.target as HTMLFormElement);
     for (const [name, value] of formData.entries()) {
       if (typeof value === 'string') {
-        if (name === Constants.TASK_DESCRIPTION && (!value || value.length < 2)) {
-          setErrStack({ ...err, [Constants.TASK_DESCRIPTION]: '2' });
-        } else if (name !== Constants.TASK_DESCRIPTION) {
-          setErrStack(validateStack(name, value));
-        }
+        name !== Constants.TASK_DESCRIPTION && setErrStack(validateStack(name, value));
       }
     }
 
