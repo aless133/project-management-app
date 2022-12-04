@@ -85,9 +85,14 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       query: ({ userId, search }) =>
         `/tasksSet?userId=${userId}&search=${encodeURIComponent(search)}`,
       transformResponse: (response: ISearchTaskData[], meta, arg) =>
-        response.filter((task) => task.userId === arg.userId),
+        response.filter(
+          (task) =>
+            task.userId === arg.userId &&
+            (task.title.toUpperCase().includes(arg.search.toUpperCase()) ||
+              task.description.toUpperCase().includes(arg.search.toUpperCase()))
+        ),
       providesTags: (result) =>
-        result ? result.map(({ _id }) => ({ type: 'TasksSearch' as const, id: _id })) : [],
+        result ? result.map(() => ({ type: 'TasksSearch' as const })) : [],
     }),
   }),
 });
