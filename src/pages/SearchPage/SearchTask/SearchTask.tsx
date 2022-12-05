@@ -1,4 +1,5 @@
-import { Box, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import React, { FC } from 'react';
 import { ISearchTaskData, ITaskPropsData } from 'types/taskTypes';
 import { TrashBasket } from 'components/UI/TrashBasket';

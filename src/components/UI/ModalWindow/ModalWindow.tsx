@@ -4,7 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 
 export interface ModalWindowProps {
   children: React.ReactNode;
