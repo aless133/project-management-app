@@ -14,7 +14,7 @@
 
 ---
 
-### To start application, do this 💻 👇🏻
+### To start application locally, do this 💻 👇🏻
 
 ```js
 git clone git@github.com:aless133/project-management-app.git
@@ -87,6 +87,12 @@ password: 12345678
 
 ---
 
+### Review video 📺
+
+[![Review video](https://i.postimg.cc/MKhDsrjK/Screenshot-2022-12-04-at-22-59-38.png)](https://www.youtube.com/watch?v=eDto5NSXnoc)
+
+---
+
 ### Screenshots 🎆 🎇 🌅
 
 [![Welcome page](https://i.postimg.cc/pdzhNHzh/Screenshot-2022-12-02-at-11-32-22.png)](https://postimg.cc/PLfrZ06T)
@@ -106,7 +112,7 @@ password: 12345678
 
 ### [Develop branch ☘️](https://github.com/aless133/project-management-app/tree/develop)
 
-**Commits ~533**
-**Pull Requests ~99**
+**Commits ~545**\
+**Pull Requests ~103**
 
 [![Activity](https://i.postimg.cc/LsBDPTpn/Screenshot-2022-12-02-at-12-50-16.png)](https://youtu.be/tA07nc5kTtc)
