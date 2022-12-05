@@ -39,15 +39,6 @@ export const ColumnDropContainer = ({
         sx={{
           position: 'relative',
           mx: 'auto',
-          // display: 'flex',
-          // flexWrap: 'nowrap',
-          // gap: 2,
-          // p: 1,
-          // flexDirection: 'row',
-          // alignItems: 'top',
-          // justifyContent: 'center',
-          // maxWidth: '100%',
-          // overflowX: 'auto',
         }}
       >
         <Droppable
@@ -69,9 +60,6 @@ export const ColumnDropContainer = ({
                 p: 1,
                 flexDirection: 'row',
                 alignItems: 'stretch',
-                // justifyContent: 'center',
-                // maxWidth: '100%',
-                // overflowX: 'auto',
               }}
             >
               {columns

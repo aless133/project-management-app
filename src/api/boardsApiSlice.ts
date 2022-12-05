@@ -51,5 +51,3 @@ export const {
   useGetUserBoardsQuery,
   useGetBoardQuery,
 } = extendedApiSlice;
-
-// export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()

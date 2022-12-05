@@ -107,10 +107,6 @@ export const InlineTextField = ({ label, value, handleSave }: IInlineTextFieldPr
           variant="h5"
           sx={{
             p: 1,
-            // fontSize: 28,
-            // whiteSpace: 'nowrap',
-            // overflow: 'hidden',
-            // textOverflow: 'ellipsis',
             ':hover': {
               cursor: 'pointer',
             },
