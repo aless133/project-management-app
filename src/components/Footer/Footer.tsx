@@ -1,4 +1,7 @@
-import { Box, Link, Typography, Paper } from '@mui/material';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import Container from '@mui/system/Container';
 import React from 'react';
 import GitHubIcon from '@mui/icons-material/GitHub';
