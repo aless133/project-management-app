@@ -15,7 +15,7 @@ import {
   useCreateColumnMutation,
   useGetBoardColumnsQuery,
   useUpdateColumnsSetMutation,
-} from 'api/columnsApiSlice'; //useCreateColumnMutation,
+} from 'api/columnsApiSlice';
 import { DragDrop } from 'utils/constants';
 
 import { useLazyGetColumnTasksQuery, useUpdateTasksSetMutation } from 'api/tasksApiSlice';

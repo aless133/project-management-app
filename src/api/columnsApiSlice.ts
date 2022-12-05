@@ -1,7 +1,5 @@
 import { apiSlice } from './apiSlice';
 import { IColumn, IColumnParams, IOrderColumnParams } from 'types/columnTypes';
-// import { TApiTag } from 'types';
-// import type { TagDescription } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -59,7 +57,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: 'BoardColumns', id: arg.boardId }],
-      // invalidatesTags: ['BoardColumns'],
     }),
 
     deleteColumn: builder.mutation<IColumn, IColumnParams>({
@@ -74,12 +71,8 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useCreateColumnMutation,
-  // useDeleteBoardMutation,
   useDeleteColumnMutation,
   useGetBoardColumnsQuery,
   useUpdateColumnsSetMutation,
-  // useGetBoardQuery,
   useUpdateColumnMutation,
 } = extendedApiSlice;
-
-// export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()

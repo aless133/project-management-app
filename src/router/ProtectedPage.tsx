@@ -17,7 +17,6 @@ const ProtectedPage: FC<IProtectedPageProps> = ({ rules, component }) => {
     checks0[item + '_' + i] = false;
   });
   const [checks, setChecks] = useState<TChecks>({ ...checks0 });
-  // const checks: TChecks = {};
 
   const rulesElements: React.ReactElement[] = [];
   rules.forEach((item, i) => {

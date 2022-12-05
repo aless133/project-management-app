@@ -16,7 +16,6 @@ export const useAppContext = () => {
 export function AppContextProvider({ children }: { children: React.ReactNode }) {
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const onAction = useRef<TFnVoid>(() => {});
-  // const fn = useRef();
 
   const confirm = useCallback(
     (fn: TFnVoid) => {

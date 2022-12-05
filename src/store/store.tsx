@@ -12,7 +12,6 @@ import { clearUser } from 'store/userSlice';
 export const apiErrorMiddleware: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
   if (isRejectedWithValue(action)) {
     if (action.type.startsWith('api/') && action.payload.status == 403) {
-      //console.log('apiErrorMiddleware 403 detected, dispatch clearUser');
       api.dispatch(clearUser());
     }
   }
@@ -33,7 +32,6 @@ const store = configureStore({
       .concat(apiSlice.middleware),
 });
 
-// export interface IStoreState = ReturnType<typeof store.getState>;
 export type TStoreDispatch = typeof store.dispatch;
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {

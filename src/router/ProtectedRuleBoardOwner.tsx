@@ -9,11 +9,6 @@ import { useGetBoardQuery } from 'api/boardsApiSlice';
 import { alertError } from 'store/uiSlice';
 import { getErrorMessage } from 'utils/helpers';
 
-//nothing to add
-// interface IProtectedRuleBoardOwner extends IProtectedRuleProps {
-//   // userType: string;
-// }
-
 export const ProtectedRuleBoardOwner: FC<IProtectedRuleProps> = ({ setCheck }) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -23,7 +18,6 @@ export const ProtectedRuleBoardOwner: FC<IProtectedRuleProps> = ({ setCheck }) =
 
   useEffect(() => {
     if (isSuccess) {
-      //have wait for user
       if (!!user && !!user.id && user.isChecked) {
         if (board.owner !== user.id) {
           navigate(Constants.MAIN, { replace: true });

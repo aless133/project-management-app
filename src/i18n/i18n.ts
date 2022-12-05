@@ -13,7 +13,6 @@ i18n
     },
     supportedLngs: [Languages.LANG0, Languages.LANG1],
     fallbackLng: Languages.LANG0,
-    // debug: true,
     detection: {
       order: ['cookie'],
       caches: ['cookie'],

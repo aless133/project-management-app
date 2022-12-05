@@ -20,5 +20,3 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 });
 
 export const { useSignUpMutation, useSignInMutation } = extendedApiSlice;
-
-// export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()

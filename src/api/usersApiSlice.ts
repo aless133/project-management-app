@@ -1,4 +1,3 @@
-// import { IBoardResponse, IUpdatedUser } from 'types';
 import { IApiUser, IApiUserParams } from 'types/usersTypes';
 import { apiSlice } from './apiSlice';
 
@@ -34,5 +33,3 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
 } = extendedApiSlice;
-
-// export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select()
