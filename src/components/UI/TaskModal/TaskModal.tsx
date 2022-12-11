@@ -51,7 +51,8 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
 
   const handleChange: React.ChangeEventHandler<HTMLFormElement> = (e) => {
     const { name, value } = e.target;
-    if (typeof value === 'string') {
+
+    if (typeof value === 'string' && name !== Constants.TASK_DESCRIPTION) {
       err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
       setErrStack({ ...err });
 
@@ -67,7 +68,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     for (const [name, value] of formData.entries()) {
-      if (typeof value === 'string') {
+      if (typeof value === 'string' && name !== Constants.TASK_DESCRIPTION) {
         err[name] = validator[name].reduce((acc, fn) => (acc += fn(value)), '');
       }
       setErrStack(err);
@@ -121,6 +122,7 @@ export const TaskModal: FC<ITaskModal> = ({ openModal, closeTaskModal, data }) =
           />
           <TextField
             fullWidth
+            name={Constants.TASK_DESCRIPTION}
             onChange={(newValue) => {
               setValue2(newValue.target.value);
             }}
